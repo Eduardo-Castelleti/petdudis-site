@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pet Dudis - Início</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+</head>
+<body>
+
+  <!-- FAIXA SUPERIOR -->
+  <div class="faixa-topo">
+    <div class="topo-interno">
+      <div class="links-esquerda">
+        <a href="index.html"><i class="fas fa-home"></i> Início</a>
+        <a href="#sobre"><i class="fas fa-briefcase"></i> Sobre Nós</a>
+        <a href="#contato"><i class="fas fa-envelope"></i> Contato</a>
+      </div>
+      <div class="links-direita">
+        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+        <a href="https://wa.me/seunumerowhatsapp" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CABEÇALHO -->
+  <header class="cabecalho">
+    <div class="cabecalho-conteudo">
+      <a href="index.html"><img src="Pet Duds\logo.png" alt="Pet Dudis" class="logo" /></a>
+      <div class="cep-busca">
+        <input type="text" class="cep-input" placeholder="📍 Informar CEP" />
+        <input type="text" class="busca-input" placeholder="🔍 O que seu pet precisa?" />
+        <button class="btn-busca"><i class="fas fa-search"></i></button>
+      </div>
+      <div class="acoes-usuario">
+        <a href="#"><i class="fas fa-sync-alt"></i> Recorrência</a>
+        <a href="#"><i class="fas fa-box"></i> Pedidos</a>
+        <a href="#"><i class="fas fa-shopping-cart"></i></a>
+        <a href="login.html"><i class="fas fa-user"></i> Entrar | Cadastrar</a>
+      </div>
+    </div>
+  </header>
+
+<!-- CATEGORIAS -->
+<nav class="faixa-categorias">
+  <ul>
+    <li><a href="cachorro.html">Cachorro</a></li>
+    <li><a href="gato.html">Gato</a></li>
+    <li><a href="outros.html">Outros Pets</a></li>
+    <li class="dropdown">
+      <a href="servicos.html">Serviços <i class="fas fa-caret-down"></i></a>
+      <ul class="submenu">
+        <li><a href="banho.html">Banho e Tosa</a></li>
+        <li><a href="creche.html">Creche</a></li>
+        <li><a href="hospedagem.html#hospedagem">Hospedagem</a></li>
+        <li><a href="consultaveterinario.html#consulta">Consulta Veterinária</a></li>
+        <li><a href="dogwalker.html#dogwalker">Dog Walker</a></li>
+        <li><a href="petsitter.html#petsitter">Pet Sitter</a></li>
+        <li><a href="adestramento.html#adestramento">Adestramento</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+  <!-- BANNERS -->
+  <div class="swiper banner-swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img src="banner1.png" alt="Banner 1"></div>
+      <div class="swiper-slide"><img src="banner2.png" alt="Banner 2"></div>
+      <div class="swiper-slide"><img src="banner3.png" alt="Banner 3"></div>
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+  </div>
+
+  <!-- BENEFÍCIOS -->
+  <section class="beneficios">
+    <h2>Benefícios pra você</h2>
+    <div class="beneficios-container">
+      <button class="beneficio" onclick="abrirModal('modal-entregas')">
+        <img src="icones/entregas.svg" alt="Entregas" />
+        <p><strong>Nossas<br>entregas</strong></p>
+      </button>
+      <button class="beneficio" onclick="window.location.href='parceiros.html'">
+        <img src="icones/parceiros.svg" alt="Parceiros" />
+        <p><strong>Parcerias com<br>serviços locais</strong></p>
+      </button>
+      <button class="beneficio" onclick="abrirModal('modal-descontos')">
+        <img src="icones/desconto.svg" alt="Desconto" />
+        <p><strong>Descontos<br>especiais</strong></p>
+      </button>
+      <button class="beneficio" onclick="abrirModal('modal-indique')">
+        <img src="icones/indique.svg" alt="Indique e Ganhe" />
+        <p><strong>Indique e<br>ganhe</strong></p>
+      </button>
+      <button class="beneficio" onclick="abrirModal('modal-recompra')">
+        <img src="icones/recompra.svg" alt="Recompra" />
+        <p><strong>Recompra<br>recorrente</strong></p>
+      </button>
+    </div>
+  </section>
+
+  <!-- MODAIS -->
+  <div class="modal" id="modal-entregas">
+    <div class="modal-conteudo">
+      <span class="fechar" onclick="fecharModal('modal-entregas')">&times;</span>
+      <h3>Entregas</h3>
+      <p>Entregamos em até 24h para regiões selecionadas. Consulte prazos e disponibilidade no seu CEP.</p>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-descontos">
+    <div class="modal-conteudo">
+      <span class="fechar" onclick="fecharModal('modal-descontos')">&times;</span>
+      <h3>Descontos Especiais</h3>
+      <p>Comprando via <strong>Pix</strong> você ganha <strong>5% de desconto</strong>. Retirando em nossa loja ou com um parceiro próximo, ganha <strong>mais 5%</strong>. Descontos válidos para todos os clientes!</p>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-indique">
+    <div class="modal-conteudo">
+      <span class="fechar" onclick="fecharModal('modal-indique')">&times;</span>
+      <h3>Indique e Ganhe</h3>
+      <p>Indique amigos e ganhe bônus. Seu amigo recebe desconto na primeira compra e você ganha um brinde ou crédito.</p>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-recompra">
+    <div class="modal-conteudo">
+      <span class="fechar" onclick="fecharModal('modal-recompra')">&times;</span>
+      <h3>Recompra Recorrente</h3>
+      <p>Assine produtos para entrega automática com desconto e comodidade. Cancele quando quiser.</p>
+    </div>
+  </div>
+
+  <!-- SERVIÇOS -->
+  <section class="servicos-agendamento">
+    <div class="servico">
+      <h3>Banho & Tosa</h3>
+      <p>Ambiente seguro e profissionais experientes para o cuidado do seu pet.</p>
+      <a href="banho.html" class="btn-agendar">Comprar agora</a>
+    </div>
+    <div class="servico">
+      <h3>Creche Pet</h3>
+      <p>Ideal para quem trabalha o dia todo: diversão e cuidado garantidos.</p>
+      <a href="creche.html" class="btn-agendar">Agendar agora</a>
+    </div>
+    <div class="servico">
+      <h3>Hospedagem</h3>
+      <p>Finais de semana ou viagens? Seu pet fica em um lugar aconchegante.</p>
+      <a href="hospedagem.html#hospedagem" class="btn-agendar">Agendar agora</a>
+    </div>
+    <div class="servico">
+      <h3>Consultas Veterinárias</h3>
+      <p>Profissionais confiáveis para acompanhar a saúde do seu pet.</p>
+      <a href="consultaveterinario.html#consulta" class="btn-agendar">Agendar agora</a>
+    </div>
+  </section>
+
+  <!-- PROMOÇÕES -->
+  <section class="promocoes">
+    <h2>Promoções da Semana</h2>
+    <div class="produtos-destaque">
+      <div class="produto">
+        <img src="https://via.placeholder.com/150" alt="Snack Natural Dog">
+        <h3>Snack Natural Dog 500g</h3>
+        <p>De R$ 39,90 por</p>
+        <span class="preco-promocao">R$ 29,90</span>
+      </div>
+      <div class="produto">
+        <img src="https://via.placeholder.com/150" alt="Shampoo Neutro">
+        <h3>Shampoo Neutro 500ml</h3>
+        <p>Leve 2 e pague 1</p>
+        <span class="preco-promocao">R$ 18,90</span>
+      </div>
+      <div class="produto">
+        <img src="https://via.placeholder.com/150" alt="Coleira Antipulgas">
+        <h3>Coleira Antipulgas</h3>
+        <p>Desconto especial no Pix + Retirada</p>
+        <span class="preco-promocao">R$ 64,90</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIS VENDIDOS -->
+  <section class="mais-vendidos">
+    <h2>Itens mais vendidos</h2>
+    <div class="produtos-destaque">
+      <div class="produto">
+        <img src="https://via.placeholder.com/150" alt="Ração Premium Cães">
+        <h3>Ração Premium Cães 15kg</h3>
+        <p>A mais vendida entre tutores exigentes</p>
+        <span class="preco">R$ 159,90</span>
+      </div>
+      <div class="produto">
+        <img src="https://via.placeholder.com/150" alt="Bravecto">
+        <h3>Bravecto para cães grandes</h3>
+        <p>Proteção garantida por até 12 semanas</p>
+        <span class="preco">R$ 199,90</span>
+      </div>
+      <div class="produto">
+        <img src="https://via.placeholder.com/150" alt="Areia Higiênica Gatos">
+        <h3>Areia Higiênica Gatos 4kg</h3>
+        <p>Cheirinho agradável e ótima absorção</p>
+        <span class="preco">R$ 24,90</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARCAS -->
+  <section class="marcas">
+    <h2>Trabalhamos com as melhores marcas</h2>
+    <div class="marcas-container">
+      <img src="marcas/specialdog.png" alt="Special Dog" />
+      <img src="marcas/premierpet.png" alt="Premier Pet" />
+      <img src="marcas/nexgard.png" alt="Nexgard" />
+      <img src="marcas/royalcanin.png" alt="Royal Canin" />
+      <img src="marcas/buddytoys.png" alt="Buddy Toys" />
+    </div>
+  </section>
+
+  <!-- RODAPÉ -->
+  <footer class="rodape-completo">
+    <div class="rodape-conteudo">
+      <div class="coluna">
+        <h4>Sobre Nós</h4>
+        <ul>
+          <li><a href="#">Sobre Nós</a></li>
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Política de Compra</a></li>
+          <li><a href="#">Política de Entrega</a></li>
+          <li><a href="#">Trocas e Devoluções</a></li>
+        </ul>
+      </div>
+      <div class="coluna">
+        <h4>Atendimento ao Cliente</h4>
+        <ul>
+          <li><a href="#">Contato</a></li>
+          <li><a href="#">Devoluções</a></li>
+          <li><a href="#">Mapa do Site</a></li>
+          <li><a href="#">Marcas</a></li>
+        </ul>
+      </div>
+      <div class="coluna">
+        <h4>Minha conta</h4>
+        <ul>
+          <li><a href="#">Minha conta</a></li>
+          <li><a href="#">Histórico de pedidos</a></li>
+        </ul>
+      </div>
+      <div class="coluna newsletter">
+        <h4>Receber Notícias</h4>
+        <p>Mantenha-se atualizado com as novidades e promoções:</p>
+        <form>
+          <input type="tel" placeholder="Seu Telefone" required>
+          <button type="submit"><i class="fas fa-envelope"></i> Enviar</button>
+        </form>
+        <h5>Imagem antispam</h5>
+        <label>Digite o código no campo abaixo <span style="color:red">*</span></label>
+        <div class="recaptcha-fake">
+          <div class="caixa"></div>
+          <span><i class="far fa-square"></i> Não sou um robô</span>
+          <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA">
+        </div>
+        <label><input type="checkbox" required> Eu li e concordo com o contrato de <a href="#">Segurança e Privacidade</a></label>
+      </div>
+    </div>
+
+    <div class="rodape-inferior">
+      <div class="pagamentos">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="MasterCard">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo_%282018%29.svg" alt="Amex">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Elo_card_logo.svg" alt="Elo">
+        <img src="https://logodownload.org/wp-content/uploads/2019/09/hipercard-logo-2.png" alt="Hipercard" style="height: 28px;">
+      </div>
+      <div class="selos">
+        <img src="https://www.certisign.com.br/assets/images/selos/selo_site_seguro.png" alt="Site Seguro">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Google_Safe_Browsing_logo.svg" alt="Google Safe" style="height: 28px;">
+      </div>
+    </div>
+  </footer>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    const swiper = new Swiper('.banner-swiper', {
+      loop: true,
+      slidesPerView: 1,
+      spaceBetween: 20,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+      },
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false
+      }
+    });
+
+    function abrirModal(id) {
+      document.getElementById(id).style.display = 'block';
+    }
+
+    function fecharModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+      document.querySelectorAll('.modal').forEach(function(modal) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    };
+  </script>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
+<script>
+  // Configuração Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyDVr6OOQRt2rB0kByInjqjdyoQCpnMAt7I",
+    authDomain: "site-f6495.firebaseapp.com",
+    projectId: "site-f6495",
+    storageBucket: "site-f6495.firebasestorage.app",
+    messagingSenderId: "230161402024",
+    appId: "1:230161402024:web:462a911919ebf8a0809a9d",
+    measurementId: "G-51G8XF6JH0"
+  };
+
+  // Inicialização
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+</script>
+
+<script src="main.js"></script>
+</body>
+</html>
