@@ -78,27 +78,27 @@
   </div>
 
   <!-- BENEFÍCIOS -->
-  <section class="beneficios">
-    <h2>Benefícios pra você</h2>
-    <div class="beneficios-container">
-      <button class="beneficio" onclick="abrirModal('modal-entregas')">
-        <img src="img/entrega.svg" alt="Pet Dudis" class="logo" />
-        <p><strong>Nossas<br>entregas</strong></p>
-      </button>
-      <button class="beneficio" onclick="window.location.href='parceiros.html'">
-        <img src="img/parceiros.svg" alt="Pet Dudis" class="logo" />
-        <p><strong>Parcerias com<br>serviços locais</strong></p>
-      </button>
-      <button class="beneficio" onclick="abrirModal('modal-descontos')">
-        <img src="img/desconto.svg" alt="Pet Dudis" class="logo" />
-        <p><strong>Descontos<br>especiais</strong></p>
-      </button>
-      <button class="beneficio" onclick="abrirModal('modal-recompra')">
-        <img src="img/recompra.svg" alt="Pet Dudis" class="logo" />
-        <p><strong>Recompra<br>recorrente</strong></p>
-      </button>
+<section class="beneficios">
+  <h2>Benefícios pra você</h2>
+  <div class="beneficios-container">
+    <div class="card-beneficio" onclick="abrirModal('modal-entregas')">
+      <img src="img/entrega.svg" alt="Entregas" class="icone-beneficio" />
+      <p><strong>Nossas<br>entregas</strong></p>
     </div>
-  </section>
+    <div class="card-beneficio" onclick="window.location.href='parceiros.html'">
+      <img src="img/parceiros.svg" alt="Parcerias" class="icone-beneficio" />
+      <p><strong>Parcerias com<br>serviços locais</strong></p>
+    </div>
+    <div class="card-beneficio" onclick="abrirModal('modal-descontos')">
+      <img src="img/desconto.svg" alt="Descontos" class="icone-beneficio" />
+      <p><strong>Descontos<br>especiais</strong></p>
+    </div>
+    <div class="card-beneficio" onclick="abrirModal('modal-recompra')">
+      <img src="img/recompra.svg" alt="Recompra" class="icone-beneficio" />
+      <p><strong>Recompra<br>recorrente</strong></p>
+    </div>
+  </div>
+</section>
 
   <!-- MODAIS -->
   <div class="modal" id="modal-entregas">
