@@ -28,7 +28,7 @@ body {
 }
 
 .logo {
-  height: 80px;   /* Ajuste visual ideal para header */
+  height: 90px;   /* Ajuste visual ideal para header */
   width: auto;    /* Mantém a proporção do SVG */
   max-width: 200px; /* Limite para logos muito largos */
 }
