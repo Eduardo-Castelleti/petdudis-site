@@ -18,7 +18,7 @@ body {
 }
 
 .cabecalho-conteudo {
-  max-width: 1200px; /* Aumentado para comportar todo o conteúdo */
+  max-width: 600px; /* Aumentado para comportar todo o conteúdo */
   margin: 0 auto;
   display: flex;
   align-items: center;
