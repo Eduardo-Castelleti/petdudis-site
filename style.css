@@ -28,7 +28,7 @@ body {
 }
 
 .logo {
-  width: 180px; /* Definido um width para controlar o tamanho */
+  width: 80px; /* Definido um width para controlar o tamanho */
   height: auto; /* Para manter a proporção do SVG */
 }
 
