@@ -11,22 +11,34 @@
 <body>
 
   <!-- CABEÇALHO -->
-  <header class="cabecalho">
-    <div class="cabecalho-conteudo">
-      <a href="index.html"><img src="img/logo.svg" alt="Pet Dudis" class="logo" /></a>
-      <div class="cep-busca">
-        <input type="text" class="cep-input" placeholder="📍 Informar CEP" />
-        <input type="text" class="busca-input" placeholder="🔍 O que seu pet precisa?" />
-        <button class="btn-busca"><i class="fas fa-search"></i></button>
+<header class="topo-site">
+  <div class="container-header">
+    <!-- Logo -->
+    <div class="header-left">
+      <img src="logo.svg" alt="Logo Pet Dudis" class="logo">
+    </div>
+
+    <!-- Campos CEP e Busca -->
+    <div class="header-center">
+      <div class="input-cep">
+        <span>📍</span>
+        <input type="text" placeholder="Informar CEP">
       </div>
-      <div class="acoes-usuario">
-        <a href="#"><i class="fas fa-sync-alt"></i> Recorrência</a>
-        <a href="#"><i class="fas fa-box"></i> Pedidos</a>
-        <a href="#"><i class="fas fa-shopping-cart"></i></a>
-        <a href="login.html"><i class="fas fa-user"></i> Entrar | Cadastrar</a>
+      <div class="input-busca">
+        <span>🔍</span>
+        <input type="text" placeholder="O que seu pet precisa?">
+        <button>🔍</button>
       </div>
     </div>
-  </header>
+
+    <!-- Ícones à direita -->
+    <div class="header-right">
+      <a href="#"><i class="fas fa-sync-alt"></i> Recorrência</a>
+      <a href="#"><i class="fas fa-box"></i> Pedidos</a>
+      <a href="#"><i class="fas fa-user"></i> Entrar | Cadastrar</a>
+    </div>
+  </div>
+</header>
 
   <!-- CATEGORIAS -->
   <nav class="faixa-categorias">
