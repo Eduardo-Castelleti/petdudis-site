@@ -10,56 +10,6 @@ body {
   background-color: #f9f9f9;
 }
 
-/* Faixa Superior */
-.faixa-topo {
-  background-color: #49007E;
-  padding: 8px 16px;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-}
-
-.topo-interno {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.links-esquerda,
-.links-direita {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.links-esquerda a,
-.links-direita a {
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: white;
-}
-
-.links-direita a[href*="facebook"] i {
-  color: #1877F2;
-}
-
-.links-direita a[href*="whatsapp"] i {
-  color: #25D366;
-}
-
-.links-direita a[href*="instagram"] i {
-  color: #E1306C;
-}
-
 /* Cabeçalho */
 .cabecalho {
   margin-top: 60px;
