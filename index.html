@@ -85,7 +85,7 @@
       <img src="img/entrega.svg" alt="Entregas" class="icone-beneficio" />
       <p><strong>Nossas<br>entregas</strong></p>
     </div>
-    <div class="card-beneficio" onclick="window.location.href='parceiros.html'">
+    <div class="card-beneficio" onclick="abrirModal('modal-parceiros')">
       <img src="img/parceiros.svg" alt="Parcerias" class="icone-beneficio" />
       <p><strong>Parcerias com<br>serviços locais</strong></p>
     </div>
@@ -106,6 +106,14 @@
       <span class="fechar" onclick="fecharModal('modal-entregas')">&times;</span>
       <h3>Entregas</h3>
       <p>Entregamos em até 24h para regiões selecionadas. Consulte prazos e disponibilidade no seu CEP.</p>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-parceiros">
+    <div class="modal-conteudo">
+      <span class="fechar" onclick="fecharModal('modal-parceiros')">&times;</span>
+      <h3>Conectando você aos melhores serviços do bairro!</h3>
+      <p>Fortalecemos laços com parceiros locais para oferecer praticidade, confiança e benefícios exclusivos para você e seu pet.</p>
     </div>
   </div>
 
