@@ -12,24 +12,24 @@ body {
 
 /* Cabeçalho */
 .cabecalho {
-  /* margin-top: 60px; */
   padding: 10px 14px;
   background-color: white;
   border-bottom: 1px solid #ddd;
 }
 
 .cabecalho-conteudo {
-  max-width: 200px;
+  max-width: 1200px; /* Aumentado para comportar todo o conteúdo */
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 24px;
   flex-wrap: wrap;
 }
 
 .logo {
-  height: 500px;
+  width: 180px; /* Definido um width para controlar o tamanho */
+  height: auto; /* Para manter a proporção do SVG */
 }
 
 .cep-busca {
@@ -42,10 +42,10 @@ body {
 
 .cep-input,
 .busca-input {
-  padding: 6px 10px;
+  padding: 10px 14px; /* Aumentado o padding */
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .cep-input {
@@ -57,11 +57,12 @@ body {
 }
 
 .btn-busca {
-  padding: 6px 12px;
+  padding: 10px 14px; /* Aumentado também */
   background-color: #eee;
   border: 1px solid #ccc;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 16px;
 }
 
 .acoes-usuario {
@@ -73,10 +74,10 @@ body {
 .acoes-usuario a {
   text-decoration: none;
   color: #333;
-  font-size: 20px;
+  font-size: 18px;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .acoes-usuario a:hover {
