@@ -19,7 +19,7 @@ body {
 }
 
 .cabecalho-conteudo {
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -29,13 +29,13 @@ body {
 }
 
 .logo {
-  height: 50px;
+  height: 70px;
 }
 
 .cep-busca {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   flex: 1;
   max-width: 600px;
 }
@@ -45,7 +45,7 @@ body {
   padding: 6px 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .cep-input {
