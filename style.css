@@ -5,9 +5,14 @@
   box-sizing: border-box;
 }
 
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
 /* Cabeçalho */
 .cabecalho {
-  margin-top: 60px;
+  /* margin-top: 60px; */
   padding: 10px 16px;
   background-color: white;
   border-bottom: 1px solid #ddd;
