@@ -28,8 +28,9 @@ body {
 }
 
 .logo {
-  width: 80px; /* Definido um width para controlar o tamanho */
-  height: auto; /* Para manter a proporção do SVG */
+  height: 80px;   /* Ajuste visual ideal para header */
+  width: auto;    /* Mantém a proporção do SVG */
+  max-width: 200px; /* Limite para logos muito largos */
 }
 
 .cep-busca {
