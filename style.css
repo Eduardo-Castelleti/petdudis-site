@@ -8,74 +8,85 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #f9f9f9;
+  margin: 0;
 }
 
 /* Cabeçalho */
 .cabecalho {
-  padding: 10px 14px;
+  padding: 10px 20px;
   background-color: white;
   border-bottom: 1px solid #ddd;
 }
 
 .cabecalho-conteudo {
-  max-width: 600px; /* Aumentado para comportar todo o conteúdo */
-  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
   flex-wrap: wrap;
+  gap: 20px;
 }
 
+/* Logo */
 .logo {
-  height: 90px;   /* Ajuste visual ideal para header */
-  width: auto;    /* Mantém a proporção do SVG */
-  max-width: 200px; /* Limite para logos muito largos */
+  height: 60px;
+  width: auto;
+  max-width: 180px;
 }
 
+/* CEP e Busca */
 .cep-busca {
   display: flex;
   align-items: center;
   gap: 12px;
   flex: 1;
-  max-width: 600px;
+  min-width: 300px;
+  justify-content: center;
+}
+
+.cep-input-wrapper,
+.busca-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .cep-input,
 .busca-input {
-  padding: 10px 14px; /* Aumentado o padding */
+  padding: 8px 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .cep-input {
-  width: 160px;
+  width: 140px;
 }
 
 .busca-input {
-  flex: 1;
+  width: 200px;
 }
 
 .btn-busca {
-  padding: 10px 14px; /* Aumentado também */
-  background-color: #eee;
+  padding: 8px 10px;
   border: 1px solid #ccc;
+  background-color: #eee;
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
 }
 
+/* Ações do usuário */
 .acoes-usuario {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
+  flex-wrap: wrap;
 }
 
 .acoes-usuario a {
   text-decoration: none;
   color: #333;
-  font-size: 18px;
+  font-size: 16px;
   display: flex;
   align-items: center;
   gap: 6px;
