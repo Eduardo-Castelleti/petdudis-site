@@ -212,5 +212,4 @@ document.addEventListener('DOMContentLoaded', function () {
   } else if (caminho.endsWith('cadastro.html')) {
     paginaCadastro();
   }
-
 });
