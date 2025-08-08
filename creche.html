@@ -1,0 +1,179 @@
+<!-- creche.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pet Dudis - Creche</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="creche.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- Cabeçalho -->
+  <header class="cabecalho">
+    <div class="cabecalho-conteudo">
+      <a href="index.html"><img src="logo.png" alt="Pet Dudis" class="logo" /></a>
+      <div class="cep-busca">
+        <input type="text" class="cep-input" placeholder="📍 Informar CEP" />
+        <input type="text" class="busca-input" placeholder="🔍 O que seu pet precisa?" />
+        <button class="btn-busca"><i class="fas fa-search"></i></button>
+      </div>
+      <div class="acoes-usuario">
+        <a href="#"><i class="fas fa-sync-alt"></i> Recorrência</a>
+        <a href="#"><i class="fas fa-box"></i> Pedidos</a>
+        <a href="#"><i class="fas fa-shopping-cart"></i></a>
+        <a href="login.html"><i class="fas fa-user"></i> Entrar | Cadastrar</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- CATEGORIAS -->
+<nav class="faixa-categorias">
+  <ul>
+    <li><a href="cachorro.html">Cachorro</a></li>
+    <li><a href="gato.html">Gato</a></li>
+    <li><a href="outros.html">Outros Pets</a></li>
+    <li class="dropdown">
+      <a href="servicos.html">Serviços <i class="fas fa-caret-down"></i></a>
+      <ul class="submenu">
+        <li><a href="banho.html">Banho e Tosa</a></li>
+        <li><a href="creche.html">Creche</a></li>
+        <li><a href="hospedagem.html#hospedagem">Hospedagem</a></li>
+        <li><a href="consultaveterinario.html#consulta">Consulta Veterinária</a></li>
+        <li><a href="dogwalker.html#dogwalker">Dog Walker</a></li>
+        <li><a href="petsitter.html#petsitter">Pet Sitter</a></li>
+        <li><a href="adestramento.html#adestramento">Adestramento</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+  <section class="agendamento-creche">
+    <h2 class="titulo-agendamento">Encontre a creche ideal para o seu pet! <span class="coracao">❤️</span></h2>
+    <div class="bloco-formulario">
+      <h3>Creches Disponíveis</h3>
+      <p>Informe os dados do seu pet e encontre a melhor opção de creche na sua região.</p>
+
+      <div class="botoes-pet">
+        <button class="btn-pet ativo" id="btn-cachorro"><i class="fas fa-dog"></i> Cachorro</button>
+        <button class="btn-pet" id="btn-gato"><i class="fas fa-cat"></i> Gato</button>
+      </div>
+
+      <div class="formulario-agendamento">
+        <select class="campo-input" id="raca">
+          <option value="">Raça</option>
+          <option value="vira-lata">Vira-lata</option>
+          <option value="poodle">Poodle</option>
+          <option value="bulldog">Bulldog</option>
+          <option value="srd">SRD</option>
+        </select>
+
+        <input type="text" class="campo-input" placeholder="CEP" id="cep" />
+
+        <button class="btn-buscar" disabled>Buscar creches</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const btnCachorro = document.getElementById('btn-cachorro');
+    const btnGato = document.getElementById('btn-gato');
+    const raca = document.getElementById('raca');
+    const cep = document.getElementById('cep');
+    const btnBuscar = document.querySelector('.btn-buscar');
+
+    btnCachorro.addEventListener('click', () => {
+      btnCachorro.classList.add('ativo');
+      btnGato.classList.remove('ativo');
+    });
+
+    btnGato.addEventListener('click', () => {
+      btnGato.classList.add('ativo');
+      btnCachorro.classList.remove('ativo');
+    });
+
+    function validarCampos() {
+      if (raca.value && cep.value.length >= 8) {
+        btnBuscar.disabled = false;
+        btnBuscar.style.background = '#5e2ca5';
+        btnBuscar.style.color = '#fff';
+        btnBuscar.style.cursor = 'pointer';
+      } else {
+        btnBuscar.disabled = true;
+        btnBuscar.style.background = '#eee2e2';
+        btnBuscar.style.color = '#ccc';
+        btnBuscar.style.cursor = 'not-allowed';
+      }
+    }
+
+    raca.addEventListener('change', validarCampos);
+    cep.addEventListener('input', validarCampos);
+  </script>
+  <script src="main.js"></script>
+</body>
+
+  <!-- RODAPÉ -->
+  <footer class="rodape-completo">
+    <div class="rodape-conteudo">
+      <div class="coluna">
+        <h4>Sobre Nós</h4>
+        <ul>
+          <li><a href="#">Sobre Nós</a></li>
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Política de Compra</a></li>
+          <li><a href="#">Política de Entrega</a></li>
+          <li><a href="#">Trocas e Devoluções</a></li>
+        </ul>
+      </div>
+      <div class="coluna">
+        <h4>Atendimento ao Cliente</h4>
+        <ul>
+          <li><a href="#">Contato</a></li>
+          <li><a href="#">Devoluções</a></li>
+          <li><a href="#">Mapa do Site</a></li>
+          <li><a href="#">Marcas</a></li>
+        </ul>
+      </div>
+      <div class="coluna">
+        <h4>Minha conta</h4>
+        <ul>
+          <li><a href="#">Minha conta</a></li>
+          <li><a href="#">Histórico de pedidos</a></li>
+        </ul>
+      </div>
+      <div class="coluna newsletter">
+        <h4>Receber Notícias</h4>
+        <p>Mantenha-se atualizado com as novidades e promoções:</p>
+        <form>
+          <input type="tel" placeholder="Seu Telefone" required>
+          <button type="submit"><i class="fas fa-envelope"></i> Enviar</button>
+        </form>
+        <h5>Imagem antispam</h5>
+        <label>Digite o código no campo abaixo <span style="color:red">*</span></label>
+        <div class="recaptcha-fake">
+          <div class="caixa"></div>
+          <span><i class="far fa-square"></i> Não sou um robô</span>
+          <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA">
+        </div>
+        <label><input type="checkbox" required> Eu li e concordo com o contrato de <a href="#">Segurança e Privacidade</a></label>
+      </div>
+    </div>
+
+    <div class="rodape-inferior">
+      <div class="pagamentos">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="MasterCard">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo_%282018%29.svg" alt="Amex">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Elo_card_logo.svg" alt="Elo">
+        <img src="https://logodownload.org/wp-content/uploads/2019/09/hipercard-logo-2.png" alt="Hipercard" style="height: 28px;">
+      </div>
+      <div class="selos">
+        <img src="https://www.certisign.com.br/assets/images/selos/selo_site_seguro.png" alt="Site Seguro">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Google_Safe_Browsing_logo.svg" alt="Google Safe" style="height: 28px;">
+      </div>
+    </div>
+  </footer>
+  
+</html>
