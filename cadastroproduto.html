@@ -41,15 +41,24 @@
 
     <!-- Tamanhos / Pacotes -->
     <div class="mb-4">
+  <label>
+        <span class="font-semibold">Preço base (para desconto)</span>
+        <input type="number" id="precoBase" placeholder="Ex: 250.00" class="mt-1 block w-full border rounded p-2">
+      </label>
+      <label>
+        <span class="font-semibold">Peso da ração (kg)</span>
+        <input type="number" id="pesoBase" step="0.01" placeholder="Ex: 15" class="mt-1 block w-full border rounded p-2">
+      </label>
+    </div>
+    <p class="text-gray-500 text-sm mb-4">Preço usado para calcular o desconto máximo de 15%.</p>
+    <p class="font-semibold mb-4">Preço com 15% off: R$ <span id="precoComDesconto">0,00</span></p>
+
       <div class="flex justify-between items-center mb-2">
         <h2 class="font-semibold">Tamanhos / Pacotes</h2>
         <button onclick="adicionarTamanho()" class="bg-indigo-500 text-white px-3 py-1 rounded">+ Adicionar tamanho</button>
       </div>
       <div id="listaTamanhos" class="space-y-2"></div>
     </div>
-
-    <p class="text-gray-500 text-sm mb-4">Preço usado para calcular o desconto máximo de 15%.</p>
-    <p class="font-semibold mb-4">Preço com 15% off: R$ <span id="precoComDesconto">0,00</span></p>
 
     <p class="text-gray-500 text-sm">Cada card mostra o preço por kg automaticamente.</p>
   </div>
