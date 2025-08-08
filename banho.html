@@ -3,68 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pet Dudis - Serviços</title>
+  <title>Pet Dudis - Início</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="banho.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 <body>
 
-  <!-- TOPO -->
-  <div class="faixa-topo">
-    <div class="topo-interno">
-      <div class="links-esquerda">
-        <a href="index.html"><i class="fas fa-home"></i> Início</a>
-        <a href="#sobre"><i class="fas fa-briefcase"></i> Sobre Nós</a>
-        <a href="#contato"><i class="fas fa-envelope"></i> Contato</a>
+<!-- CABEÇALHO -->
+<header class="cabecalho">
+  <div class="cabecalho-conteudo">
+    <!-- Logo -->
+    <div class="logo-container">
+      <img src="logo.svg" alt="Logo Pet Dudis" class="logo">
+    </div>
+
+    <!-- Campos CEP e Busca -->
+    <div class="cep-busca">
+      <div class="cep-input-wrapper">
+        <span>📍</span>
+        <input type="text" placeholder="Informar CEP" class="cep-input">
       </div>
-      <div class="links-direita">
-        <a href="#"><i class="fab fa-facebook-f"></i> Facebook</a>
-        <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-        <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+      <div class="busca-input-wrapper">
+        <span>🔍</span>
+        <input type="text" placeholder="O que seu pet precisa?" class="busca-input">
+        <button class="btn-busca">🔍</button>
       </div>
+    </div>
+
+    <!-- Ícones à direita -->
+    <div class="acoes-usuario">
+      <a href="#"><i class="fas fa-sync-alt"></i> Recorrência</a>
+      <a href="#"><i class="fas fa-box"></i> Pedidos</a>
+      <a href="#"><i class="fas fa-user"></i> Entrar | Cadastrar</a>
     </div>
   </div>
-
-  <!-- CABEÇALHO -->
-  <header class="cabecalho">
-    <div class="cabecalho-conteudo">
-      <a href="index.html"><img src="logo.png" alt="Pet Dudis" class="logo" /></a>
-      <div class="cep-busca">
-        <input type="text" class="cep-input" placeholder="📍 Informar CEP" />
-        <input type="text" class="busca-input" placeholder="🔍 O que seu pet precisa?" />
-        <button class="btn-busca"><i class="fas fa-search"></i></button>
-      </div>
-      <div class="acoes-usuario">
-        <a href="#"><i class="fas fa-sync-alt"></i> Recorrência</a>
-        <a href="#"><i class="fas fa-box"></i> Pedidos</a>
-        <a href="#"><i class="fas fa-shopping-cart"></i></a>
-        <a href="login.html"><i class="fas fa-user"></i> Entrar | Cadastrar</a>
-      </div>
-    </div>
-  </header>
-
+</header>
+  
   <!-- CATEGORIAS -->
-<nav class="faixa-categorias">
-  <ul>
-    <li><a href="cachorro.html">Cachorro</a></li>
-    <li><a href="gato.html">Gato</a></li>
-    <li><a href="outros.html">Outros Pets</a></li>
-    <li class="dropdown">
-      <a href="servicos.html">Serviços <i class="fas fa-caret-down"></i></a>
-      <ul class="submenu">
-        <li><a href="banho.html">Banho e Tosa</a></li>
-        <li><a href="creche.html">Creche</a></li>
-        <li><a href="hospedagem.html#hospedagem">Hospedagem</a></li>
-        <li><a href="consultaveterinario.html#consulta">Consulta Veterinária</a></li>
-        <li><a href="dogwalker.html#dogwalker">Dog Walker</a></li>
-        <li><a href="petsitter.html#petsitter">Pet Sitter</a></li>
-        <li><a href="adestramento.html#adestramento">Adestramento</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+  <nav class="faixa-categorias">
+    <ul>
+      <li><a href="cachorro.html">Cachorro</a></li>
+      <li><a href="gato.html">Gato</a></li>
+      <li><a href="outros.html">Outros Pets</a></li>
+      <li class="dropdown">
+        <a href="servicos.html">Serviços <i class="fas fa-caret-down"></i></a>
+        <ul class="submenu">
+          <li><a href="banho.html">Banho e Tosa</a></li>
+          <li><a href="creche.html">Creche</a></li>
+          <li><a href="hospedagem.html#hospedagem">Hospedagem</a></li>
+          <li><a href="consultaveterinario.html#consulta">Consulta Veterinária</a></li>
+          <li><a href="dogwalker.html#dogwalker">Dog Walker</a></li>
+          <li><a href="petsitter.html#petsitter">Pet Sitter</a></li>
+          <li><a href="adestramento.html#adestramento">Adestramento</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
 
   <!-- BANNER -->
   <div class="swiper banner-swiper">
