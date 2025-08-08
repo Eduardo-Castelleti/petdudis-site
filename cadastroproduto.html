@@ -1,99 +1,127 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro de Produto</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Produto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 p-6">
-  <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
-    <h1 class="text-2xl font-bold mb-4">Cadastro de Produto</h1>
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow">
+        <h1 class="text-2xl font-bold mb-6">Cadastro de Produto</h1>
 
-    <!-- Upload de imagem -->
-    <label class="block mb-4">
-      <span class="font-semibold">Imagem do produto</span>
-      <input type="file" class="mt-1 block w-full border rounded p-2">
-    </label>
+        <!-- Upload de imagem -->
+        <label class="block mb-4">
+            <span class="font-semibold">Imagem do produto</span>
+            <input type="file" class="mt-2 block w-full border rounded p-2">
+        </label>
 
-    <!-- Título -->
-    <label class="block mb-4">
-      <span class="font-semibold">Título do produto</span>
-      <input type="text" placeholder="Digite o título" class="mt-1 block w-full border rounded p-2">
-    </label>
+        <!-- Título -->
+        <label class="block mb-4">
+            <span class="font-semibold">Título do produto</span>
+            <input type="text" class="mt-2 block w-full border rounded p-2" placeholder="Digite o título">
+        </label>
 
-    <!-- Resumo -->
-    <label class="block mb-4">
-      <span class="font-semibold">Resumo do produto</span>
-      <textarea placeholder="Breve descrição" class="mt-1 block w-full border rounded p-2"></textarea>
-    </label>
+        <!-- Resumo -->
+        <label class="block mb-4">
+            <span class="font-semibold">Resumo do produto</span>
+            <textarea class="mt-2 block w-full border rounded p-2" placeholder="Resumo básico"></textarea>
+        </label>
 
-    <!-- Tipo de pet -->
-    <label class="block mb-4">
-      <span class="font-semibold">Tipo de Pet</span>
-      <select class="mt-1 block w-full border rounded p-2">
-        <option value="cachorro">Cachorro</option>
-        <option value="gato">Gato</option>
-        <option value="passaro">Pássaro</option>
-        <option value="hamster">Hamster</option>
-      </select>
-    </label>
+        <!-- Categoria -->
+        <label class="block mb-4">
+            <span class="font-semibold">Tipo de pet</span>
+            <select class="mt-2 block w-full border rounded p-2">
+                <option>Cachorro</option>
+                <option>Gato</option>
+                <option>Pássaro</option>
+                <option>Hamster</option>
+            </select>
+        </label>
 
-    <!-- Preço base e peso -->
-    <div class="grid grid-cols-2 gap-4 mb-4">
-      <label>
-        <span class="font-semibold">Preço base (para desconto)</span>
-        <input type="number" id="precoBase" placeholder="Ex: 250.00" class="mt-1 block w-full border rounded p-2">
-      </label>
-      <label>
-        <span class="font-semibold">Peso da ração (kg)</span>
-        <input type="number" id="pesoBase" step="0.01" placeholder="Ex: 15" class="mt-1 block w-full border rounded p-2">
-      </label>
+        <!-- Preço Base + Peso -->
+        <div class="mb-4">
+            <span class="font-semibold">Preço base e peso</span>
+            <div class="flex gap-4 mt-2">
+                <input type="number" id="precoBase" class="border rounded p-2 w-1/2" placeholder="Preço base">
+                <input type="number" id="pesoBase" class="border rounded p-2 w-1/2" placeholder="Peso (kg)">
+            </div>
+            <p class="text-sm text-gray-500 mt-1">Preço usado para calcular o desconto máximo de 15%.</p>
+            <p class="mt-2 font-semibold">Preço com 15% off: R$ <span id="precoDesconto">0,00</span></p>
+        </div>
+
+        <!-- Lista de tamanhos -->
+        <div class="mb-4">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-semibold">Tamanhos / Pacotes</span>
+                <button id="addTamanho" class="bg-blue-500 text-white px-4 py-1 rounded">+ Adicionar tamanho</button>
+            </div>
+            <div id="listaTamanhos" class="space-y-2"></div>
+        </div>
+
+        <!-- Informações -->
+        <label class="block mb-4">
+            <span class="font-semibold">Informações</span>
+            <textarea class="mt-2 block w-full border rounded p-2"></textarea>
+        </label>
+
+        <!-- Dicas -->
+        <label class="block mb-4">
+            <span class="font-semibold">Dicas</span>
+            <textarea class="mt-2 block w-full border rounded p-2"></textarea>
+        </label>
+
+        <!-- Comparação -->
+        <label class="block mb-4">
+            <span class="font-semibold">Comparar com outras rações</span>
+            <textarea class="mt-2 block w-full border rounded p-2"></textarea>
+        </label>
+
+        <!-- Perguntas -->
+        <label class="block mb-4">
+            <span class="font-semibold">Perguntas</span>
+            <textarea class="mt-2 block w-full border rounded p-2"></textarea>
+        </label>
     </div>
-    <p class="text-gray-500 text-sm mb-4">Preço usado para calcular o desconto máximo de 15%.</p>
-    <p class="font-semibold mb-4">Preço com 15% off: R$ <span id="precoComDesconto">0,00</span></p>
 
-    <!-- Tamanhos / Pacotes -->
-    <div class="mb-4">
-      <div class="flex justify-between items-center mb-2">
-        <h2 class="font-semibold">Tamanhos / Pacotes</h2>
-        <button onclick="adicionarTamanho()" class="bg-indigo-500 text-white px-3 py-1 rounded">+ Adicionar tamanho</button>
-      </div>
-      <div id="listaTamanhos" class="space-y-2"></div>
-    </div>
+    <script>
+        const precoBaseEl = document.getElementById('precoBase');
+        const precoDescEl = document.getElementById('precoDesconto');
+        precoBaseEl.addEventListener('input', () => {
+            const preco = parseFloat(precoBaseEl.value) || 0;
+            precoDescEl.textContent = (preco * 0.85).toFixed(2);
+        });
 
-    <p class="text-gray-500 text-sm">Cada card mostra o preço por kg automaticamente.</p>
-  </div>
+        const listaTamanhos = document.getElementById('listaTamanhos');
+        document.getElementById('addTamanho').addEventListener('click', () => {
+            const div = document.createElement('div');
+            div.className = 'flex gap-2 items-center border p-2 rounded';
+            div.innerHTML = `
+                <input type="number" step="0.01" placeholder="Peso (kg)" class="border p-2 rounded w-1/3">
+                <input type="number" step="0.01" placeholder="Preço do pacote" class="border p-2 rounded w-1/3">
+                <span class="font-semibold w-1/3">Preço/kg: R$ 0,00</span>
+                <button class="bg-red-500 text-white px-3 py-1 rounded">Remover</button>
+            `;
 
-  <script>
-    const precoBaseEl = document.getElementById('precoBase');
-    const pesoBaseEl = document.getElementById('pesoBase');
-    const precoComDescontoEl = document.getElementById('precoComDesconto');
-    const listaTamanhosEl = document.getElementById('listaTamanhos');
+            const pesoInput = div.querySelector('input[placeholder="Peso (kg)"]');
+            const precoInput = div.querySelector('input[placeholder="Preço do pacote"]');
+            const precoKgSpan = div.querySelector('span');
 
-    precoBaseEl.addEventListener('input', atualizarPrecoDesconto);
-    pesoBaseEl.addEventListener('input', atualizarPrecoDesconto);
+            function atualizarPrecoKg() {
+                const peso = parseFloat(pesoInput.value) || 0;
+                const preco = parseFloat(precoInput.value) || 0;
+                precoKgSpan.textContent = `Preço/kg: R$ ${(peso > 0 ? preco / peso : 0).toFixed(2)}`;
+            }
 
-    function atualizarPrecoDesconto() {
-      const preco = parseFloat(precoBaseEl.value) || 0;
-      const desconto = preco * 0.85;
-      precoComDescontoEl.textContent = desconto.toFixed(2).replace('.', ',');
-    }
+            pesoInput.addEventListener('input', atualizarPrecoKg);
+            precoInput.addEventListener('input', atualizarPrecoKg);
 
-    function adicionarTamanho() {
-      const peso = parseFloat(pesoBaseEl.value) || 0;
-      const preco = parseFloat(precoBaseEl.value) || 0;
-      if (peso <= 0 || preco <= 0) return alert('Informe o preço base e o peso antes de adicionar');
+            div.querySelector('button').addEventListener('click', () => {
+                div.remove();
+            });
 
-      const precoPorKg = preco / peso;
-      const card = document.createElement('div');
-      card.className = 'flex items-center justify-between border rounded p-2';
-      card.innerHTML = `
-        <span>${peso} kg - R$ ${preco.toFixed(2).replace('.', ',')} (R$ ${precoPorKg.toFixed(2).replace('.', ',')}/kg)</span>
-        <button class="bg-red-500 text-white px-2 py-1 rounded" onclick="this.parentElement.remove()">Remover</button>
-      `;
-      listaTamanhosEl.appendChild(card);
-    }
-  </script>
+            listaTamanhos.appendChild(div);
+        });
+    </script>
 </body>
 </html>
