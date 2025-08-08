@@ -1,17 +1,33 @@
-<!-- creche.html -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pet Dudis - Creche</title>
+  <title>Pet Dudis - Serviços</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="creche.css" />
+  <link rel="stylesheet" href="banho.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 </head>
 <body>
 
-  <!-- Cabeçalho -->
+  <!-- TOPO -->
+  <div class="faixa-topo">
+    <div class="topo-interno">
+      <div class="links-esquerda">
+        <a href="index.html"><i class="fas fa-home"></i> Início</a>
+        <a href="#sobre"><i class="fas fa-briefcase"></i> Sobre Nós</a>
+        <a href="#contato"><i class="fas fa-envelope"></i> Contato</a>
+      </div>
+      <div class="links-direita">
+        <a href="#"><i class="fab fa-facebook-f"></i> Facebook</a>
+        <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CABEÇALHO -->
   <header class="cabecalho">
     <div class="cabecalho-conteudo">
       <a href="index.html"><img src="logo.png" alt="Pet Dudis" class="logo" /></a>
@@ -50,11 +66,24 @@
   </ul>
 </nav>
 
-  <section class="agendamento-creche">
-    <h2 class="titulo-agendamento">Encontre a creche ideal para o seu pet! <span class="coracao">❤️</span></h2>
+  <!-- BANNER -->
+  <div class="swiper banner-swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img src="banner1.png" alt="Banner 1"></div>
+      <div class="swiper-slide"><img src="banner2.png" alt="Banner 2"></div>
+      <div class="swiper-slide"><img src="banner3.png" alt="Banner 3"></div>
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+  </div>
+
+  <!-- AGENDAMENTO -->
+  <section class="agendamento-banho">
+    <h2 class="titulo-agendamento">Encontre o prestador ideal para o seu amigo! <span class="coracao">❤️</span></h2>
     <div class="bloco-formulario">
-      <h3>Creches Disponíveis</h3>
-      <p>Informe os dados do seu pet e encontre a melhor opção de creche na sua região.</p>
+      <h3>Prestadores de Banho</h3>
+      <p>Conta pra gente um pouco mais sobre o seu pet para te ajudarmos a encontrar o melhor prestador</p>
 
       <div class="botoes-pet">
         <button class="btn-pet ativo" id="btn-cachorro"><i class="fas fa-dog"></i> Cachorro</button>
@@ -69,20 +98,123 @@
           <option value="bulldog">Bulldog</option>
           <option value="srd">SRD</option>
         </select>
-
         <input type="text" class="campo-input" placeholder="CEP" id="cep" />
-
-        <button class="btn-buscar" disabled>Buscar creches</button>
+        <button class="btn-buscar" id="buscarPrestadores" disabled>Buscar prestadores</button>
       </div>
     </div>
   </section>
 
+  <!-- RESULTADOS -->
+  <div class="resultado-container" id="resultado" style="display: none;">
+    <div class="lista-prestadores">
+      <div class="card-prestador">
+        <h4>Vet.Us Centro Clínico Veterinário</h4>
+        <p>Av. Cavalhada, 1957 - Porto Alegre</p>
+        <p>5.0 ⭐ (1 avaliação)</p>
+        <p class="preco">Assinante: R$ 92,00 <br> Não assinante: R$ 115,00</p>
+        <button class="btn-agendar" onclick="window.location.href='agendamentobanho.html'">Comprar banho</button>
+      </div>
+
+      <div class="card-prestador">
+        <h4>Clínica Bichos de Estimação</h4>
+        <p>Rua José de Alencar, 617 - Porto Alegre</p>
+        <p>4.9 ⭐ (8 avaliações)</p>
+        <p class="preco">Assinante: R$ 89,00 <br> Não assinante: R$ 110,00</p>
+        <button class="btn-agendar" onclick="window.location.href='agendamentobanho.html'">Comprar banho</button>
+      </div>
+    </div>
+
+    <div class="mapa">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3456.2232180837544!2d-51.22506692438578!3d-30.10120493021256!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95199db9b94f7eb7%3A0x17a3aa3fc2eac85!2sAv.%20Cavalhada%2C%201957%20-%20Cavalhada%2C%20Porto%20Alegre%20-%20RS!5e0!3m2!1spt-BR!2sbr!4v1721049178114!5m2!1spt-BR!2sbr"
+        width="100%" height="100%" style="border:0;" allowfullscreen=""
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+
+<!--ETAPAS DA COMPRA-->
+  <section class="etapas-compra">
+  <h2>Compre com poucos cliques!</h2>
+  <h3>É muito fácil:</h3>
+
+  <div class="etapas-grid">
+    <div class="etapa">
+      <div class="numero-etapa">1</div>
+      <div class="box-etapa">
+        <i class="fas fa-clipboard-list icone-etapa"></i>
+        <h4>Cadastre seu pet</h4>
+        <p>Para te ajudar a encontrar o prestador de serviços ideal.</p>
+      </div>
+    </div>
+
+    <div class="etapa">
+      <div class="numero-etapa">2</div>
+      <div class="box-etapa">
+        <i class="fas fa-store icone-etapa"></i>
+        <h4>Escolha o prestador de serviço</h4>
+        <p>Selecione aquele que melhor atende às suas necessidades. Apenas ele irá realizar o serviço.</p>
+      </div>
+    </div>
+
+    <div class="etapa">
+      <div class="numero-etapa">3</div>
+      <div class="box-etapa">
+        <i class="fas fa-box icone-etapa"></i>
+        <h4>Um banho ou uma assinatura?</h4>
+        <p>Assine um pacote de 2, 3 ou 4 banhos por mês, ou compre um banho avulso.</p>
+      </div>
+    </div>
+
+    <div class="etapa">
+      <div class="numero-etapa">4</div>
+      <div class="box-etapa">
+        <i class="fas fa-calendar-check icone-etapa"></i>
+        <h4>Agora é só agendar!</h4>
+        <p>Pague pelo site, faça o agendamento e pronto! Você receberá a confirmação do banho em instantes.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-centro">
+    <a href="agendamentobanho.html" class="btn-agendar">Comprar banho</a>
+  </div>
+</section>
+
+<!--CUIDADOS DO BANHO-->
+<section class="faixa-beneficios">
+  <div class="container-beneficios">
+    <div class="texto-beneficios">
+      <h2>Seu pet cheiroso e bem cuidado sempre!</h2>
+      <ul>
+        <li><i class="fas fa-heart"></i> Serviço de qualidade Petlove</li>
+        <li><i class="fas fa-heart"></i> Prestadores de serviço muito bem selecionados</li>
+        <li><i class="fas fa-heart"></i> Praticidade de compra online</li>
+        <li><i class="fas fa-heart"></i> Escolha um prestador próximo de você</li>
+      </ul>
+    </div>
+    <div class="imagem-beneficios">
+      <img src="banho-pet.png" alt="Cachorrinho no banho">
+    </div>
+  </div>
+</section>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script>
+    const swiper = new Swiper('.banner-swiper', {
+      loop: true,
+      autoplay: { delay: 4000, disableOnInteraction: false },
+      pagination: { el: '.swiper-pagination', clickable: true },
+      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
+    });
+
     const btnCachorro = document.getElementById('btn-cachorro');
     const btnGato = document.getElementById('btn-gato');
     const raca = document.getElementById('raca');
     const cep = document.getElementById('cep');
-    const btnBuscar = document.querySelector('.btn-buscar');
+    const btnBuscar = document.getElementById('buscarPrestadores');
+    const resultado = document.getElementById('resultado');
 
     btnCachorro.addEventListener('click', () => {
       btnCachorro.classList.add('ativo');
@@ -110,8 +242,13 @@
 
     raca.addEventListener('change', validarCampos);
     cep.addEventListener('input', validarCampos);
+
+    btnBuscar.addEventListener('click', () => {
+      resultado.style.display = 'flex';
+      resultado.scrollIntoView({ behavior: 'smooth' });
+    });
   </script>
-  <script src="main.js"></script>
+<script src="main.js"></script>
 </body>
 
   <!-- RODAPÉ -->
@@ -175,5 +312,4 @@
       </div>
     </div>
   </footer>
-  
 </html>
