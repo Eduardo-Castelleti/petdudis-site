@@ -88,6 +88,37 @@
         </div>
     </div>
 
+    <!-- Botão Cadastrar Produto -->
+<div class="form-actions">
+    <button type="submit" class="btn-submit">Cadastrar Produto</button>
+</div>
+
+<style>
+    .form-actions {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 40px;
+    }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #6a5acd, #483d8b);
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        font-size: 1.2em;
+        font-weight: bold;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .btn-submit:hover {
+        background: linear-gradient(135deg, #7b68ee, #5f4bb6);
+        transform: scale(1.03);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+    }
+</style>
     <script>
         const precoBaseEl = document.getElementById('precoBase');
         const precoDescEl = document.getElementById('precoDesconto');
