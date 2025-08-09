@@ -1,162 +1,242 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Produto</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            padding: 20px;
-        }
-        .card {
-            margin-bottom: 20px;
-            border-radius: 12px;
-        }
-        .section-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .remove-btn {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 6px;
-        }
-        .add-btn {
-            background-color: #0d6efd;
-            color: white;
-            border: none;
-            padding: 6px 15px;
-            border-radius: 6px;
-        }
-        .register-btn {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            font-size: 18px;
-            border-radius: 8px;
-            border: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastrar Produto</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f8;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        border-color: #6c63ff;
+        outline: none;
+        box-shadow: 0 0 4px rgba(108, 99, 255, 0.3);
+    }
+
+    .flex-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        background-color: #6c63ff;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.3s;
+    }
+
+    .btn:hover {
+        background-color: #574fd6;
+    }
+
+    .btn-danger {
+        background-color: #ff4d4d;
+    }
+
+    .btn-danger:hover {
+        background-color: #e60000;
+    }
+
+    .sizes-list {
+        margin-top: 15px;
+    }
+
+    .size-item {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #ddd;
+    }
+
+    .size-info {
+        font-size: 14px;
+    }
+
+    .btn-submit {
+        background-color: #28a745;
+        color: #fff;
+        font-size: 18px;
+        padding: 12px;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .btn-submit:hover {
+        background-color: #218838;
+    }
+</style>
 </head>
 <body>
 
-    <div class="container">
-        
-        <!-- Upload da imagem -->
-        <div class="card p-3">
-            <label class="form-label section-title">Imagem do Produto</label>
-            <input type="file" class="form-control">
-        </div>
+<h1>Cadastrar Produto</h1>
 
-        <!-- Título -->
-        <div class="card p-3">
-            <label class="form-label section-title">Título do Produto</label>
-            <input type="text" class="form-control" placeholder="Digite o nome do produto">
-        </div>
-
-        <!-- Resumo -->
-        <div class="card p-3">
-            <label class="form-label section-title">Resumo do Produto</label>
-            <textarea class="form-control" rows="3" placeholder="Escreva um resumo breve"></textarea>
-        </div>
-
-        <!-- Preço base e peso -->
-        <div class="card p-3">
-            <label class="section-title">Preço base e peso</label>
-            <div class="row g-2 mb-2">
-                <div class="col-md-4">
-                    <input type="number" id="precoBase" class="form-control" placeholder="Preço (R$)">
-                </div>
-                <div class="col-md-4">
-                    <input type="number" id="pesoBase" class="form-control" placeholder="Peso">
-                </div>
-                <div class="col-md-4">
-                    <select id="unidadeBase" class="form-select">
-                        <option value="kg">kg</option>
-                        <option value="g">g</option>
-                        <option value="L">L</option>
-                        <option value="mL">mL</option>
-                    </select>
-                </div>
-            </div>
-            <small class="text-muted">Preço usado para calcular o desconto máximo de 15%.</small>
-            <p class="mt-2 fw-bold">Preço com 15% off: R$ <span id="precoDesconto">0,00</span></p>
-        </div>
-
-        <!-- Tamanhos / Pacotes -->
-        <div class="card p-3">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <label class="section-title mb-0">Tamanhos / Pacotes</label>
-                <button type="button" class="add-btn" onclick="adicionarTamanho()">+ Adicionar tamanho</button>
-            </div>
-            <div id="listaTamanhos"></div>
-        </div>
-
-        <!-- Informações adicionais -->
-        <div class="card p-3">
-            <label class="form-label section-title">Informações</label>
-            <textarea class="form-control" rows="3" placeholder="Detalhes do produto"></textarea>
-        </div>
-
-        <div class="card p-3">
-            <label class="form-label section-title">Dicas</label>
-            <textarea class="form-control" rows="3" placeholder="Dicas de uso"></textarea>
-        </div>
-
-        <div class="card p-3">
-            <label class="form-label section-title">Comparar com outras rações</label>
-            <textarea class="form-control" rows="3" placeholder="Comparações"></textarea>
-        </div>
-
-        <div class="card p-3">
-            <label class="form-label section-title">Perguntas</label>
-            <textarea class="form-control" rows="3" placeholder="Perguntas frequentes"></textarea>
-        </div>
-
-        <!-- Botão Cadastrar -->
-        <div class="text-center mt-4">
-            <button type="button" class="register-btn">Cadastrar Produto</button>
-        </div>
+<div class="card">
+    <div class="form-group">
+        <label for="imagem">Upload de Imagem</label>
+        <input type="file" id="imagem">
     </div>
 
-    <script>
-        function calcularDesconto() {
-            let preco = parseFloat(document.getElementById("precoBase").value) || 0;
-            let desconto = preco * 0.85;
-            document.getElementById("precoDesconto").textContent = desconto.toFixed(2).replace('.', ',');
+    <div class="form-group">
+        <label for="titulo">Título do Produto</label>
+        <input type="text" id="titulo" placeholder="Digite o título do produto">
+    </div>
+
+    <div class="form-group">
+        <label for="tipoPet">Tipo de Pet</label>
+        <select id="tipoPet">
+            <option value="">Selecione</option>
+            <option value="cachorro">Cachorro</option>
+            <option value="gato">Gato</option>
+            <option value="passaro">Pássaro</option>
+            <option value="hamster">Hamster</option>
+            <option value="outros">Outros</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="resumo">Resumo básico</label>
+        <textarea id="resumo" rows="3" placeholder="Escreva um resumo sobre o produto"></textarea>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Tamanhos e Preços</h3>
+    <div class="flex-row">
+        <input type="number" id="preco" placeholder="Preço base (R$)">
+        <input type="number" id="peso" placeholder="Peso">
+        <select id="unidade">
+            <option value="g">g</option>
+            <option value="kg">kg</option>
+            <option value="mL">mL</option>
+            <option value="L">L</option>
+        </select>
+    </div>
+    <button class="btn" id="addSize">+ Adicionar tamanho</button>
+
+    <div class="sizes-list" id="sizesList"></div>
+</div>
+
+<div class="card">
+    <div class="form-group">
+        <label for="informacoes">Informações</label>
+        <textarea id="informacoes" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="dicas">Dicas</label>
+        <textarea id="dicas" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="comparacao">Comparar com outras rações</label>
+        <textarea id="comparacao" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="perguntas">Perguntas</label>
+        <textarea id="perguntas" rows="3"></textarea>
+    </div>
+</div>
+
+<button class="btn btn-submit">Cadastrar Produto</button>
+
+<script>
+    const addSizeBtn = document.getElementById('addSize');
+    const sizesList = document.getElementById('sizesList');
+
+    addSizeBtn.addEventListener('click', () => {
+        const preco = parseFloat(document.getElementById('preco').value);
+        const peso = parseFloat(document.getElementById('peso').value);
+        const unidade = document.getElementById('unidade').value;
+
+        if (isNaN(preco) || isNaN(peso) || unidade === "") {
+            alert("Preencha todos os campos de tamanho antes de adicionar!");
+            return;
         }
 
-        document.getElementById("precoBase").addEventListener("input", calcularDesconto);
-
-        function adicionarTamanho() {
-            let preco = parseFloat(document.getElementById("precoBase").value) || 0;
-            let peso = parseFloat(document.getElementById("pesoBase").value) || 0;
-            let unidade = document.getElementById("unidadeBase").value;
-
-            if (preco <= 0 || peso <= 0) {
-                alert("Preencha os campos de preço e peso corretamente.");
-                return;
-            }
-
-            let precoPorKg = preco / peso;
-
-            let div = document.createElement("div");
-            div.classList.add("row", "g-2", "align-items-center", "mb-2");
-
-            div.innerHTML = `
-                <div class="col-md-3"><strong>${peso} ${unidade}</strong></div>
-                <div class="col-md-3">R$ ${preco.toFixed(2)}</div>
-                <div class="col-md-3">Preço/kg: R$ ${precoPorKg.toFixed(2)}</div>
-                <div class="col-md-3 text-end"><button type="button" class="remove-btn" onclick="this.parentElement.parentElement.remove()">Remover</button></div>
-            `;
-
-            document.getElementById("listaTamanhos").appendChild(div);
+        let precoPorKg = "";
+        if (unidade.toLowerCase() === "kg") {
+            precoPorKg = (preco / peso).toFixed(2) + " R$/kg";
+        } else if (unidade.toLowerCase() === "g") {
+            precoPorKg = ((preco / peso) * 1000).toFixed(2) + " R$/kg";
+        } else if (unidade.toLowerCase() === "l") {
+            precoPorKg = (preco / peso).toFixed(2) + " R$/L";
+        } else if (unidade.toLowerCase() === "ml") {
+            precoPorKg = ((preco / peso) * 1000).toFixed(2) + " R$/L";
         }
-    </script>
+
+        const precoComDesconto = (preco * 0.85).toFixed(2);
+
+        const div = document.createElement('div');
+        div.classList.add('size-item');
+        div.innerHTML = `
+            <div class="size-info">
+                <strong>${peso}${unidade}</strong> - R$ ${preco.toFixed(2)} 
+                | <span style="color:green;">Com 15%: R$ ${precoComDesconto}</span> 
+                | ${precoPorKg}
+            </div>
+            <button class="btn btn-danger">Remover</button>
+        `;
+
+        div.querySelector('button').addEventListener('click', () => {
+            div.remove();
+        });
+
+        sizesList.appendChild(div);
+
+        document.getElementById('preco').value = "";
+        document.getElementById('peso').value = "";
+        document.getElementById('unidade').value = "g";
+    });
+</script>
 
 </body>
 </html>
