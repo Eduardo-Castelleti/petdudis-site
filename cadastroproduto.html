@@ -6,76 +6,86 @@
     <title>Cadastro de Produto</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 p-6">
-    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow">
-        <h1 class="text-2xl font-bold mb-6">Cadastro de Produto</h1>
+<body class="bg-gray-100 min-h-screen py-10">
+    <div class="max-w-5xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
+        <h1 class="text-3xl font-bold mb-8 text-center">Cadastro de Produto</h1>
 
-        <!-- Upload de imagem -->
-        <label class="block mb-4">
-            <span class="font-semibold">Imagem do produto</span>
-            <input type="file" class="mt-2 block w-full border rounded p-2">
-        </label>
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Coluna Esquerda -->
+            <div class="space-y-6">
+                <!-- Upload de imagem -->
+                <div>
+                    <label class="block font-semibold mb-2">Imagem do produto</label>
+                    <input type="file" class="w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+                </div>
 
-        <!-- Título -->
-        <label class="block mb-4">
-            <span class="font-semibold">Título do produto</span>
-            <input type="text" class="mt-2 block w-full border rounded p-2" placeholder="Digite o título">
-        </label>
+                <!-- Título -->
+                <div>
+                    <label class="block font-semibold mb-2">Título do produto</label>
+                    <input type="text" class="w-full border border-gray-300 rounded-lg p-3 shadow-sm" placeholder="Digite o título">
+                </div>
 
-        <!-- Resumo -->
-        <label class="block mb-4">
-            <span class="font-semibold">Resumo do produto</span>
-            <textarea class="mt-2 block w-full border rounded p-2" placeholder="Resumo básico"></textarea>
-        </label>
+                <!-- Resumo -->
+                <div>
+                    <label class="block font-semibold mb-2">Resumo do produto</label>
+                    <textarea class="w-full border border-gray-300 rounded-lg p-3 shadow-sm" placeholder="Resumo básico"></textarea>
+                </div>
 
-        <!-- Categoria -->
-        <label class="block mb-4">
-            <span class="font-semibold">Tipo de pet</span>
-            <select class="mt-2 block w-full border rounded p-2">
-                <option>Cachorro</option>
-                <option>Gato</option>
-                <option>Pássaro</option>
-                <option>Hamster</option>
-            </select>
-        </label>
-
-        <!-- Preço Base + Peso -->
-        <div class="mb-4">
-            <span class="font-semibold">Preço base e peso</span>
-            <div class="flex gap-4 mt-2">
-                <input type="number" id="precoBase" class="border rounded p-2 w-1/2" placeholder="Preço base">
-                <input type="number" id="pesoBase" class="border rounded p-2 w-1/2" placeholder="Peso (kg)">
+                <!-- Categoria -->
+                <div>
+                    <label class="block font-semibold mb-2">Tipo de pet</label>
+                    <select class="w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+                        <option>Cachorro</option>
+                        <option>Gato</option>
+                        <option>Pássaro</option>
+                        <option>Hamster</option>
+                    </select>
+                </div>
             </div>
-            <p class="text-sm text-gray-500 mt-1">Preço usado para calcular o desconto máximo de 15%.</p>
-            <p class="mt-2 font-semibold">Preço com 15% off: R$ <span id="precoDesconto">0,00</span></p>
-        </div>
 
-        <!-- Lista de tamanhos -->
-        <div class="mb-4">
-            <div class="flex justify-between items-center mb-2">
-                <span class="font-semibold">Tamanhos / Pacotes</span>
-                <button id="addTamanho" class="bg-blue-500 text-white px-4 py-1 rounded">+ Adicionar tamanho</button>
+            <!-- Coluna Direita -->
+            <div class="space-y-6">
+                <!-- Preço Base + Peso -->
+                <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                    <label class="block font-semibold mb-2">Preço base e peso</label>
+                    <div class="flex gap-4">
+                        <input type="number" id="precoBase" class="border border-gray-300 rounded-lg p-3 w-1/2" placeholder="Preço base">
+                        <input type="number" id="pesoBase" class="border border-gray-300 rounded-lg p-3 w-1/2" placeholder="Peso (kg)">
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2">Preço usado para calcular o desconto máximo de 15%.</p>
+                    <p class="mt-3 font-semibold text-lg">Preço com 15% off: R$ <span id="precoDesconto">0,00</span></p>
+                </div>
+
+                <!-- Lista de tamanhos -->
+                <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="font-semibold text-lg">Tamanhos / Pacotes</span>
+                        <button id="addTamanho" class="bg-blue-500 hover:bg-blue-600 transition text-white px-4 py-2 rounded-lg shadow">
+                            + Adicionar tamanho
+                        </button>
+                    </div>
+                    <div id="listaTamanhos" class="space-y-3"></div>
+                </div>
             </div>
-            <div id="listaTamanhos" class="space-y-2"></div>
         </div>
 
         <!-- Informações -->
-        <label class="block mb-4">
-            <span class="font-semibold">Informações</span>
-            <textarea class="mt-2 block w-full border rounded p-2"></textarea>
-        </label>
+        <div class="mt-8 space-y-6">
+            <div>
+                <label class="block font-semibold mb-2">Informações</label>
+                <textarea class="w-full border border-gray-300 rounded-lg p-3 shadow-sm"></textarea>
+            </div>
 
-        <!-- Dicas -->
-        <label class="block mb-4">
-            <span class="font-semibold">Especificações</span>
-            <textarea class="mt-2 block w-full border rounded p-2"></textarea>
-        </label>
+            <div>
+                <label class="block font-semibold mb-2">Especificações</label>
+                <textarea class="w-full border border-gray-300 rounded-lg p-3 shadow-sm"></textarea>
+            </div>
 
-        <!-- Comparação -->
-        <label class="block mb-4">
-            <span class="font-semibold">Dicas</span>
-            <textarea class="mt-2 block w-full border rounded p-2"></textarea>
-        </label>
+            <div>
+                <label class="block font-semibold mb-2">Dicas</label>
+                <textarea class="w-full border border-gray-300 rounded-lg p-3 shadow-sm"></textarea>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -89,12 +99,13 @@
         const listaTamanhos = document.getElementById('listaTamanhos');
         document.getElementById('addTamanho').addEventListener('click', () => {
             const div = document.createElement('div');
-            div.className = 'flex gap-2 items-center border p-2 rounded';
+            div.className = 'flex flex-wrap md:flex-nowrap gap-2 items-center border border-gray-300 p-3 rounded-lg shadow-sm bg-white';
+
             div.innerHTML = `
-                <input type="number" step="0.01" placeholder="Peso (kg)" class="border p-2 rounded w-1/3">
-                <input type="number" step="0.01" placeholder="Preço do pacote" class="border p-2 rounded w-1/3">
-                <span class="font-semibold w-1/3">Preço/kg: R$ 0,00</span>
-                <button class="bg-red-500 text-white px-3 py-1 rounded">Remover</button>
+                <input type="number" step="0.01" placeholder="Peso (kg)" class="border border-gray-300 p-2 rounded-lg w-full md:w-1/4">
+                <input type="number" step="0.01" placeholder="Preço do pacote" class="border border-gray-300 p-2 rounded-lg w-full md:w-1/4">
+                <span class="font-semibold w-full md:w-1/4 text-gray-700">Preço/kg: R$ 0,00</span>
+                <button class="bg-red-500 hover:bg-red-600 transition text-white px-3 py-2 rounded-lg shadow w-full md:w-auto">Remover</button>
             `;
 
             const pesoInput = div.querySelector('input[placeholder="Peso (kg)"]');
