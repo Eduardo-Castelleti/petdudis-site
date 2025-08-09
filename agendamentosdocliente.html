@@ -85,6 +85,7 @@
         <tr>
           <th>Serviço</th>
           <th>Pet</th>
+          <th>Parceiro</th>
           <th>Data</th>
           <th>Hora</th>
           <th>Status</th>
@@ -95,6 +96,7 @@
         <tr>
           <td>Banho</td>
           <td>Rex</td>
+          <td>Pet Dudis Centro</td>
           <td>15/08/2025</td>
           <td>10:00</td>
           <td>Confirmado</td>
@@ -106,6 +108,7 @@
         <tr>
           <td>Creche</td>
           <td>Luna</td>
+          <td>Pet Dudis Bairro</td>
           <td>18/08/2025</td>
           <td>14:00</td>
           <td>Confirmado</td>
@@ -137,6 +140,14 @@
         <option value="creche">Creche</option>
       </select>
 
+      <label for="parceiro">Parceiro</label>
+      <select id="parceiro" name="parceiro" required>
+        <option value="" disabled selected>Escolha o parceiro</option>
+        <option value="centro">Pet Dudis Centro</option>
+        <option value="bairro">Pet Dudis Bairro</option>
+        <option value="hotel">Hospedagem da Vizinha</option>
+      </select>
+
       <label for="data">Data</label>
       <input type="date" id="data" name="data" required min="" />
 
@@ -160,6 +171,8 @@
     alert('Agendamento realizado com sucesso!');
     this.reset();
   });
+
+  // Futuro: lógica para carregar horários disponíveis conforme parceiro escolhido
 </script>
 
 </body>
