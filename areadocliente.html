@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Área do Cliente - Pet Dudis</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9f9f9;
+      color: #333;
+    }
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+    nav.sidebar {
+      width: 250px;
+      background-color: #5e2ca5;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    nav.sidebar h2 {
+      margin-top: 0;
+      margin-bottom: 40px;
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+    nav.sidebar a {
+      color: white;
+      text-decoration: none;
+      padding: 12px 10px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+    nav.sidebar a:hover,
+    nav.sidebar a.active {
+      background-color: #3f1f7a;
+    }
+    main.content {
+      flex-grow: 1;
+      padding: 30px 40px;
+      background-color: white;
+      box-shadow: -3px 0 8px rgba(0,0,0,0.1);
+    }
+    main.content h1 {
+      margin-top: 0;
+      color: #5e2ca5;
+    }
+    section {
+      margin-bottom: 30px;
+    }
+    .card {
+      background: #fafafa;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+    }
+    .flex-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .box {
+      flex: 1 1 300px;
+      background: #fff;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 1px 4px rgb(0 0 0 / 0.1);
+    }
+    .pet-photo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #ddd;
+      display: inline-block;
+      margin-right: 15px;
+      object-fit: cover;
+      vertical-align: middle;
+    }
+    button {
+      background-color: #5e2ca5;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #4a237a;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table th,
+    table td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    .points {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #5e2ca5;
+    }
+    @media (max-width: 700px) {
+      nav.sidebar {
+        width: 60px;
+        padding: 10px 5px;
+      }
+      nav.sidebar h2 {
+        display: none;
+      }
+      nav.sidebar a {
+        font-size: 0;
+        padding: 10px 0;
+      }
+      nav.sidebar a::before {
+        content: attr(data-icon);
+        font-size: 1.5rem;
+      }
+      main.content {
+        padding: 15px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <nav class="sidebar">
+    <h2>Pet Dudis</h2>
+    <a href="#" class="active" data-icon="🏠">Dashboard</a>
+    <a href="#" data-icon="🛒">Produtos</a>
+    <a href="#" data-icon="📅">Agendamentos</a>
+    <a href="#" data-icon="📦">Pedidos</a>
+    <a href="#" data-icon="🎁">Fidelidade</a>
+    <a href="#" data-icon="🐾">Meus Pets</a>
+    <a href="#" data-icon="🏷️">Cupons</a>
+    <a href="#" data-icon="⚙️">Perfil</a>
+    <a href="#" data-icon="🚪">Sair</a>
+  </nav>
+
+  <main class="content">
+    <h1>Olá, Eduardo! 👋</h1>
+
+    <!-- Resumo rápido -->
+    <section class="card">
+      <h2>Resumo</h2>
+      <div class="flex-row">
+        <div class="box">
+          <h3>Pontos no Clube Fidelidade</h3>
+          <p class="points">450 pontos</p>
+        </div>
+        <div class="box">
+          <h3>Próximos Agendamentos</h3>
+          <ul>
+            <li>Banho para Rex - 15/08/2025 às 10h</li>
+            <li>Creche para Luna - 18/08/2025 às 14h</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Últimos Pedidos</h3>
+          <ul>
+            <li>Ração Special Dog Premium - Entregue</li>
+            <li>Antipulgas Bravecto - Em transporte</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dados do Pet -->
+    <section class="card">
+      <h2>Meus Pets</h2>
+      <div class="flex-row">
+        <div class="box">
+          <img src="https://place-puppy.com/80x80" alt="Foto do Rex" class="pet-photo" />
+          <strong>Rex</strong><br/>
+          Peso: 12kg<br/>
+          Idade: 3 anos<br/>
+          Vacinas: Atualizadas<br/>
+          <button>Editar dados</button>
+        </div>
+        <div class="box">
+          <img src="https://placekitten.com/80/80" alt="Foto da Luna" class="pet-photo" />
+          <strong>Luna</strong><br/>
+          Peso: 5kg<br/>
+          Idade: 1 ano<br/>
+          Vacinas: Pendentes<br/>
+          <button>Editar dados</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Histórico de pedidos -->
+    <section class="card">
+      <h2>Histórico de Pedidos</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Pedido</th>
+            <th>Data</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ração Special Dog Premium 10kg</td>
+            <td>01/08/2025</td>
+            <td>Entregue</td>
+          </tr>
+          <tr>
+            <td>Antipulgas Bravecto</td>
+            <td>05/08/2025</td>
+            <td>Em transporte</td>
+          </tr>
+          <tr>
+            <td>Banho para Rex</td>
+            <td>10/08/2025</td>
+            <td>Confirmado</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Cupons promocionais -->
+    <section class="card">
+      <h2>Cupons Promocionais</h2>
+      <ul>
+        <li>10% OFF na próxima compra <button>Usar</button></li>
+        <li>Frete grátis em compras acima de R$150 <button>Usar</button></li>
+      </ul>
+    </section>
+
+  </main>
+</div>
+
+</body>
+</html>
