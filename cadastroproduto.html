@@ -49,8 +49,14 @@
                 <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
                     <label class="block font-semibold mb-2">Preço base e peso</label>
                     <div class="flex gap-4">
-                        <input type="number" id="precoBase" class="border border-gray-300 rounded-lg p-3 w-1/2" placeholder="Preço base">
-                        <input type="number" id="pesoBase" class="border border-gray-300 rounded-lg p-3 w-1/2" placeholder="Peso (kg)">
+                        <input type="number" id="precoBase" class="border border-gray-300 rounded-lg p-3 w-1/3" placeholder="Preço base">
+                        <input type="number" id="pesoBase" class="border border-gray-300 rounded-lg p-3 w-1/3" placeholder="Peso">
+                        <select id="unidadeBase" class="border border-gray-300 rounded-lg p-3 w-1/3">
+                            <option value="kg">kg</option>
+                            <option value="g">g</option>
+                            <option value="ml">ml</option>
+                            <option value="l">L</option>
+                        </select>
                     </div>
                     <p class="text-sm text-gray-500 mt-2">Preço usado para calcular o desconto máximo de 15%.</p>
                     <p class="mt-3 font-semibold text-lg">Preço com 15% off: R$ <span id="precoDesconto">0,00</span></p>
@@ -89,9 +95,9 @@
     </div>
 
     <!-- Botão Cadastrar Produto -->
-<div class="form-actions">
-    <button type="submit" class="btn-submit">Cadastrar Produto</button>
-</div>
+    <div class="form-actions">
+        <button type="submit" class="btn-submit">Cadastrar Produto</button>
+    </div>
 
 <style>
     .form-actions {
@@ -119,45 +125,64 @@
         box-shadow: 0 6px 12px rgba(0,0,0,0.25);
     }
 </style>
-    <script>
-        const precoBaseEl = document.getElementById('precoBase');
-        const precoDescEl = document.getElementById('precoDesconto');
-        precoBaseEl.addEventListener('input', () => {
-            const preco = parseFloat(precoBaseEl.value) || 0;
-            precoDescEl.textContent = (preco * 0.85).toFixed(2);
+
+<script>
+    const precoBaseEl = document.getElementById('precoBase');
+    const precoDescEl = document.getElementById('precoDesconto');
+    precoBaseEl.addEventListener('input', () => {
+        const preco = parseFloat(precoBaseEl.value) || 0;
+        precoDescEl.textContent = (preco * 0.85).toFixed(2);
+    });
+
+    const listaTamanhos = document.getElementById('listaTamanhos');
+    document.getElementById('addTamanho').addEventListener('click', () => {
+        const pesoBase = parseFloat(document.getElementById('pesoBase').value) || 0;
+        const precoBase = parseFloat(document.getElementById('precoBase').value) || 0;
+        const unidadeBase = document.getElementById('unidadeBase').value;
+
+        if (!pesoBase || !precoBase) {
+            alert("Preencha peso e preço base antes de adicionar!");
+            return;
+        }
+
+        const div = document.createElement('div');
+        div.className = 'flex flex-wrap md:flex-nowrap gap-2 items-center border border-gray-300 p-3 rounded-lg shadow-sm bg-white';
+
+        div.innerHTML = `
+            <input type="number" step="0.01" value="${pesoBase}" class="border border-gray-300 p-2 rounded-lg w-full md:w-1/4">
+            <select class="border border-gray-300 p-2 rounded-lg w-full md:w-1/6">
+                <option value="kg" ${unidadeBase === 'kg' ? 'selected' : ''}>kg</option>
+                <option value="g" ${unidadeBase === 'g' ? 'selected' : ''}>g</option>
+                <option value="ml" ${unidadeBase === 'ml' ? 'selected' : ''}>ml</option>
+                <option value="l" ${unidadeBase === 'l' ? 'selected' : ''}>L</option>
+            </select>
+            <input type="number" step="0.01" value="${precoBase}" class="border border-gray-300 p-2 rounded-lg w-full md:w-1/4">
+            <span class="font-semibold w-full md:w-1/4 text-gray-700">Preço/${unidadeBase}: R$ ${(precoBase / pesoBase).toFixed(2)}</span>
+            <button class="bg-red-500 hover:bg-red-600 transition text-white px-3 py-2 rounded-lg shadow w-full md:w-auto">Remover</button>
+        `;
+
+        const pesoInput = div.querySelector('input[type="number"]');
+        const unidadeSelect = div.querySelector('select');
+        const precoInput = div.querySelectorAll('input[type="number"]')[1];
+        const precoKgSpan = div.querySelector('span');
+
+        function atualizarPreco() {
+            const peso = parseFloat(pesoInput.value) || 0;
+            const preco = parseFloat(precoInput.value) || 0;
+            const unidade = unidadeSelect.value;
+            precoKgSpan.textContent = `Preço/${unidade}: R$ ${(peso > 0 ? preco / peso : 0).toFixed(2)}`;
+        }
+
+        pesoInput.addEventListener('input', atualizarPreco);
+        precoInput.addEventListener('input', atualizarPreco);
+        unidadeSelect.addEventListener('change', atualizarPreco);
+
+        div.querySelector('button').addEventListener('click', () => {
+            div.remove();
         });
 
-        const listaTamanhos = document.getElementById('listaTamanhos');
-        document.getElementById('addTamanho').addEventListener('click', () => {
-            const div = document.createElement('div');
-            div.className = 'flex flex-wrap md:flex-nowrap gap-2 items-center border border-gray-300 p-3 rounded-lg shadow-sm bg-white';
-
-            div.innerHTML = `
-                <input type="number" step="0.01" placeholder="Peso (kg)" class="border border-gray-300 p-2 rounded-lg w-full md:w-1/4">
-                <input type="number" step="0.01" placeholder="Preço do pacote" class="border border-gray-300 p-2 rounded-lg w-full md:w-1/4">
-                <span class="font-semibold w-full md:w-1/4 text-gray-700">Preço/kg: R$ 0,00</span>
-                <button class="bg-red-500 hover:bg-red-600 transition text-white px-3 py-2 rounded-lg shadow w-full md:w-auto">Remover</button>
-            `;
-
-            const pesoInput = div.querySelector('input[placeholder="Peso (kg)"]');
-            const precoInput = div.querySelector('input[placeholder="Preço do pacote"]');
-            const precoKgSpan = div.querySelector('span');
-
-            function atualizarPrecoKg() {
-                const peso = parseFloat(pesoInput.value) || 0;
-                const preco = parseFloat(precoInput.value) || 0;
-                precoKgSpan.textContent = `Preço/kg: R$ ${(peso > 0 ? preco / peso : 0).toFixed(2)}`;
-            }
-
-            pesoInput.addEventListener('input', atualizarPrecoKg);
-            precoInput.addEventListener('input', atualizarPrecoKg);
-
-            div.querySelector('button').addEventListener('click', () => {
-                div.remove();
-            });
-
-            listaTamanhos.appendChild(div);
-        });
-    </script>
+        listaTamanhos.appendChild(div);
+    });
+</script>
 </body>
 </html>
