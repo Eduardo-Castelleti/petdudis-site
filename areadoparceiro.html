@@ -18,10 +18,42 @@
         text-align: center;
         font-size: 1.5rem;
     }
+    .tabs {
+        display: flex;
+        background: white;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        overflow-x: auto;
+    }
+    .tab-btn {
+        flex: 1;
+        padding: 12px;
+        background: white;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        color: #5e2ca5;
+        border-bottom: 3px solid transparent;
+        transition: 0.3s;
+    }
+    .tab-btn.active {
+        border-bottom: 3px solid #5e2ca5;
+        background: #f3f0f9;
+    }
     .container {
         padding: 20px;
         max-width: 1200px;
         margin: auto;
+    }
+    .tab-content {
+        display: none;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+    .tab-content.active {
+        display: block;
+    }
+    @keyframes fadeIn {
+        from {opacity: 0;}
+        to {opacity: 1;}
     }
     .cards {
         display: grid;
@@ -35,16 +67,12 @@
         box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         text-align: center;
     }
-    h3 {
-        margin-top: 0;
-    }
     table {
         width: 100%;
         border-collapse: collapse;
         background: white;
         border-radius: 10px;
         overflow: hidden;
-        margin-top: 20px;
     }
     table th, table td {
         padding: 10px;
@@ -62,9 +90,17 @@
         border: none;
         border-radius: 5px;
         cursor: pointer;
+        margin-top: 10px;
     }
     .btn:hover {
         background: #431d77;
+    }
+    textarea, input, select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
     }
 </style>
 </head>
@@ -72,63 +108,125 @@
 
 <header>Painel do Parceiro</header>
 
+<!-- Abas -->
+<div class="tabs">
+    <button class="tab-btn active" data-tab="resumo">Resumo</button>
+    <button class="tab-btn" data-tab="pedidos">Pedidos</button>
+    <button class="tab-btn" data-tab="agenda">Agenda</button>
+    <button class="tab-btn" data-tab="comunicacao">Comunicação</button>
+    <button class="tab-btn" data-tab="materiais">Materiais</button>
+</div>
+
 <div class="container">
 
-    <!-- Resumo Rápido -->
-    <div class="cards">
-        <div class="card">
-            <h3>Vendas no mês</h3>
-            <p>R$ 2.350,00</p>
-        </div>
-        <div class="card">
-            <h3>Serviços indicados</h3>
-            <p>14</p>
-        </div>
-        <div class="card">
-            <h3>Comissão acumulada</h3>
-            <p>R$ 325,00</p>
-        </div>
-        <div class="card">
-            <h3>Último pagamento</h3>
-            <p>05/08/2025</p>
+    <!-- Resumo -->
+    <div id="resumo" class="tab-content active">
+        <div class="cards">
+            <div class="card">
+                <h3>Vendas no mês</h3>
+                <p>R$ 2.350,00</p>
+            </div>
+            <div class="card">
+                <h3>Serviços indicados</h3>
+                <p>14</p>
+            </div>
+            <div class="card">
+                <h3>Comissão acumulada</h3>
+                <p>R$ 325,00</p>
+            </div>
+            <div class="card">
+                <h3>Último pagamento</h3>
+                <p>05/08/2025</p>
+            </div>
         </div>
     </div>
 
-    <!-- Lista de Pedidos -->
-    <h2>Pedidos e Serviços</h2>
-    <table>
-        <tr>
-            <th>Data</th>
-            <th>Cliente</th>
-            <th>Pet</th>
-            <th>Serviço/Produto</th>
-            <th>Status</th>
-            <th>Valor</th>
-            <th>Comissão</th>
-        </tr>
-        <tr>
-            <td>08/08/2025</td>
-            <td>João Silva</td>
-            <td>Rex</td>
-            <td>Banho e Tosa</td>
-            <td>Confirmado</td>
-            <td>R$ 90,00</td>
-            <td>R$ 9,00</td>
-        </tr>
-    </table>
+    <!-- Pedidos -->
+    <div id="pedidos" class="tab-content">
+        <h2>Pedidos e Serviços</h2>
+        <table>
+            <tr>
+                <th>Data</th>
+                <th>Cliente</th>
+                <th>Pet</th>
+                <th>Serviço/Produto</th>
+                <th>Status</th>
+                <th>Valor</th>
+                <th>Comissão</th>
+            </tr>
+            <tr>
+                <td>08/08/2025</td>
+                <td>João Silva</td>
+                <td>Rex</td>
+                <td>Banho e Tosa</td>
+                <td>Confirmado</td>
+                <td>R$ 90,00</td>
+                <td>R$ 9,00</td>
+            </tr>
+        </table>
+    </div>
 
-    <!-- Botão para Materiais de Marketing -->
-    <h2>Materiais de Marketing</h2>
-    <button class="btn">Baixar Banners</button>
-    <button class="btn">Copiar Link Exclusivo</button>
+    <!-- Agenda -->
+    <div id="agenda" class="tab-content">
+        <h2>Agenda de Serviços</h2>
+        <p>Aqui vai um calendário ou lista de agendamentos futuros.</p>
+        <table>
+            <tr>
+                <th>Data</th>
+                <th>Pet</th>
+                <th>Serviço</th>
+                <th>Ações</th>
+            </tr>
+            <tr>
+                <td>12/08/2025</td>
+                <td>Belinha</td>
+                <td>Tosa Higiênica</td>
+                <td>
+                    <button class="btn">Confirmar</button>
+                    <button class="btn">Reagendar</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Comunicação -->
+    <div id="comunicacao" class="tab-content">
+        <h2>Mensagem para a Loja</h2>
+        <textarea placeholder="Digite sua mensagem..."></textarea>
+        <button class="btn">Enviar</button>
+    </div>
+
+    <!-- Materiais -->
+    <div id="materiais" class="tab-content">
+        <h2>Materiais de Marketing</h2>
+        <p>Seu link exclusivo:</p>
+        <input type="text" id="linkParceiro" value="https://minhaloja.com/parceiro123" readonly>
+        <button class="btn" onclick="copiarLink()">Copiar Link</button>
+        <br><br>
+        <button class="btn">Baixar Banners</button>
+    </div>
 
 </div>
 
 <script>
-    document.querySelectorAll('.btn')[1].addEventListener('click', function() {
-        navigator.clipboard.writeText('https://minhaloja.com/parceiro123');
-        alert('Link copiado para a área de transferência!');
+    // Troca de abas
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            document.getElementById(btn.dataset.tab).classList.add('active');
+        });
     });
+
+    // Copiar link
+    function copiarLink() {
+        const link = document.getElementById('linkParceiro');
+        link.select();
+        link.setSelectionRange(0, 99999);
+        document.execCommand('copy');
+        alert('Link copiado!');
+    }
 </script>
 
 </body>
