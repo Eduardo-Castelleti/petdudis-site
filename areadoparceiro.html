@@ -122,6 +122,41 @@
   .form-popup h3 {
     margin-top: 0;
   }
+  /* Modal Status Evento */
+  #modalStatusEvento {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    z-index: 10000;
+    min-width: 300px;
+    text-align: center;
+    display: none;
+  }
+  #modalStatusEvento.active {
+    display: block;
+  }
+  #modalStatusEvento button {
+    margin-top: 8px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #5e2ca5;
+    color: white;
+    width: 80%;
+    max-width: 250px;
+  }
+  #modalStatusEvento button[style*="background:#d62828"] {
+    background: #d62828 !important;
+  }
+  #modalStatusEvento button:hover {
+    filter: brightness(0.9);
+  }
 </style>
 </head>
 <body>
@@ -130,7 +165,7 @@
 
 <!-- Abas na nova ordem -->
 <div class="tabs">
-  <button class="tab-btn" data-tab="agenda">Agenda</button>
+  <button class="tab-btn active" data-tab="agenda">Agenda</button>
   <button class="tab-btn" data-tab="pedidos">Pedidos</button>
   <button class="tab-btn" data-tab="clientes">Clientes & Pets</button>
   <button class="tab-btn" data-tab="resumo">Resumo</button>
@@ -228,6 +263,11 @@
   <button class="btn" style="background:red;" onclick="fecharFormularioAgendamento()">Fechar</button>
 </div>
 
+<!-- Modal Status Evento -->
+<div id="modalStatusEvento" class="">
+  <!-- conteúdo gerado dinamicamente via JS -->
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 <script>
   // Troca de abas
@@ -312,38 +352,73 @@
     });
   }
 
-// Variável global para evento selecionado
-let eventoSelecionado = null;
+  // Variável global para evento selecionado
+  let eventoSelecionado = null;
+  let calendar;
 
-// Inicializa calendário
-document.addEventListener('DOMContentLoaded', function () {
-  let calendarEl = document.getElementById('calendar');
-  calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: 'dayGridMonth',
-    locale: 'pt-br',
-    headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' },
-    events: [
-      { id: '1', title: 'Banho - Rex', start: '2025-08-12', status: 'pendente' },
-      { id: '2', title: 'Tosa - Belinha', start: '2025-08-13', status: 'pendente' },
-      { id: '3', title: 'Consulta - Bob', start: '2025-08-15', status: 'pendente' }
-    ],
-    eventClick: function(info) {
-      eventoSelecionado = info.event;
-      abrirModalStatusEvento(eventoSelecionado);
-    },
-    eventDidMount: function(info) {
-      // Atualiza cor conforme status
-      const status = info.event.extendedProps.status || 'pendente';
-      let bgColor = '#3788d8'; // azul padrão
-      if (status === 'confirmado') bgColor = '#2a9d8f';  // verde
-      else if (status === 'realizado') bgColor = '#6a994e'; // verde escuro
-      else if (status === 'cancelado') bgColor = '#d62828'; // vermelho
-      info.el.style.backgroundColor = bgColor;
-      info.el.style.borderColor = bgColor;
-    }
+  // Função para abrir modal de status do evento
+  function abrirModalStatusEvento(evento) {
+    eventoSelecionado = evento;
+    const modal = document.getElementById('modalStatusEvento');
+    modal.innerHTML = `
+      <h3>${evento.title}</h3>
+      <button onclick="atualizarStatusEvento('confirmado')">Confirmar banho</button><br/><br/>
+      <button onclick="atualizarStatusEvento('realizado')">Banho realizado</button><br/><br/>
+      <button onclick="atualizarStatusEvento('cancelado')" style="background:#d62828;">Cancelar banho</button><br/><br/>
+      <button onclick="fecharModalStatusEvento()" style="background:#777;">Fechar</button>
+    `;
+    modal.classList.add('active');
+  }
+
+  // Função para atualizar status do evento e fechar modal
+  function atualizarStatusEvento(status) {
+    if (!eventoSelecionado) return;
+    eventoSelecionado.setExtendedProp('status', status);
+
+    let novoTitulo = eventoSelecionado.title.split(' - ')[0];
+    if (status === 'confirmado') novoTitulo += ' - Confirmado';
+    else if (status === 'realizado') novoTitulo += ' - Realizado';
+    else if (status === 'cancelado') novoTitulo += ' - Cancelado';
+
+    eventoSelecionado.setProp('title', novoTitulo);
+
+    fecharModalStatusEvento();
+    calendar.refetchEvents();
+  }
+
+  // Função para fechar modal
+  function fecharModalStatusEvento() {
+    const modal = document.getElementById('modalStatusEvento');
+    modal.classList.remove('active');
+  }
+
+  // Inicializa calendário
+  document.addEventListener('DOMContentLoaded', function () {
+    let calendarEl = document.getElementById('calendar');
+    calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      locale: 'pt-br',
+      headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' },
+      events: [
+        { id: '1', title: 'Banho - Rex', start: '2025-08-12', status: 'pendente' },
+        { id: '2', title: 'Tosa - Belinha', start: '2025-08-13', status: 'pendente' },
+        { id: '3', title: 'Consulta - Bob', start: '2025-08-15', status: 'pendente' }
+      ],
+      eventClick: function(info) {
+        abrirModalStatusEvento(info.event);
+      },
+      eventDidMount: function(info) {
+        const status = info.event.extendedProps.status || 'pendente';
+        let bgColor = '#3788d8'; // azul padrão
+        if (status === 'confirmado') bgColor = '#2a9d8f';  // verde
+        else if (status === 'realizado') bgColor = '#6a994e'; // verde escuro
+        else if (status === 'cancelado') bgColor = '#d62828'; // vermelho
+        info.el.style.backgroundColor = bgColor;
+        info.el.style.borderColor = bgColor;
+      }
+    });
+    calendar.render();
   });
-  calendar.render();
-});
 
   function salvarAgendamento() {
     const cliente = document.getElementById('agendamentoClienteNome').value.trim();
@@ -364,7 +439,7 @@ document.addEventListener('DOMContentLoaded', function () {
       title: `${servico} - ${pet}`,
       start: dateTime,
       allDay: false,
-      extendedProps: { observacoes: obs, cliente: cliente }
+      extendedProps: { observacoes: obs, cliente: cliente, status: 'pendente' }
     });
 
     alert('Agendamento salvo!');
