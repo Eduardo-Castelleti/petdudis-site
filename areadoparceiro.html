@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel do Parceiro</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        background: #5e2ca5;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-size: 1.5rem;
+    }
+    .container {
+        padding: 20px;
+        max-width: 1200px;
+        margin: auto;
+    }
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 15px;
+    }
+    .card {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+    h3 {
+        margin-top: 0;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 20px;
+    }
+    table th, table td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
+    table th {
+        background: #5e2ca5;
+        color: white;
+    }
+    .btn {
+        background: #5e2ca5;
+        color: white;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .btn:hover {
+        background: #431d77;
+    }
+</style>
+</head>
+<body>
+
+<header>Painel do Parceiro</header>
+
+<div class="container">
+
+    <!-- Resumo Rápido -->
+    <div class="cards">
+        <div class="card">
+            <h3>Vendas no mês</h3>
+            <p>R$ 2.350,00</p>
+        </div>
+        <div class="card">
+            <h3>Serviços indicados</h3>
+            <p>14</p>
+        </div>
+        <div class="card">
+            <h3>Comissão acumulada</h3>
+            <p>R$ 325,00</p>
+        </div>
+        <div class="card">
+            <h3>Último pagamento</h3>
+            <p>05/08/2025</p>
+        </div>
+    </div>
+
+    <!-- Lista de Pedidos -->
+    <h2>Pedidos e Serviços</h2>
+    <table>
+        <tr>
+            <th>Data</th>
+            <th>Cliente</th>
+            <th>Pet</th>
+            <th>Serviço/Produto</th>
+            <th>Status</th>
+            <th>Valor</th>
+            <th>Comissão</th>
+        </tr>
+        <tr>
+            <td>08/08/2025</td>
+            <td>João Silva</td>
+            <td>Rex</td>
+            <td>Banho e Tosa</td>
+            <td>Confirmado</td>
+            <td>R$ 90,00</td>
+            <td>R$ 9,00</td>
+        </tr>
+    </table>
+
+    <!-- Botão para Materiais de Marketing -->
+    <h2>Materiais de Marketing</h2>
+    <button class="btn">Baixar Banners</button>
+    <button class="btn">Copiar Link Exclusivo</button>
+
+</div>
+
+<script>
+    document.querySelectorAll('.btn')[1].addEventListener('click', function() {
+        navigator.clipboard.writeText('https://minhaloja.com/parceiro123');
+        alert('Link copiado para a área de transferência!');
+    });
+</script>
+
+</body>
+</html>
