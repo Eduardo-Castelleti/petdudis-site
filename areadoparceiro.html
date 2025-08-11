@@ -1,176 +1,371 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Painel do Parceiro</title>
-<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet" />
 <style>
-    body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 0; padding: 0; }
-    header { background: #5e2ca5; color: white; padding: 15px; text-align: center; font-size: 1.5rem; }
-    .tabs { display: flex; background: white; box-shadow: 0 2px 6px rgba(0,0,0,0.1); overflow-x: auto; }
-    .tab-btn { flex: 1; padding: 12px; background: white; border: none; cursor: pointer; font-weight: bold; color: #5e2ca5; border-bottom: 3px solid transparent; transition: 0.3s; }
-    .tab-btn.active { border-bottom: 3px solid #5e2ca5; background: #f3f0f9; }
-    .container { padding: 20px; max-width: 1200px; margin: auto; }
-    .tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
-    .tab-content.active { display: block; }
-    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
-    .card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align: center; }
-    table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; }
-    table th, table td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
-    table th { background: #5e2ca5; color: white; }
-    .btn { background: #5e2ca5; color: white; padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; }
-    .btn:hover { background: #431d77; }
-    textarea, input, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; }
-    .form-popup { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; z-index: 999; max-width: 400px; width: 100%; }
-    .form-popup.active { display: block; }
-    .form-popup h3 { margin-top: 0; }
+  body {
+    font-family: Arial, sans-serif;
+    background: #f8f9fa;
+    margin: 0; padding: 0;
+  }
+  header {
+    background: #5e2ca5;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.5rem;
+  }
+  .tabs {
+    display: flex;
+    background: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    overflow-x: auto;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 12px;
+    background: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: #5e2ca5;
+    border-bottom: 3px solid transparent;
+    transition: 0.3s;
+  }
+  .tab-btn.active {
+    border-bottom: 3px solid #5e2ca5;
+    background: #f3f0f9;
+  }
+  .container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+  }
+  .tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  .tab-content.active {
+    display: block;
+  }
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap: 15px;
+  }
+  .card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  table th, table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+  table th {
+    background: #5e2ca5;
+    color: white;
+  }
+  .btn {
+    background: #5e2ca5;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  .btn:hover {
+    background: #431d77;
+  }
+  textarea, input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  .form-popup {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    z-index: 999;
+    max-width: 400px;
+    width: 100%;
+  }
+  .form-popup.active {
+    display: block;
+  }
+  .form-popup h3 {
+    margin-top: 0;
+  }
 </style>
 </head>
 <body>
 
 <header>Painel do Parceiro</header>
 
-<!-- Abas -->
+<!-- Abas na nova ordem -->
 <div class="tabs">
-    <button class="tab-btn active" data-tab="resumo">Resumo</button>
-    <button class="tab-btn" data-tab="pedidos">Pedidos</button>
-    <button class="tab-btn" data-tab="agenda">Agenda</button>
-    <button class="tab-btn" data-tab="clientes">Clientes & Pets</button>
-    <button class="tab-btn" data-tab="comunicacao">Comunicação</button>
-    <button class="tab-btn" data-tab="materiais">Materiais</button>
+  <button class="tab-btn" data-tab="agenda">Agenda</button>
+  <button class="tab-btn" data-tab="pedidos">Pedidos</button>
+  <button class="tab-btn" data-tab="clientes">Clientes & Pets</button>
+  <button class="tab-btn" data-tab="resumo">Resumo</button>
+  <button class="tab-btn" data-tab="comunicacao">Comunicação</button>
+  <button class="tab-btn" data-tab="materiais">Materiais</button>
 </div>
 
 <div class="container">
 
-    <!-- Resumo -->
-    <div id="resumo" class="tab-content active">
-        <div class="cards">
-            <div class="card"><h3>Vendas no mês</h3><p>R$ 2.350,00</p></div>
-            <div class="card"><h3>Serviços indicados</h3><p>14</p></div>
-            <div class="card"><h3>Comissão acumulada</h3><p>R$ 325,00</p></div>
-            <div class="card"><h3>Último pagamento</h3><p>05/08/2025</p></div>
-        </div>
-    </div>
+  <!-- Agenda -->
+  <div id="agenda" class="tab-content active">
+    <h2>Agenda de Serviços</h2>
+    <button class="btn" onclick="abrirFormularioAgendamento()">+ Novo Agendamento</button>
+    <div id="calendar"></div>
+  </div>
 
-    <!-- Pedidos -->
-    <div id="pedidos" class="tab-content">
-        <h2>Pedidos e Serviços</h2>
-        <table>
-            <tr><th>Data</th><th>Cliente</th><th>Pet</th><th>Serviço/Produto</th><th>Status</th><th>Valor</th><th>Comissão</th></tr>
-            <tr><td>08/08/2025</td><td>João Silva</td><td>Rex</td><td>Banho e Tosa</td><td>Confirmado</td><td>R$ 90,00</td><td>R$ 9,00</td></tr>
-        </table>
-    </div>
+  <!-- Pedidos -->
+  <div id="pedidos" class="tab-content">
+    <h2>Pedidos e Serviços</h2>
+    <table>
+      <tr><th>Data</th><th>Cliente</th><th>Pet</th><th>Serviço/Produto</th><th>Status</th><th>Valor</th><th>Comissão</th></tr>
+      <tr><td>08/08/2025</td><td>João Silva</td><td>Rex</td><td>Banho e Tosa</td><td>Confirmado</td><td>R$ 90,00</td><td>R$ 9,00</td></tr>
+    </table>
+  </div>
 
-    <!-- Agenda com botão de agendamento -->
-    <div id="agenda" class="tab-content">
-        <h2>Agenda de Serviços</h2>
-        <button class="btn" onclick="abrirFormularioAgendamento()">+ Novo Agendamento</button>
-        <div id="calendar"></div>
-    </div>
+  <!-- Clientes & Pets -->
+  <div id="clientes" class="tab-content">
+    <h2>Cadastrar Cliente & Pet</h2>
+    <input type="text" placeholder="Nome do Cliente" id="clienteNome" />
+    <input type="tel" placeholder="Telefone" id="clienteTelefone" />
+    <input type="text" placeholder="Nome do Pet" id="petNome" />
+    <input type="text" placeholder="Espécie" id="petEspecie" />
+    <input type="text" placeholder="Raça" id="petRaca" />
+    <input type="number" placeholder="Idade (anos)" id="petIdade" min="0" />
+    <input type="number" placeholder="Peso (kg)" id="petPeso" min="0" step="0.1" />
+    <button class="btn" onclick="salvarClientePet()">Salvar Cliente</button>
 
-    <!-- Clientes & Pets -->
-    <div id="clientes" class="tab-content">
-        <h2>Cadastrar Cliente & Pet</h2>
-        <input type="text" placeholder="Nome do Cliente">
-        <input type="text" placeholder="Telefone">
-        <input type="text" placeholder="Nome do Pet">
-        <input type="text" placeholder="Espécie / Raça">
-        <textarea placeholder="Observações"></textarea>
-        <button class="btn">Salvar Cliente</button>
-        <h3>Clientes Cadastrados</h3>
-        <table>
-            <tr><th>Cliente</th><th>Telefone</th><th>Pet</th><th>Observações</th></tr>
-            <tr><td>Maria Souza</td><td>(51) 99999-9999</td><td>Luna (Poodle)</td><td>Alergia a shampoo comum</td></tr>
-        </table>
-    </div>
+    <h3>Clientes Cadastrados</h3>
+    <table id="clientesTable">
+      <thead>
+        <tr>
+          <th>Cliente</th><th>Telefone</th><th>Pet</th><th>Espécie</th><th>Raça</th><th>Idade</th><th>Peso (kg)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dados inseridos aqui -->
+      </tbody>
+    </table>
+  </div>
 
-    <!-- Comunicação -->
-    <div id="comunicacao" class="tab-content">
-        <h2>Mensagem para a Loja</h2>
-        <textarea placeholder="Digite sua mensagem..."></textarea>
-        <button class="btn">Enviar</button>
+  <!-- Resumo -->
+  <div id="resumo" class="tab-content">
+    <div class="cards">
+      <div class="card"><h3>Vendas no mês</h3><p>R$ 2.350,00</p></div>
+      <div class="card"><h3>Serviços indicados</h3><p>14</p></div>
+      <div class="card"><h3>Comissão acumulada</h3><p>R$ 325,00</p></div>
+      <div class="card"><h3>Último pagamento</h3><p>05/08/2025</p></div>
     </div>
+  </div>
 
-    <!-- Materiais -->
-    <div id="materiais" class="tab-content">
-        <h2>Materiais de Marketing</h2>
-        <p>Seu link exclusivo:</p>
-        <input type="text" id="linkParceiro" value="https://minhaloja.com/parceiro123" readonly>
-        <button class="btn" onclick="copiarLink()">Copiar Link</button>
-        <br><br>
-        <button class="btn">Baixar Banners</button>
-    </div>
+  <!-- Comunicação -->
+  <div id="comunicacao" class="tab-content">
+    <h2>Mensagem para a Loja</h2>
+    <textarea placeholder="Digite sua mensagem..."></textarea>
+    <button class="btn">Enviar</button>
+  </div>
+
+  <!-- Materiais -->
+  <div id="materiais" class="tab-content">
+    <h2>Materiais de Marketing</h2>
+    <p>Seu link exclusivo:</p>
+    <input type="text" id="linkParceiro" value="https://minhaloja.com/parceiro123" readonly />
+    <button class="btn" onclick="copiarLink()">Copiar Link</button>
+    <br /><br />
+    <button class="btn">Baixar Banners</button>
+  </div>
 
 </div>
 
 <!-- Popup Form Agendamento -->
 <div id="formAgendamento" class="form-popup">
-    <h3>Novo Agendamento</h3>
-    <input type="text" placeholder="Nome do Cliente">
-    <input type="text" placeholder="Nome do Pet">
-    <select>
-        <option>Banho</option>
-        <option>Tosa</option>
-        <option>Banho e Tosa</option>
-        <option>Consulta</option>
-    </select>
-    <input type="date">
-    <input type="time">
-    <textarea placeholder="Observações"></textarea>
-    <button class="btn">Salvar</button>
-    <button class="btn" style="background:red;" onclick="fecharFormularioAgendamento()">Fechar</button>
+  <h3>Novo Agendamento</h3>
+  <input type="text" placeholder="Nome do Cliente" id="agendamentoClienteNome" />
+  <input type="text" placeholder="Nome do Pet" id="agendamentoPetNome" />
+  <select id="agendamentoServico">
+    <option>Banho</option>
+    <option>Tosa</option>
+    <option>Banho e Tosa</option>
+    <option>Consulta</option>
+  </select>
+  <input type="date" id="agendamentoData" />
+  <input type="time" id="agendamentoHora" />
+  <textarea placeholder="Observações" id="agendamentoObs"></textarea>
+  <button class="btn" onclick="salvarAgendamento()">Salvar</button>
+  <button class="btn" style="background:red;" onclick="fecharFormularioAgendamento()">Fechar</button>
 </div>
 
-<!-- FullCalendar -->
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 <script>
-    // Troca de abas
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-            document.getElementById(btn.dataset.tab).classList.add('active');
-        });
+  // Troca de abas
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Copiar link
+  function copiarLink() {
+    const link = document.getElementById('linkParceiro');
+    link.select();
+    document.execCommand('copy');
+    alert('Link copiado!');
+  }
+
+  // Form Agendamento
+  function abrirFormularioAgendamento() {
+    document.getElementById('formAgendamento').classList.add('active');
+  }
+  function fecharFormularioAgendamento() {
+    document.getElementById('formAgendamento').classList.remove('active');
+  }
+
+  // Armazenar clientes & pets em memória temporária (exemplo)
+  let clientesPets = [];
+
+  function salvarClientePet() {
+    const clienteNome = document.getElementById('clienteNome').value.trim();
+    const clienteTelefone = document.getElementById('clienteTelefone').value.trim();
+    const petNome = document.getElementById('petNome').value.trim();
+    const petEspecie = document.getElementById('petEspecie').value.trim();
+    const petRaca = document.getElementById('petRaca').value.trim();
+    const petIdade = document.getElementById('petIdade').value.trim();
+    const petPeso = document.getElementById('petPeso').value.trim();
+
+    if (!clienteNome || !clienteTelefone || !petNome) {
+      alert('Preencha pelo menos Nome do Cliente, Telefone e Nome do Pet.');
+      return;
+    }
+
+    clientesPets.push({
+      clienteNome,
+      clienteTelefone,
+      petNome,
+      petEspecie,
+      petRaca,
+      petIdade,
+      petPeso
     });
 
-    // Copiar link
-    function copiarLink() {
-        const link = document.getElementById('linkParceiro');
-        link.select();
-        document.execCommand('copy');
-        alert('Link copiado!');
-    }
+    atualizarTabelaClientes();
+    limparFormularioClientes();
+    alert('Cliente e pet salvos com sucesso!');
+  }
 
-    // Form Agendamento
-    function abrirFormularioAgendamento() {
-        document.getElementById('formAgendamento').classList.add('active');
-    }
-    function fecharFormularioAgendamento() {
-        document.getElementById('formAgendamento').classList.remove('active');
-    }
-
-    // Inicializa calendário
-    document.addEventListener('DOMContentLoaded', function () {
-        let calendarEl = document.getElementById('calendar');
-        let calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            locale: 'pt-br',
-            headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' },
-            events: [
-                { title: 'Banho - Rex', start: '2025-08-12' },
-                { title: 'Tosa - Belinha', start: '2025-08-13' },
-                { title: 'Consulta - Bob', start: '2025-08-15' }
-            ],
-            eventClick: function(info) {
-                let acao = confirm(`Deseja confirmar o serviço: ${info.event.title}?`);
-                if (acao) { alert('Serviço confirmado!'); }
-            }
-        });
-        calendar.render();
+  function atualizarTabelaClientes() {
+    const tbody = document.querySelector('#clientesTable tbody');
+    tbody.innerHTML = '';
+    clientesPets.forEach((item, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item.clienteNome}</td>
+        <td>${item.clienteTelefone}</td>
+        <td>${item.petNome}</td>
+        <td>${item.petEspecie || '-'}</td>
+        <td>${item.petRaca || '-'}</td>
+        <td>${item.petIdade || '-'}</td>
+        <td>${item.petPeso || '-'}</td>
+      `;
+      tbody.appendChild(tr);
     });
+  }
+
+  function limparFormularioClientes() {
+    ['clienteNome','clienteTelefone','petNome','petEspecie','petRaca','petIdade','petPeso'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+  }
+
+  // Salvar agendamento no calendário
+  let calendar;
+  document.addEventListener('DOMContentLoaded', function () {
+    let calendarEl = document.getElementById('calendar');
+    calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      locale: 'pt-br',
+      headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' },
+      events: [
+        { title: 'Banho - Rex', start: '2025-08-12' },
+        { title: 'Tosa - Belinha', start: '2025-08-13' },
+        { title: 'Consulta - Bob', start: '2025-08-15' }
+      ],
+      eventClick: function(info) {
+        let acao = confirm(`Deseja confirmar o serviço: ${info.event.title}?`);
+        if (acao) { alert('Serviço confirmado!'); }
+      }
+    });
+    calendar.render();
+  });
+
+  function salvarAgendamento() {
+    const cliente = document.getElementById('agendamentoClienteNome').value.trim();
+    const pet = document.getElementById('agendamentoPetNome').value.trim();
+    const servico = document.getElementById('agendamentoServico').value;
+    const data = document.getElementById('agendamentoData').value;
+    const hora = document.getElementById('agendamentoHora').value;
+    const obs = document.getElementById('agendamentoObs').value.trim();
+
+    if (!cliente || !pet || !data || !hora) {
+      alert('Preencha os campos Cliente, Pet, Data e Hora.');
+      return;
+    }
+
+    const dateTime = data + 'T' + hora;
+
+    calendar.addEvent({
+      title: `${servico} - ${pet}`,
+      start: dateTime,
+      allDay: false,
+      extendedProps: { observacoes: obs, cliente: cliente }
+    });
+
+    alert('Agendamento salvo!');
+    fecharFormularioAgendamento();
+
+    // Limpa form
+    document.getElementById('agendamentoClienteNome').value = '';
+    document.getElementById('agendamentoPetNome').value = '';
+    document.getElementById('agendamentoServico').value = 'Banho';
+    document.getElementById('agendamentoData').value = '';
+    document.getElementById('agendamentoHora').value = '';
+    document.getElementById('agendamentoObs').value = '';
+  }
 </script>
 
 </body>
