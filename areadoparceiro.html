@@ -312,26 +312,38 @@
     });
   }
 
-  // Salvar agendamento no calendário
-  let calendar;
-  document.addEventListener('DOMContentLoaded', function () {
-    let calendarEl = document.getElementById('calendar');
-    calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      locale: 'pt-br',
-      headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' },
-      events: [
-        { title: 'Banho - Rex', start: '2025-08-12' },
-        { title: 'Tosa - Belinha', start: '2025-08-13' },
-        { title: 'Consulta - Bob', start: '2025-08-15' }
-      ],
-      eventClick: function(info) {
-        let acao = confirm(`Deseja confirmar o serviço: ${info.event.title}?`);
-        if (acao) { alert('Serviço confirmado!'); }
-      }
-    });
-    calendar.render();
+// Variável global para evento selecionado
+let eventoSelecionado = null;
+
+// Inicializa calendário
+document.addEventListener('DOMContentLoaded', function () {
+  let calendarEl = document.getElementById('calendar');
+  calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    locale: 'pt-br',
+    headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' },
+    events: [
+      { id: '1', title: 'Banho - Rex', start: '2025-08-12', status: 'pendente' },
+      { id: '2', title: 'Tosa - Belinha', start: '2025-08-13', status: 'pendente' },
+      { id: '3', title: 'Consulta - Bob', start: '2025-08-15', status: 'pendente' }
+    ],
+    eventClick: function(info) {
+      eventoSelecionado = info.event;
+      abrirModalStatusEvento(eventoSelecionado);
+    },
+    eventDidMount: function(info) {
+      // Atualiza cor conforme status
+      const status = info.event.extendedProps.status || 'pendente';
+      let bgColor = '#3788d8'; // azul padrão
+      if (status === 'confirmado') bgColor = '#2a9d8f';  // verde
+      else if (status === 'realizado') bgColor = '#6a994e'; // verde escuro
+      else if (status === 'cancelado') bgColor = '#d62828'; // vermelho
+      info.el.style.backgroundColor = bgColor;
+      info.el.style.borderColor = bgColor;
+    }
   });
+  calendar.render();
+});
 
   function salvarAgendamento() {
     const cliente = document.getElementById('agendamentoClienteNome').value.trim();
