@@ -1,333 +1,86 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('modal-login');
+  const btnAbrir = document.getElementById('btnAbrirLogin');
+  const btnFechar = modal.querySelector('.fechar');
+  const btnCadastrar = document.getElementById('btnCadastrar');
+  const formLogin = document.getElementById('formLogin');
+  const msgErro = document.getElementById('mensagem-erro');
 
-  // -------------------- PRODUTOS --------------------
-  function paginaProdutos() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const pet = urlParams.get("pet") || "cachorro";
+  // Abre o modal
+  btnAbrir.addEventListener('click', () => {
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+    // Foca no campo email
+    document.getElementById('emailLogin').focus();
+  });
 
-    const dados = {
-      cachorro: {
-        titulo: "Todos os produtos para Cachorro",
-        filtros: ["Ração Seca", "Ração Natural", "Ração Úmida", "Petiscos", "Tapetes"],
-        produtos: [
-          {
-            nome: "Ração Nutrilius Pro+ Frango & Carne 20kg",
-            precoDe: "R$ 215,90",
-            precoPor: "R$ 194,31",
-            peso: "20kg",
-            imagem: "nutrilius20kg.png",
-            brinde: true,
-            maisVendido: true,
-            recorrencia: true
-          },
-          {
-            nome: "Ração Natural True Raças Pequenas 10,1kg",
-            precoDe: "R$ 309,60",
-            precoPor: "R$ 263,16",
-            peso: "10,1kg",
-            imagem: "true10kg.png",
-            brinde: false,
-            maisVendido: false,
-            recorrencia: true
-          }
-        ]
-      },
-      gato: {
-        titulo: "Todos os produtos para Gato",
-        filtros: ["Ração Seca", "Areia Higiênica", "Snacks", "Brinquedos", "Arranhadores"],
-        produtos: [
-          {
-            nome: "Ração Cat Premium Salmão 10kg",
-            precoDe: "R$ 199,90",
-            precoPor: "R$ 179,00",
-            peso: "10kg",
-            imagem: "racao-gato.png",
-            brinde: false,
-            maisVendido: true,
-            recorrencia: true
-          }
-        ]
-      }
-    };
+  // Fecha o modal
+  btnFechar.addEventListener('click', () => {
+    fecharModal();
+  });
 
-    const conteudo = dados[pet];
-    if (!conteudo) return;
-
-    document.getElementById("titulo-produtos").innerText = `${conteudo.titulo} (${conteudo.produtos.length} produtos)`;
-
-    const ulFiltros = document.getElementById("filtros");
-    ulFiltros.innerHTML = "";
-    conteudo.filtros.forEach(item => {
-      const li = document.createElement("li");
-      li.innerHTML = `<a href="#">${item}</a>`;
-      ulFiltros.appendChild(li);
-    });
-
-    const lista = document.getElementById("lista-produtos");
-    lista.innerHTML = "";
-    conteudo.produtos.forEach(prod => {
-      const card = document.createElement("div");
-      card.classList.add("card-produto");
-
-      card.innerHTML = `
-        <img src="${prod.imagem}" alt="${prod.nome}">
-        <div class="selos">
-          ${prod.maisVendido ? '<span class="mais-vendido">Mais Vendido</span>' : ""}
-          ${prod.brinde ? '<span class="brinde">BRINDE</span>' : ""}
-        </div>
-        <h3>${prod.nome}</h3>
-        <span class="peso">${prod.peso}</span>
-        <p class="preco-antigo">${prod.precoDe}</p>
-        <p class="preco-atual">${prod.precoPor}</p>
-        ${prod.recorrencia ? '<p class="recorrencia"><i class="fas fa-sync-alt"></i> com recorrência</p>' : ""}
-      `;
-      lista.appendChild(card);
-    });
-  }
-
-  // -------------------- CADASTRO --------------------
-  function paginaCadastro() {
-    const form = document.getElementById('formCadastro');
-    if (!form) return;
-
-    const msgErro = document.getElementById('msgErro');
-    const msgSucesso = document.getElementById('msgSucesso');
-
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
-
-      msgErro.style.display = 'none';
-      msgSucesso.style.display = 'none';
-
-      const nome = form.nome.value.trim();
-      const email = form.email.value.trim();
-      const telefone = form.telefone.value.trim();
-      const senha = form.senha.value.trim();
-      const confSenha = form.confSenha.value.trim();
-
-      if (nome.length < 3) return showError('Por favor, insira um nome válido.');
-      if (!validateEmail(email)) return showError('Por favor, insira um e-mail válido.');
-      if (!validateTelefone(telefone)) return showError('Telefone inválido. Use DDD e apenas números.');
-      if (senha.length < 6) return showError('A senha deve ter pelo menos 6 caracteres.');
-      if (senha !== confSenha) return showError('As senhas não conferem.');
-
-      // Firebase Auth
-      firebase.auth().createUserWithEmailAndPassword(email, senha)
-        .then(userCredential => {
-          const user = userCredential.user;
-          return user.updateProfile({
-            displayName: nome,
-            photoURL: "" // pode adicionar imagem padrão
-          });
-        })
-        .then(() => {
-          msgSucesso.textContent = 'Cadastro realizado com sucesso!';
-          msgSucesso.style.display = 'block';
-
-          setTimeout(() => {
-            window.history.go(-2);
-          }, 1500);
-        })
-        .catch(error => {
-          showError(error.message);
-        });
-    });
-
-    function showError(msg) {
-      msgErro.textContent = msg;
-      msgErro.style.display = 'block';
-    }
-
-    function validateEmail(email) {
-      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return re.test(email);
-    }
-
-    function validateTelefone(telefone) {
-      const regex = /^\d{10,11}$/;
-      return regex.test(telefone);
-    }
-  }
-
-  // -------------------- PERFIL --------------------
-  const camposProtegidos = ["nome", "raça", "porte", "peso", "data de nascimento"];
-
-  function editarCampo(id) {
-    const campo = document.getElementById(id);
-    if (!campo) return;
-
-    const valorAtual = campo.innerText;
-
-    if (camposProtegidos.includes(id.toLowerCase())) {
-      alert("Este campo só pode ser alterado por um parceiro ou pela loja.");
-      return;
-    }
-
-    const novoValor = prompt(`Editar ${id}:`, valorAtual);
-    if (novoValor !== null && novoValor.trim() !== "") {
-      campo.innerText = novoValor;
-    }
-  }
-
-  function mostrarHistorico() {
-    const historico = document.getElementById("historicoCompleto");
-    if (historico) {
-      historico.style.display = historico.style.display === "none" ? "block" : "none";
-    }
-  }
-
-  const inputFoto = document.getElementById("uploadFoto");
-  if (inputFoto) {
-    inputFoto.addEventListener("change", function (e) {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (event) {
-          document.getElementById("fotoPet").src = event.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  }
-
-  // -------------------- LOGIN E CADASTRO DO MODAL --------------------
-
-  // Elementos do modal login
-  const modalLogin = document.getElementById('modal-login');
-  const formLogin = document.getElementById('form-login');
-  const inputEmail = document.getElementById('email');
-  const inputSenha = document.getElementById('password');
-  const btnCadastrarModal = document.getElementById('btnCadastrar');
-  const mensagemErroLogin = document.getElementById('mensagem-erro');
-  const btnAbrirLogin = document.getElementById('btnAbrirLogin');
-
-  // Função para mostrar erro no modal login
-  function showErroLogin(msg) {
-    mensagemErroLogin.textContent = msg;
-    mensagemErroLogin.style.display = 'block';
-  }
-  function limparErroLogin() {
-    mensagemErroLogin.textContent = '';
-    mensagemErroLogin.style.display = 'none';
-  }
-
-  if (formLogin) {
-    formLogin.addEventListener('submit', (e) => {
-      e.preventDefault();
-      limparErroLogin();
-
-      const email = inputEmail.value.trim();
-      const senha = inputSenha.value.trim();
-
-      if (!email || !senha) {
-        showErroLogin("Preencha email e senha.");
-        return;
-      }
-
-      // Login com Firebase Auth
-      firebase.auth().signInWithEmailAndPassword(email, senha)
-        .then(userCredential => {
-          // Login bem-sucedido
-          fecharModalLogin();
-          atualizarBotaoLogin(userCredential.user);
-        })
-        .catch(error => {
-          showErroLogin(error.message);
-        });
-    });
-  }
-
-  // Cadastro via modal
-  if (btnCadastrarModal) {
-    btnCadastrarModal.addEventListener('click', () => {
-      limparErroLogin();
-
-      const email = inputEmail.value.trim();
-      const senha = inputSenha.value.trim();
-
-      if (!email || !senha) {
-        showErroLogin("Preencha email e senha para cadastro.");
-        return;
-      }
-
-      // Solicitar nome via prompt (poderia mudar para input no modal)
-      const nome = prompt("Digite seu nome completo para cadastro:");
-      if (!nome || nome.trim().length < 3) {
-        showErroLogin("Nome inválido para cadastro.");
-        return;
-      }
-
-      firebase.auth().createUserWithEmailAndPassword(email, senha)
-        .then(userCredential => {
-          const user = userCredential.user;
-          return user.updateProfile({
-            displayName: nome.trim(),
-            photoURL: ""
-          });
-        })
-        .then(() => {
-          fecharModalLogin();
-          firebase.auth().currentUser && atualizarBotaoLogin(firebase.auth().currentUser);
-          alert("Cadastro realizado com sucesso!");
-        })
-        .catch(error => {
-          showErroLogin(error.message);
-        });
-    });
-  }
-
-  // Função para fechar modal login
-  function fecharModalLogin() {
-    if (modalLogin) {
-      modalLogin.style.display = 'none';
-      inputEmail.value = '';
-      inputSenha.value = '';
-      limparErroLogin();
-    }
-  }
-
-  // Atualiza o botão de login no cabeçalho
-  function atualizarBotaoLogin(user) {
-    if (!user) return;
-
-    const nome = user.displayName || "Cliente";
-    const foto = user.photoURL || "default-avatar.png";
-
-    // Substitui o conteúdo do link login no header
-    if (btnAbrirLogin) {
-      btnAbrirLogin.innerHTML = `
-        <img src="${foto}" alt="Foto" style="width:32px;height:32px;border-radius:50%;margin-right:8px;vertical-align:middle;">
-        <span>${nome.split(" ")[0]}</span>
-      `;
-      // opcional: pode transformar em logout
-      btnAbrirLogin.href = "#";
-      btnAbrirLogin.onclick = (e) => {
-        e.preventDefault();
-        if (confirm("Deseja sair?")) {
-          firebase.auth().signOut().then(() => {
-            location.reload();
-          });
-        }
-      };
-    }
-  }
-
-  // Verifica usuário logado ao carregar a página
-  firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-      atualizarBotaoLogin(user);
-      // Se modal aberto, fecha ele
-      if (modalLogin && modalLogin.style.display === 'block') {
-        fecharModalLogin();
-      }
+  // Fecha o modal clicando fora do conteúdo
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      fecharModal();
     }
   });
 
-  // -------------------- INIT --------------------
-  const caminho = window.location.pathname;
-  if (caminho.endsWith('produtos.html')) {
-    paginaProdutos();
-  } else if (caminho.endsWith('cadastro.html')) {
-    paginaCadastro();
+  // Função para fechar modal
+  function fecharModal() {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    msgErro.style.display = 'none';
+    msgErro.textContent = '';
+    formLogin.reset();
+  }
+
+  // Botão cadastrar redireciona para página de cadastro
+  btnCadastrar.addEventListener('click', () => {
+    window.location.href = 'cadastro.html'; // ajuste conforme sua estrutura
+  });
+
+  // Validação e login com Firebase Authentication
+  formLogin.addEventListener('submit', (e) => {
+    e.preventDefault();
+    msgErro.style.display = 'none';
+    msgErro.textContent = '';
+
+    const email = formLogin.email.value.trim();
+    const senha = formLogin.senha.value.trim();
+
+    if (!validateEmail(email)) {
+      mostrarErro('Por favor, insira um e-mail válido.');
+      return;
+    }
+
+    if (senha.length < 6) {
+      mostrarErro('A senha deve ter pelo menos 6 caracteres.');
+      return;
+    }
+
+    // Aqui inicia autenticação com Firebase
+    firebase.auth().signInWithEmailAndPassword(email, senha)
+      .then((userCredential) => {
+        // Login realizado com sucesso
+        fecharModal();
+        // Opcional: atualizar UI com nome do usuário
+        alert('Login realizado com sucesso! Bem-vindo, ' + (userCredential.user.displayName || email.split('@')[0]));
+        // Redirecionar ou atualizar página, se quiser:
+        // window.location.href = 'dashboard.html';
+      })
+      .catch((error) => {
+        mostrarErro(error.message);
+      });
+  });
+
+  function mostrarErro(mensagem) {
+    msgErro.textContent = mensagem;
+    msgErro.style.display = 'block';
+  }
+
+  function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email.toLowerCase());
   }
 });
