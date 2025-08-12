@@ -1,394 +1,358 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Pet Dudis - Início</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0; padding: 0;
-    background: #f8f8f8;
-    color: #333;
-  }
-  header {
-    background: #6a1b9a;
-    color: #fff;
-    padding: 10px 20px;
-  }
-  header .cabecalho-conteudo {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-  }
-  header .logo-container img {
-    height: 48px;
-  }
-  .cep-busca {
-    display: flex;
-    gap: 10px;
-    flex: 1;
-    max-width: 600px;
-  }
-  .cep-busca input {
-    padding: 6px 8px;
-    border-radius: 4px;
-    border: none;
-    flex: 1;
-  }
-  .btn-busca {
-    background: #4a148c;
-    border: none;
-    color: white;
-    padding: 7px 14px;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  .acoes-usuario a {
-    color: #ddd;
-    text-decoration: none;
-    margin-left: 12px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .acoes-usuario a:hover {
-    text-decoration: underline;
-  }
-  nav.faixa-categorias {
-    background: #4a148c;
-    padding: 10px 0;
-  }
-  nav.faixa-categorias ul {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    color: white;
-    font-weight: 600;
-  }
-  nav.faixa-categorias ul li a {
-    color: white;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  nav.faixa-categorias ul li a:hover {
-    text-decoration: underline;
-  }
-  /* Benefícios */
-  .beneficios {
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 0 20px;
-  }
-  .beneficios h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #4a148c;
-  }
-  .beneficios-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 25px;
-  }
-  .card-beneficio {
-    background: white;
-    width: 160px;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 1px 6px rgb(0 0 0 / 0.12);
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-  .card-beneficio:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 14px rgb(0 0 0 / 0.18);
-  }
-  .card-beneficio img {
-    width: 50px;
-    margin-bottom: 12px;
-  }
-  .card-beneficio p {
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 1.3;
-    color: #4a148c;
-  }
-  /* Modal */
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 1500;
-    left: 0; top: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.4);
-    align-items: center;
-    justify-content: center;
-  }
-  .modal-conteudo {
-    background: white;
-    padding: 20px 25px;
-    border-radius: 8px;
-    max-width: 400px;
-    width: 90%;
-    box-shadow: 0 0 15px rgb(0 0 0 / 0.2);
-    position: relative;
-  }
-  .modal-conteudo h3 {
-    margin-top: 0;
-    color: #4a148c;
-  }
-  .modal-conteudo p {
-    margin-bottom: 15px;
-  }
-  .modal-conteudo .fechar {
-    position: absolute;
-    top: 10px; right: 15px;
-    font-size: 24px;
-    font-weight: 700;
-    color: #999;
-    cursor: pointer;
-  }
-  .modal-conteudo .fechar:hover {
-    color: #4a148c;
-  }
-  /* Footer simples */
-  footer {
-    background: #222;
-    color: #ccc;
-    text-align: center;
-    padding: 25px 10px;
-    font-size: 14px;
-  }
-  /* Responsivo */
-  @media (max-width: 700px) {
-    .beneficios-container {
-      gap: 15px;
-    }
-    .card-beneficio {
-      width: 140px;
-      padding: 10px;
-    }
-    header .cabecalho-conteudo {
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-    }
-    .cep-busca {
-      max-width: 100%;
-      flex-wrap: nowrap;
-    }
-    nav.faixa-categorias ul {
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pet Dudis - Início</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 <body>
 
-<header>
+<!-- CABEÇALHO -->
+<header class="cabecalho">
   <div class="cabecalho-conteudo">
+    <!-- Logo -->
     <div class="logo-container">
-      <a href="#"><img src="https://i.imgur.com/1XKsf12.png" alt="Pet Dudis Logo" /></a>
+      <img src="logo.svg" alt="Logo Pet Dudis" class="logo">
     </div>
+
+    <!-- Campos CEP e Busca -->
     <div class="cep-busca">
-      <input type="text" placeholder="Informar CEP" id="cepInput" />
-      <input type="text" placeholder="O que seu pet precisa?" id="campoBusca" />
-      <button class="btn-busca" onclick="buscarProdutos()">🔍</button>
+      <div class="cep-input-wrapper">
+        <span>📍</span>
+        <input type="text" placeholder="Informar CEP" class="cep-input">
+      </div>
+      <div class="busca-input-wrapper">
+        <span>🔍</span>
+        <input type="text" placeholder="O que seu pet precisa?" class="busca-input">
+        <button class="btn-busca">🔍</button>
+      </div>
     </div>
-    <div class="acoes-usuario" id="menuUsuario">
-      <a href="#" id="btnEntrar">Entrar | Cadastrar</a>
+
+    <!-- Ícones à direita -->
+    <div class="acoes-usuario">
+      <a href="#"><i class="fas fa-sync-alt"></i> Recorrência</a>
+      <a href="#"><i class="fas fa-box"></i> Pedidos</a>
+      <a href="#"><i class="fas fa-user"></i> Entrar | Cadastrar</a>
     </div>
   </div>
 </header>
+  
+  <!-- CATEGORIAS -->
+  <nav class="faixa-categorias">
+    <ul>
+      <li><a href="cachorro.html">Cachorro</a></li>
+      <li><a href="gato.html">Gato</a></li>
+      <li><a href="outros.html">Outros Pets</a></li>
+      <li class="dropdown">
+        <a href="servicos.html">Serviços <i class="fas fa-caret-down"></i></a>
+        <ul class="submenu">
+          <li><a href="banho.html">Banho e Tosa</a></li>
+          <li><a href="creche.html">Creche</a></li>
+          <li><a href="hospedagem.html#hospedagem">Hospedagem</a></li>
+          <li><a href="consultaveterinario.html#consulta">Consulta Veterinária</a></li>
+          <li><a href="dogwalker.html#dogwalker">Dog Walker</a></li>
+          <li><a href="petsitter.html#petsitter">Pet Sitter</a></li>
+          <li><a href="adestramento.html#adestramento">Adestramento</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
 
-<nav class="faixa-categorias">
-  <ul>
-    <li><a href="#"><i class="fas fa-dog"></i> Cachorro</a></li>
-    <li><a href="#"><i class="fas fa-cat"></i> Gato</a></li>
-    <li><a href="#"><i class="fas fa-paw"></i> Outros Pets</a></li>
-    <li><a href="#">Serviços</a></li>
-  </ul>
-</nav>
+  <!-- BANNERS -->
+  <div class="swiper banner-swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img src="img/banner1.png" alt="Banner 1" /></div>
+      <div class="swiper-slide"><img src="img/banner2.png" alt="Banner 2" /></div>
+      <div class="swiper-slide"><img src="img/banner3.png" alt="Banner 3" /></div>
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+  </div>
 
+  <!-- BENEFÍCIOS -->
 <section class="beneficios">
   <h2>Benefícios pra você</h2>
   <div class="beneficios-container">
     <div class="card-beneficio" onclick="abrirModal('modal-entregas')">
-      <img src="https://i.imgur.com/W9N1Lqp.png" alt="Entregas" />
-      <p>Nossas entregas</p>
+      <img src="img/entrega.svg" alt="Entregas" class="icone-beneficio" />
+      <p><strong>Nossas<br>entregas</strong></p>
     </div>
     <div class="card-beneficio" onclick="abrirModal('modal-parceiros')">
-      <img src="https://i.imgur.com/gV8kSGP.png" alt="Parcerias" />
-      <p>Parcerias com serviços locais</p>
+      <img src="img/parceiros.svg" alt="Parcerias" class="icone-beneficio" />
+      <p><strong>Parcerias com<br>serviços locais</strong></p>
     </div>
     <div class="card-beneficio" onclick="abrirModal('modal-descontos')">
-      <img src="https://i.imgur.com/Vr0i71P.png" alt="Descontos" />
-      <p>Descontos especiais</p>
+      <img src="img/desconto.svg" alt="Descontos" class="icone-beneficio" />
+      <p><strong>Descontos<br>especiais</strong></p>
     </div>
     <div class="card-beneficio" onclick="abrirModal('modal-indique')">
-      <img src="https://i.imgur.com/pmHlmLq.png" alt="Indique" />
-      <p>Indicou ganhou</p>
+      <img src="img/indique.svg" alt="Indique" class="icone-beneficio" />
+      <p><strong>Indicou<br>ganhou</strong></p>
     </div>
     <div class="card-beneficio" onclick="abrirModal('modal-recompra')">
-      <img src="https://i.imgur.com/hEzn8yi.png" alt="Recompra" />
-      <p>Recompra recorrente</p>
+      <img src="img/recompra.svg" alt="Recompra" class="icone-beneficio" />
+      <p><strong>Recompra<br>recorrente</strong></p>
     </div>
   </div>
 </section>
 
-<!-- Modais -->
-<div class="modal" id="modal-entregas">
-  <div class="modal-conteudo">
-    <span class="fechar" onclick="fecharModal('modal-entregas')">&times;</span>
-    <h3>Entregas</h3>
-    <p>Entregamos em até 24h para regiões selecionadas. Consulte prazos e disponibilidade no seu CEP.</p>
+  <!-- MODAIS -->
+  <div class="modal" id="modal-entregas">
+    <div class="modal-conteudo">
+      <span class="fechar" onclick="fecharModal('modal-entregas')">&times;</span>
+      <h3>Entregas</h3>
+      <p>Entregamos em até 24h para regiões selecionadas. Consulte prazos e disponibilidade no seu CEP.</p>
+    </div>
   </div>
-</div>
 
-<div class="modal" id="modal-parceiros">
-  <div class="modal-conteudo">
-    <span class="fechar" onclick="fecharModal('modal-parceiros')">&times;</span>
-    <h3>Parcerias Locais</h3>
-    <p>Fortalecemos laços com parceiros locais para oferecer praticidade e benefícios exclusivos.</p>
+  <div class="modal" id="modal-parceiros">
+    <div class="modal-conteudo">
+      <span class="fechar" onclick="fecharModal('modal-parceiros')">&times;</span>
+      <h3>Conectando você aos melhores serviços do bairro!</h3>
+      <p>Fortalecemos laços com parceiros locais para oferecer praticidade, confiança e benefícios exclusivos para você e seu pet.</p>
+    </div>
   </div>
-</div>
 
-<div class="modal" id="modal-descontos">
-  <div class="modal-conteudo">
-    <span class="fechar" onclick="fecharModal('modal-descontos')">&times;</span>
-    <h3>Descontos Especiais</h3>
-    <p>Comprando via Pix, ganhe 5% de desconto. Retirando na loja, mais 5%!</p>
+  <div class="modal" id="modal-descontos">
+    <div class="modal-conteudo">
+      <span class="fechar" onclick="fecharModal('modal-descontos')">&times;</span>
+      <h3>Descontos Especiais</h3>
+      <p>Comprando via <strong>Pix</strong> você ganha <strong>5% de desconto</strong>. Retirando em nossa loja ou com um parceiro próximo, ganha <strong>mais 5%</strong>. Descontos válidos para todos os clientes!</p>
+    </div>
   </div>
-</div>
 
-<div class="modal" id="modal-indique">
-  <div class="modal-conteudo">
-    <span class="fechar" onclick="fecharModal('modal-indique')">&times;</span>
-    <h3>Indique e Ganhe</h3>
-    <p>Indique um amigo e ganhe bônus, seu amigo também recebe desconto!</p>
+  <div class="modal" id="modal-indique">
+    <div class="modal-conteudo">
+      <span class="fechar" onclick="fecharModal('modal-indique')">&times;</span>
+      <h3>Indique e Ganhe</h3>
+      <p>Indique amigos e ganhe bônus. Seu amigo recebe desconto na primeira compra e você ganha um brinde ou crédito.</p>
+    </div>
   </div>
-</div>
 
-<div class="modal" id="modal-recompra">
-  <div class="modal-conteudo">
-    <span class="fechar" onclick="fecharModal('modal-recompra')">&times;</span>
-    <h3>Recompra Recorrente</h3>
-    <p>Assine produtos com desconto e receba automaticamente. Fácil e prático!</p>
+  <div class="modal" id="modal-recompra">
+    <div class="modal-conteudo">
+      <span class="fechar" onclick="fecharModal('modal-recompra')">&times;</span>
+      <h3>Recompra Recorrente</h3>
+      <p>Assine produtos para entrega automática com desconto e comodidade. Cancele quando quiser.</p>
+    </div>
   </div>
-</div>
 
-<footer>
-  Pet Dudis © 2025 - Todos os direitos reservados
-</footer>
+  <!-- SERVIÇOS -->
+  <section class="servicos-agendamento">
+    <div class="servico">
+      <h3>Banho & Tosa</h3>
+      <p>Ambiente seguro e profissionais experientes para o cuidado do seu pet.</p>
+      <a href="banho.html" class="btn-agendar">Comprar agora</a>
+    </div>
+    <div class="servico">
+      <h3>Creche Pet</h3>
+      <p>Ideal para quem trabalha o dia todo: diversão e cuidado garantidos.</p>
+      <a href="creche.html" class="btn-agendar">Agendar agora</a>
+    </div>
+    <div class="servico">
+      <h3>Hospedagem</h3>
+      <p>Finais de semana ou viagens? Seu pet fica em um lugar aconchegante.</p>
+      <a href="hospedagem.html#hospedagem" class="btn-agendar">Agendar agora</a>
+    </div>
+    <div class="servico">
+      <h3>Consultas Veterinárias</h3>
+      <p>Profissionais confiáveis para acompanhar a saúde do seu pet.</p>
+      <a href="consultaveterinario.html#consulta" class="btn-agendar">Agendar agora</a>
+    </div>
+  </section>
+
+  <!-- PROMOÇÕES -->
+  <section class="promocoes">
+    <h2>Promoções da Semana</h2>
+    <div class="produtos-destaque">
+      <div class="produto">
+        <img src="https://via.placeholder.com/150" alt="Snack Natural Dog" />
+        <h3>Snack Natural Dog 500g</h3>
+        <p>De R$ 39,90 por</p>
+        <span class="preco-promocao">R$ 29,90</span>
+      </div>
+      <div class="produto">
+        <img src="https://via.placeholder.com/150" alt="Shampoo Neutro" />
+        <h3>Shampoo Neutro 500ml</h3>
+        <p>Leve 2 e pague 1</p>
+        <span class="preco-promocao">R$ 18,90</span>
+      </div>
+      <div class="produto">
+        <img src="https://via.placeholder.com/150" alt="Coleira Antipulgas" />
+        <h3>Coleira Antipulgas</h3>
+        <p>Desconto especial no Pix + Retirada</p>
+        <span class="preco-promocao">R$ 64,90</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIS VENDIDOS -->
+  <section class="mais-vendidos">
+    <h2>Itens mais vendidos</h2>
+    <div class="produtos-destaque">
+      <div class="produto">
+        <img src="https://via.placeholder.com/150" alt="Ração Premium Cães" />
+        <h3>Ração Premium Cães 15kg</h3>
+        <p>A mais vendida entre tutores exigentes</p>
+        <span class="preco">R$ 159,90</span>
+      </div>
+      <div class="produto">
+        <img src="https://via.placeholder.com/150" alt="Bravecto" />
+        <h3>Bravecto para cães grandes</h3>
+        <p>Proteção garantida por até 12 semanas</p>
+        <span class="preco">R$ 199,90</span>
+      </div>
+      <div class="produto">
+        <img src="https://via.placeholder.com/150" alt="Areia Higiênica Gatos" />
+        <h3>Areia Higiênica Gatos 4kg</h3>
+        <p>Cheirinho agradável e ótima absorção</p>
+        <span class="preco">R$ 24,90</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARCAS -->
+  <section class="marcas">
+    <h2>Trabalhamos com as melhores marcas</h2>
+    <div class="marcas-container">
+      <img src="marcas/specialdog.png" alt="Special Dog" />
+      <img src="marcas/premierpet.png" alt="Premier Pet" />
+      <img src="marcas/nexgard.png" alt="Nexgard" />
+      <img src="marcas/royalcanin.png" alt="Royal Canin" />
+      <img src="marcas/buddytoys.png" alt="Buddy Toys" />
+    </div>
+  </section>
+
+  <!-- RODAPÉ -->
+  <footer class="rodape-completo">
+    <div class="rodape-conteudo">
+      <div class="coluna">
+        <h4>Sobre Nós</h4>
+        <ul>
+          <li><a href="#">Sobre Nós</a></li>
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Política de Compra</a></li>
+          <li><a href="#">Política de Entrega</a></li>
+          <li><a href="#">Trocas e Devoluções</a></li>
+        </ul>
+      </div>
+      <div class="coluna">
+        <h4>Atendimento ao Cliente</h4>
+        <ul>
+          <li><a href="#">Contato</a></li>
+          <li><a href="#">Devoluções</a></li>
+          <li><a href="#">Mapa do Site</a></li>
+          <li><a href="#">Marcas</a></li>
+        </ul>
+      </div>
+      <div class="coluna">
+        <h4>Minha conta</h4>
+        <ul>
+          <li><a href="#">Minha conta</a></li>
+          <li><a href="#">Histórico de pedidos</a></li>
+        </ul>
+      </div>
+      <div class="coluna newsletter">
+        <h4>Receber Notícias</h4>
+        <p>Mantenha-se atualizado com as novidades e promoções:</p>
+        <form>
+          <input type="tel" placeholder="Seu Telefone" required />
+          <button type="submit"><i class="fas fa-envelope"></i> Enviar</button>
+        </form>
+        <h5>Imagem antispam</h5>
+        <label>Digite o código no campo abaixo <span style="color:red">*</span></label>
+        <div class="recaptcha-fake">
+          <div class="caixa"></div>
+          <span><i class="far fa-square"></i> Não sou um robô</span>
+          <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" />
+        </div>
+        <label><input type="checkbox" required /> Eu li e concordo com o contrato de <a href="#">Segurança e Privacidade</a></label>
+      </div>
+    </div>
+
+    <div class="rodape-inferior">
+      <div class="pagamentos">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="MasterCard" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo_%282018%29.svg" alt="Amex" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Elo_card_logo.svg" alt="Elo" />
+        <img src="https://logodownload.org/wp-content/uploads/2019/09/hipercard-logo-2.png" alt="Hipercard" style="height: 28px;" />
+      </div>
+      <div class="selos">
+        <img src="https://www.certisign.com.br/assets/images/selos/selo_site_seguro.png" alt="Site Seguro" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Google_Safe_Browsing_logo.svg" alt="Google Safe" style="height: 28px;" />
+      </div>
+    </div>
+  </footer>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    const swiper = new Swiper('.banner-swiper', {
+      loop: true,
+      slidesPerView: 1,
+      spaceBetween: 20,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+      },
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false
+      }
+    });
+
+    function abrirModal(id) {
+      document.getElementById(id).style.display = 'block';
+    }
+
+    function fecharModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+      document.querySelectorAll('.modal').forEach(function(modal) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    };
+  </script>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
 
 <script>
-  // Modal functions
-  function abrirModal(id) {
-    document.getElementById(id).style.display = 'flex';
-  }
-  function fecharModal(id) {
-    document.getElementById(id).style.display = 'none';
-  }
-  window.onclick = function(event) {
-    if(event.target.classList.contains('modal')) {
-      event.target.style.display = 'none';
-    }
-  }
-
-  // Busca simulada
-  function buscarProdutos() {
-    const termo = document.getElementById('campoBusca').value.trim();
-    if(!termo) {
-      alert('Por favor, informe o que seu pet precisa.');
-      return;
-    }
-    alert('Buscando por: ' + termo);
-  }
-
-  // Firebase config e inicialização
-  // ** Atenção: use sua própria configuração aqui **
+  // Configuração Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyDVr6OOQRt2rB0kByInjqjdyoQCpnMAt7I",
     authDomain: "site-f6495.firebaseapp.com",
     projectId: "site-f6495",
-    storageBucket: "site-f6495.appspot.com",
+    storageBucket: "site-f6495.firebasestorage.app",
     messagingSenderId: "230161402024",
     appId: "1:230161402024:web:462a911919ebf8a0809a9d",
     measurementId: "G-51G8XF6JH0"
   };
 
-  // Carregar Firebase SDKs (compat) via CDN
-  const firebaseScripts = [
-    "https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js",
-    "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"
-  ];
+  // Inicialização
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
 
-  function loadFirebaseScripts(scripts, callback) {
-    if(!scripts.length) return callback();
-    const src = scripts.shift();
-    const script = document.createElement('script');
-    script.src = src;
-    script.onload = () => loadFirebaseScripts(scripts, callback);
-    document.head.appendChild(script);
-  }
-
-  loadFirebaseScripts(firebaseScripts, () => {
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    const menu = document.getElementById('menuUsuario');
-    const btnEntrar = document.getElementById('btnEntrar');
-
-    btnEntrar.addEventListener('click', (e) => {
-      e.preventDefault();
-      // Simula login - aqui vc pode abrir modal de login real
-      const email = prompt('Informe seu e-mail:');
-      if(!email) return alert('E-mail é obrigatório');
-      const senha = prompt('Informe sua senha:');
-      if(!senha) return alert('Senha é obrigatória');
-      auth.signInWithEmailAndPassword(email, senha)
-        .then(userCredential => {
-          alert('Login realizado com sucesso!');
-        })
-        .catch(error => {
-          alert('Erro no login: ' + error.message);
-        });
-    });
-
-    auth.onAuthStateChanged(user => {
-      if(user) {
-        menu.innerHTML = `
-          <span style="color:#ddd; font-weight:600; margin-right:10px;">Olá, ${user.email}</span>
-          <a href="#" id="btnLogout" style="color:#f44336;">Sair</a>
-        `;
-        document.getElementById('btnLogout').addEventListener('click', e => {
-          e.preventDefault();
-          auth.signOut();
-        });
-      } else {
-        menu.innerHTML = `<a href="#" id="btnEntrar">Entrar | Cadastrar</a>`;
-        document.getElementById('btnEntrar').addEventListener('click', (e) => {
-          e.preventDefault();
-          alert('Aqui você abriria o modal de login ou cadastro.');
-        });
-      }
-    });
-  });
+  const db = firebase.firestore();
+  const auth = firebase.auth();
 </script>
 
-<!-- FontAwesome CDN para ícones -->
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
+<script src="main.js"></script>
 </body>
 </html>
