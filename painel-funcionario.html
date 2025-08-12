@@ -1,80 +1,371 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Painel do Funcionário</title>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+<meta charset="UTF-8" />
+<title>Painel do Funcionário - Cadastro de Parceiros</title>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-storage-compat.js"></script>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-    }
-    header {
-        background: linear-gradient(135deg, #6a0dad, #00c853);
-        padding: 15px;
-        color: white;
-        text-align: center;
-    }
-    .container {
-        padding: 20px;
-    }
-    button {
-        background: #00c853;
-        color: white;
-        padding: 10px 15px;
-        border-radius: 8px;
-        border: none;
-        cursor: pointer;
-        margin: 5px 0;
-    }
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f0f5;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    background: linear-gradient(135deg, #6a0dad, #00c853);
+    color: white;
+    padding: 15px;
+    text-align: center;
+  }
+  .container {
+    max-width: 900px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  h2 {
+    margin-top: 0;
+    color: #6a0dad;
+  }
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+  label {
+    flex: 1 1 150px;
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    color: #333;
+  }
+  input, select {
+    margin-top: 5px;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+  }
+  button {
+    background: #00c853;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  button:hover {
+    background: #009e3c;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px 12px;
+    text-align: left;
+  }
+  th {
+    background: #6a0dad;
+    color: white;
+  }
+  .acoes button {
+    margin-right: 8px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+  .logo-preview {
+    max-width: 100px;
+    max-height: 60px;
+    margin-top: 8px;
+    border-radius: 6px;
+  }
+  .logout-btn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: #6a0dad;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .logout-btn:hover {
+    background: #4b0689;
+  }
 </style>
 </head>
 <body>
 
 <header>
-    <h2>Painel do Funcionário</h2>
+  <h1>Painel do Funcionário</h1>
 </header>
 
+<button class="logout-btn" onclick="logout()">Sair</button>
+
 <div class="container">
-    <button onclick="cadastrarParceiro()">Cadastrar Novo Parceiro</button>
-    <button onclick="verRelatorios()">Ver Relatórios</button>
-    <p id="info"></p>
+  <h2>Cadastro de Parceiros</h2>
+  <form id="form-parceiro">
+    <label>
+      Nome da Empresa
+      <input type="text" id="nomeEmpresa" required />
+    </label>
+    <label>
+      Nome do Responsável
+      <input type="text" id="nomeResponsavel" required />
+    </label>
+    <label>
+      Telefone / WhatsApp
+      <input type="tel" id="telefone" required />
+    </label>
+    <label>
+      E-mail
+      <input type="email" id="emailParceiro" required />
+    </label>
+    <label>
+      Endereço
+      <input type="text" id="endereco" required />
+    </label>
+    <label>
+      Tipo de Parceiro
+      <select id="tipoParceiro" required>
+        <option value="">Selecione</option>
+        <option value="Banho e Tosa">Banho e Tosa</option>
+        <option value="Clínica Veterinária">Clínica Veterinária</option>
+        <option value="Creche">Creche</option>
+        <option value="Hospedagem">Hospedagem</option>
+        <option value="Consultoria">Consultoria</option>
+        <option value="Outro">Outro</option>
+      </select>
+    </label>
+    <label>
+      Logo (opcional)
+      <input type="file" id="logoParceiro" accept="image/*" />
+      <img id="previewLogo" class="logo-preview" style="display:none;" />
+    </label>
+    <input type="hidden" id="docId" />
+    <button type="submit">Salvar Parceiro</button>
+  </form>
+
+  <h2>Parceiros Cadastrados</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Logo</th>
+        <th>Nome Empresa</th>
+        <th>Responsável</th>
+        <th>Telefone</th>
+        <th>E-mail</th>
+        <th>Tipo</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody id="listaParceiros"></tbody>
+  </table>
 </div>
 
 <script>
-    const firebaseConfig = {
-        apiKey: "SUA_API_KEY",
-        authDomain: "SEU_AUTH_DOMAIN",
-        projectId: "SEU_PROJECT_ID",
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+  // Config Firebase
+  const firebaseConfig = {
+    apiKey: "SUA_API_KEY",
+    authDomain: "SEU_AUTH_DOMAIN",
+    projectId: "SEU_PROJECT_ID",
+    storageBucket: "SEU_STORAGE_BUCKET",
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+  const storage = firebase.storage();
 
-    auth.onAuthStateChanged(user => {
-        if (!user) {
-            window.location.href = "login-funcionario.html";
-        } else {
-            db.collection("usuarios").doc(user.uid).get()
-            .then(doc => {
-                if (!doc.exists || doc.data().role !== "funcionario") {
-                    window.location.href = "login-funcionario.html";
-                } else {
-                    document.getElementById("info").innerText = `Bem-vindo, ${user.email}`;
-                }
-            });
-        }
+  // Controle de edição
+  let editDocId = null;
+
+  // Verificar autenticação e role funcionario
+  auth.onAuthStateChanged(user => {
+    if (!user) {
+      window.location.href = "login-funcionario.html";
+      return;
+    }
+    db.collection('usuarios').doc(user.uid).get().then(doc => {
+      if (!doc.exists || doc.data().role !== "funcionario") {
+        auth.signOut();
+        window.location.href = "login-funcionario.html";
+      } else {
+        carregarParceiros();
+      }
     });
+  });
 
-    function cadastrarParceiro() {
-        alert("Aqui vai o formulário de cadastro de parceiros.");
+  // Preview do logo
+  const logoInput = document.getElementById('logoParceiro');
+  const previewLogo = document.getElementById('previewLogo');
+  logoInput.addEventListener('change', () => {
+    const file = logoInput.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        previewLogo.src = e.target.result;
+        previewLogo.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    } else {
+      previewLogo.style.display = 'none';
+      previewLogo.src = '';
+    }
+  });
+
+  // Salvar parceiro
+  document.getElementById('form-parceiro').addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const nomeEmpresa = document.getElementById('nomeEmpresa').value.trim();
+    const nomeResponsavel = document.getElementById('nomeResponsavel').value.trim();
+    const telefone = document.getElementById('telefone').value.trim();
+    const emailParceiro = document.getElementById('emailParceiro').value.trim();
+    const endereco = document.getElementById('endereco').value.trim();
+    const tipoParceiro = document.getElementById('tipoParceiro').value;
+    const logoFile = logoInput.files[0];
+
+    if (!nomeEmpresa || !nomeResponsavel || !telefone || !emailParceiro || !endereco || !tipoParceiro) {
+      alert("Por favor, preencha todos os campos obrigatórios.");
+      return;
     }
 
-    function verRelatorios() {
-        alert("Aqui vai a página de relatórios.");
+    const parceiroData = {
+      nomeEmpresa,
+      nomeResponsavel,
+      telefone,
+      emailParceiro,
+      endereco,
+      tipoParceiro,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    };
+
+    try {
+      if (editDocId) {
+        // Atualizar parceiro existente
+        if (logoFile) {
+          const logoUrl = await uploadLogo(editDocId, logoFile);
+          parceiroData.logoUrl = logoUrl;
+        }
+        await db.collection('parceiros').doc(editDocId).update(parceiroData);
+        alert("Parceiro atualizado com sucesso!");
+      } else {
+        // Criar novo parceiro
+        const docRef = await db.collection('parceiros').add({
+          ...parceiroData,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        });
+        if (logoFile) {
+          const logoUrl = await uploadLogo(docRef.id, logoFile);
+          await docRef.update({ logoUrl });
+        }
+        alert("Parceiro cadastrado com sucesso!");
+      }
+      limparFormulario();
+      carregarParceiros();
+    } catch (error) {
+      alert("Erro ao salvar parceiro: " + error.message);
     }
+  });
+
+  // Upload do logo para Firebase Storage
+  async function uploadLogo(docId, file) {
+    const storageRef = storage.ref().child(`logos/${docId}/${file.name}`);
+    await storageRef.put(file);
+    return await storageRef.getDownloadURL();
+  }
+
+  // Carregar parceiros da coleção parceiros
+  async function carregarParceiros() {
+    const lista = document.getElementById('listaParceiros');
+    lista.innerHTML = '';
+    try {
+      const snapshot = await db.collection('parceiros').orderBy('nomeEmpresa').get();
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const logo = data.logoUrl ? `<img src="${data.logoUrl}" alt="Logo" style="max-width:80px; max-height:50px; border-radius:6px;" />` : '';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${logo}</td>
+          <td>${data.nomeEmpresa || ''}</td>
+          <td>${data.nomeResponsavel || ''}</td>
+          <td>${data.telefone || ''}</td>
+          <td>${data.emailParceiro || ''}</td>
+          <td>${data.tipoParceiro || ''}</td>
+          <td class="acoes">
+            <button onclick="editarParceiro('${doc.id}')">Editar</button>
+            <button onclick="excluirParceiro('${doc.id}')">Excluir</button>
+          </td>
+        `;
+        lista.appendChild(tr);
+      });
+    } catch (error) {
+      alert("Erro ao carregar parceiros: " + error.message);
+    }
+  }
+
+  // Editar parceiro
+  async function editarParceiro(docId) {
+    try {
+      const doc = await db.collection('parceiros').doc(docId).get();
+      if (!doc.exists) return alert("Parceiro não encontrado.");
+      const data = doc.data();
+      document.getElementById('nomeEmpresa').value = data.nomeEmpresa || '';
+      document.getElementById('nomeResponsavel').value = data.nomeResponsavel || '';
+      document.getElementById('telefone').value = data.telefone || '';
+      document.getElementById('emailParceiro').value = data.emailParceiro || '';
+      document.getElementById('endereco').value = data.endereco || '';
+      document.getElementById('tipoParceiro').value = data.tipoParceiro || '';
+      if (data.logoUrl) {
+        previewLogo.src = data.logoUrl;
+        previewLogo.style.display = 'block';
+      } else {
+        previewLogo.style.display = 'none';
+        previewLogo.src = '';
+      }
+      editDocId = docId;
+    } catch (error) {
+      alert("Erro ao carregar parceiro: " + error.message);
+    }
+  }
+
+  // Excluir parceiro
+  async function excluirParceiro(docId) {
+    if (!confirm("Deseja realmente excluir este parceiro?")) return;
+    try {
+      await db.collection('parceiros').doc(docId).delete();
+      alert("Parceiro excluído com sucesso!");
+      if (editDocId === docId) limparFormulario();
+      carregarParceiros();
+    } catch (error) {
+      alert("Erro ao excluir parceiro: " + error.message);
+    }
+  }
+
+  // Limpar formulário
+  function limparFormulario() {
+    document.getElementById('form-parceiro').reset();
+    previewLogo.style.display = 'none';
+    previewLogo.src = '';
+    editDocId = null;
+  }
+
+  // Logout
+  function logout() {
+    auth.signOut().then(() => {
+      window.location.href = 'login-funcionario.html';
+    });
+  }
 </script>
 
 </body>
