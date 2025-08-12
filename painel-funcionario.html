@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Painel do Funcionário</title>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+    }
+    header {
+        background: linear-gradient(135deg, #6a0dad, #00c853);
+        padding: 15px;
+        color: white;
+        text-align: center;
+    }
+    .container {
+        padding: 20px;
+    }
+    button {
+        background: #00c853;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        margin: 5px 0;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h2>Painel do Funcionário</h2>
+</header>
+
+<div class="container">
+    <button onclick="cadastrarParceiro()">Cadastrar Novo Parceiro</button>
+    <button onclick="verRelatorios()">Ver Relatórios</button>
+    <p id="info"></p>
+</div>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "SUA_API_KEY",
+        authDomain: "SEU_AUTH_DOMAIN",
+        projectId: "SEU_PROJECT_ID",
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    auth.onAuthStateChanged(user => {
+        if (!user) {
+            window.location.href = "login-funcionario.html";
+        } else {
+            db.collection("usuarios").doc(user.uid).get()
+            .then(doc => {
+                if (!doc.exists || doc.data().role !== "funcionario") {
+                    window.location.href = "login-funcionario.html";
+                } else {
+                    document.getElementById("info").innerText = `Bem-vindo, ${user.email}`;
+                }
+            });
+        }
+    });
+
+    function cadastrarParceiro() {
+        alert("Aqui vai o formulário de cadastro de parceiros.");
+    }
+
+    function verRelatorios() {
+        alert("Aqui vai a página de relatórios.");
+    }
+</script>
+
+</body>
+</html>
