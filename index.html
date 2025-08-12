@@ -22,6 +22,73 @@
       position: absolute; top: -5px; right: -5px; background: red; color: #fff;
       font-size: 12px; padding: 3px 6px; border-radius: 50%;
     }
+    /* Modal Login */
+    #modalLogin {
+      display: none; 
+      position: fixed; 
+      inset: 0; 
+      background: rgba(0,0,0,0.6); 
+      justify-content: center; 
+      align-items: center;
+      z-index: 2000;
+    }
+    #modalLogin .modal-conteudo {
+      background: #fff; 
+      padding: 20px; 
+      border-radius: 8px; 
+      width: 320px; 
+      position: relative;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+    #modalLogin h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: #6a1b9a;
+      text-align: center;
+    }
+    #modalLogin input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    #modalLogin button {
+      width: 100%;
+      padding: 12px;
+      background: #6a1b9a;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    #modalLogin button:hover {
+      background: #4a146b;
+    }
+    #modalLogin .fechar {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #666;
+      cursor: pointer;
+    }
+    /* Link cadastrar */
+    #modalLogin .link-cadastrar {
+      margin-top: 12px;
+      font-size: 14px;
+      text-align: center;
+    }
+    #modalLogin .link-cadastrar a {
+      color: #6a1b9a;
+      cursor: pointer;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -39,17 +106,32 @@
       </div>
       <div class="busca-input-wrapper">
         <span>🔍</span>
-        <input type="text" placeholder="O que seu pet precisa?" class="busca-input" id="campoBusca">
+        <input type="text" placeholder="O que seu pet precisa?" class="busca-input" id="campoBusca" />
         <button class="btn-busca" onclick="buscarProdutos()">🔍</button>
       </div>
     </div>
     <div class="acoes-usuario" id="menuUsuario">
-      <!-- Será preenchido pelo Firebase -->
-      <a href="login.html"><i class="fas fa-user"></i> Entrar | Cadastrar</a>
+      <a href="#" id="btnAbrirLogin"><i class="fas fa-user"></i> Entrar | Cadastrar</a>
     </div>
   </div>
 </header>
-  
+
+<!-- Modal Login -->
+<div id="modalLogin">
+  <div class="modal-conteudo">
+    <span class="fechar" id="fecharModal">&times;</span>
+    <h2>Entrar na Pet Dudis</h2>
+    <form id="formLogin">
+      <input type="email" id="emailLogin" placeholder="Email" required autocomplete="username" />
+      <input type="password" id="senhaLogin" placeholder="Senha" required autocomplete="current-password" />
+      <button type="submit">Entrar</button>
+    </form>
+    <div class="link-cadastrar">
+      Ainda não tem conta? <a href="cadastro-cliente.html" target="_blank">Cadastre-se aqui</a>
+    </div>
+  </div>
+</div>
+
 <!-- CATEGORIAS -->
 <nav class="faixa-categorias">
   <ul>
@@ -187,17 +269,83 @@
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
 <script>
-  const firebaseConfig = { /* sua config */ };
+  const firebaseConfig = {
+    // sua configuração aqui
+  };
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
 
-  // Login detectado
+  // Controle do modal
+  const modalLogin = document.getElementById('modalLogin');
+  const btnAbrirLogin = document.getElementById('btnAbrirLogin');
+  const fecharModal = document.getElementById('fecharModal');
+
+  btnAbrirLogin.addEventListener('click', e => {
+    e.preventDefault();
+    modalLogin.style.display = 'flex';
+  });
+
+  fecharModal.addEventListener('click', () => {
+    modalLogin.style.display = 'none';
+  });
+
+  window.addEventListener('click', e => {
+    if (e.target === modalLogin) {
+      modalLogin.style.display = 'none';
+    }
+  });
+
+  // Login Firebase
+  document.getElementById('formLogin').addEventListener('submit', e => {
+    e.preventDefault();
+    const email = document.getElementById('emailLogin').value;
+    const senha = document.getElementById('senhaLogin').value;
+
+    auth.signInWithEmailAndPassword(email, senha)
+      .then(({ user }) => {
+        // Busca role no Firestore
+        db.collection('usuarios').doc(user.uid).get()
+          .then(doc => {
+            if (doc.exists) {
+              const role = doc.data().role || 'cliente';
+              modalLogin.style.display = 'none';
+
+              if(role === 'funcionario') {
+                window.location.href = 'funcionario.html';
+              } else if(role === 'parceiro') {
+                window.location.href = 'parceiro.html';
+              } else {
+                window.location.href = 'cliente.html';
+              }
+            } else {
+              alert('Usuário sem perfil definido. Contate o suporte.');
+              auth.signOut();
+            }
+          })
+          .catch(() => {
+            alert('Erro ao buscar perfil do usuário.');
+            auth.signOut();
+          });
+      })
+      .catch(error => {
+        alert('Erro no login: ' + error.message);
+      });
+  });
+
+  // Atualiza menu após login
   auth.onAuthStateChanged(user => {
     const menu = document.getElementById('menuUsuario');
     if (user) {
-      menu.innerHTML = `<a href="cliente.html"><i class="fas fa-user-circle"></i> Olá, ${user.displayName || 'Cliente'}</a>`;
+      menu.innerHTML = `<a href="cliente.html"><i class="fas fa-user-circle"></i> Olá, ${user.displayName || user.email}</a>`;
+    } else {
+      menu.innerHTML = `<a href="#" id="btnAbrirLogin"><i class="fas fa-user"></i> Entrar | Cadastrar</a>`;
+      document.getElementById('btnAbrirLogin').addEventListener('click', e => {
+        e.preventDefault();
+        modalLogin.style.display = 'flex';
+      });
     }
   });
 
@@ -239,5 +387,6 @@
     }
   }
 </script>
+
 </body>
 </html>
