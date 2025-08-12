@@ -48,6 +48,20 @@
     font-size: 1.3rem;
     font-weight: 700;
   }
+  .sidebar .profile p.telefone {
+    color: #cfc9e8;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sidebar .profile p.telefone svg {
+    vertical-align: middle;
+    margin-right: 6px;
+    fill: #cfc9e8;
+  }
   .sidebar nav {
     flex-grow: 1;
   }
@@ -269,6 +283,12 @@
     <div class="profile">
       <img src="https://i.pravatar.cc/100?img=12" alt="Foto do Cliente" />
       <h2>Eduardo Castelleti</h2>
+      <p class="telefone">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right:6px;">
+          <path d="M3.654 1.328a.678.678 0 0 1 .741-.066l2.764 1.655a.678.678 0 0 1 .267.783l-1.1 2.6a.678.678 0 0 1-.668.41l-1.16-.058a11.555 11.555 0 0 0 5.48 5.48l-.058-1.16a.678.678 0 0 1 .41-.668l2.6-1.1a.678.678 0 0 1 .783.267l1.655 2.764a.678.678 0 0 1-.066.741l-2.49 2.49a1.745 1.745 0 0 1-1.96.404c-2.222-1.11-4.485-3.373-5.596-5.596a1.745 1.745 0 0 1 .404-1.96l2.49-2.49z"/>
+        </svg>
+        (51) 99999-9999
+      </p>
     </div>
     <nav>
       <a href="#" class="active">Pedidos & Agendamentos</a>
@@ -415,7 +435,7 @@
   const conteudos = document.querySelectorAll('.tab-content');
 
   abas.forEach(aba => {
-    aba.addEventListener('click', () => {
+    aba.addEventListener('click', (event) => {
       abas.forEach(a => a.classList.remove('active'));
       aba.classList.add('active');
 
