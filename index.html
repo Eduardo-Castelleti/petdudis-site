@@ -2,92 +2,219 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pet Dudis - Início</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <style>
-    /* Header fixo */
-    .cabecalho {position: sticky; top: 0; background: #fff; z-index: 1000;}
-    /* Ícones categorias mais bonitos */
-    .faixa-categorias li a {display: flex; align-items: center; gap: 6px;}
-    /* Carrinho flutuante */
-    .carrinho-flutuante {
-      position: fixed; bottom: 20px; right: 20px; background: #6a1b9a; 
-      color: #fff; padding: 14px; border-radius: 50%; 
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3); font-size: 22px; cursor: pointer;
+    /* Ajustes rápidos para garantir cards e rodapé visíveis */
+    .beneficios-container, .produtos-destaque, .marcas-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
-    .carrinho-flutuante span {
-      position: absolute; top: -5px; right: -5px; background: red; color: #fff;
-      font-size: 12px; padding: 3px 6px; border-radius: 50%;
-    }
-    /* Modal Login */
-    #modalLogin {
-      display: none; 
-      position: fixed; 
-      inset: 0; 
-      background: rgba(0,0,0,0.6); 
-      justify-content: center; 
-      align-items: center;
-      z-index: 2000;
-    }
-    #modalLogin .modal-conteudo {
-      background: #fff; 
-      padding: 20px; 
-      border-radius: 8px; 
-      width: 320px; 
-      position: relative;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
-    }
-    #modalLogin h2 {
-      margin-top: 0;
-      margin-bottom: 20px;
-      color: #6a1b9a;
-      text-align: center;
-    }
-    #modalLogin input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-    #modalLogin button {
-      width: 100%;
+    .card-beneficio, .produto {
+      flex: 1 1 180px;
+      max-width: 220px;
+      background: #fff;
+      border-radius: 8px;
       padding: 12px;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+    .card-beneficio:hover, .produto:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 14px rgb(0 0 0 / 0.15);
+    }
+    .icone-beneficio {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 8px;
+    }
+    .produtos-destaque .produto img {
+      width: 100%;
+      border-radius: 6px;
+      object-fit: contain;
+    }
+    .btn-agendar {
+      display: inline-block;
+      margin-top: 10px;
       background: #6a1b9a;
-      color: white;
-      font-weight: bold;
-      font-size: 16px;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    /* Rodapé */
+    .rodape-completo {
+      background: #222;
+      color: #ddd;
+      padding: 40px 20px 20px;
+      font-size: 14px;
+    }
+    .rodape-conteudo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto 20px;
+      justify-content: space-between;
+    }
+    .rodape-conteudo .coluna {
+      flex: 1 1 180px;
+      min-width: 180px;
+    }
+    .rodape-conteudo .coluna h4 {
+      color: #fff;
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+    .rodape-conteudo .coluna ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .rodape-conteudo .coluna ul li {
+      margin-bottom: 8px;
+    }
+    .rodape-conteudo .coluna ul li a {
+      color: #ddd;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .rodape-conteudo .coluna ul li a:hover {
+      color: #6a1b9a;
+    }
+    .rodape-inferior {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 15px;
+      border-top: 1px solid #444;
+    }
+    .rodape-inferior .pagamentos img,
+    .rodape-inferior .selos img {
+      height: 32px;
+      margin-left: 10px;
+    }
+    /* Header ajuste */
+    .cabecalho-conteudo {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      gap: 20px;
+    }
+    .logo-container img.logo {
+      max-height: 48px;
+    }
+    .cep-busca {
+      display: flex;
+      gap: 12px;
+      flex: 1 1 auto;
+      max-width: 600px;
+    }
+    .cep-input-wrapper, .busca-input-wrapper {
+      display: flex;
+      align-items: center;
+      background: #f3f3f3;
+      border-radius: 6px;
+      padding: 6px 12px;
+      flex: 1 1 auto;
+    }
+    .cep-input-wrapper span, .busca-input-wrapper span {
+      font-size: 18px;
+      margin-right: 6px;
+    }
+    .cep-input-wrapper input, .busca-input-wrapper input {
       border: none;
+      background: transparent;
+      width: 100%;
+      font-size: 14px;
+      outline: none;
+    }
+    .btn-busca {
+      background: #6a1b9a;
+      border: none;
+      color: white;
+      padding: 8px 16px;
       border-radius: 6px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      font-size: 18px;
     }
-    #modalLogin button:hover {
-      background: #4a146b;
-    }
-    #modalLogin .fechar {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #666;
-      cursor: pointer;
-    }
-    /* Link cadastrar */
-    #modalLogin .link-cadastrar {
-      margin-top: 12px;
-      font-size: 14px;
-      text-align: center;
-    }
-    #modalLogin .link-cadastrar a {
+    .acoes-usuario a {
+      margin-left: 15px;
       color: #6a1b9a;
-      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+    }
+    .acoes-usuario a:hover {
       text-decoration: underline;
+    }
+    /* Faixa categorias */
+    nav.faixa-categorias {
+      background: #6a1b9a;
+      padding: 10px 0;
+      color: white;
+    }
+    nav.faixa-categorias ul {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    nav.faixa-categorias ul li a {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    nav.faixa-categorias ul li a:hover {
+      text-decoration: underline;
+    }
+    nav.faixa-categorias ul li.dropdown {
+      position: relative;
+    }
+    nav.faixa-categorias ul li.dropdown ul.submenu {
+      position: absolute;
+      background: #6a1b9a;
+      padding: 10px 12px;
+      display: none;
+      flex-direction: column;
+      border-radius: 6px;
+      top: 100%;
+      left: 0;
+      min-width: 180px;
+      z-index: 100;
+    }
+    nav.faixa-categorias ul li.dropdown:hover ul.submenu {
+      display: flex;
+    }
+    nav.faixa-categorias ul li.dropdown ul.submenu li {
+      margin: 8px 0;
+    }
+    nav.faixa-categorias ul li.dropdown ul.submenu li a {
+      color: white;
+      font-weight: normal;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -96,13 +223,16 @@
 <!-- CABEÇALHO -->
 <header class="cabecalho">
   <div class="cabecalho-conteudo">
+    <!-- Logo -->
     <div class="logo-container">
       <a href="index.html"><img src="logo.svg" alt="Logo Pet Dudis" class="logo"></a>
     </div>
+
+    <!-- Campos CEP e Busca -->
     <div class="cep-busca">
       <div class="cep-input-wrapper">
         <span>📍</span>
-        <input type="text" placeholder="Informar CEP" class="cep-input">
+        <input type="text" placeholder="Informar CEP" class="cep-input" id="cepInput">
       </div>
       <div class="busca-input-wrapper">
         <span>🔍</span>
@@ -110,27 +240,13 @@
         <button class="btn-busca" onclick="buscarProdutos()">🔍</button>
       </div>
     </div>
+
+    <!-- Ícones à direita -->
     <div class="acoes-usuario" id="menuUsuario">
-      <a href="#" id="btnAbrirLogin"><i class="fas fa-user"></i> Entrar | Cadastrar</a>
+      <a href="login.html"><i class="fas fa-user"></i> Entrar | Cadastrar</a>
     </div>
   </div>
 </header>
-
-<!-- Modal Login -->
-<div id="modalLogin">
-  <div class="modal-conteudo">
-    <span class="fechar" id="fecharModal">&times;</span>
-    <h2>Entrar na Pet Dudis</h2>
-    <form id="formLogin">
-      <input type="email" id="emailLogin" placeholder="Email" required autocomplete="username" />
-      <input type="password" id="senhaLogin" placeholder="Senha" required autocomplete="current-password" />
-      <button type="submit">Entrar</button>
-    </form>
-    <div class="link-cadastrar">
-      Ainda não tem conta? <a href="cadastro-cliente.html" target="_blank">Cadastre-se aqui</a>
-    </div>
-  </div>
-</div>
 
 <!-- CATEGORIAS -->
 <nav class="faixa-categorias">
@@ -139,7 +255,7 @@
     <li><a href="gato.html"><i class="fas fa-cat"></i> Gato</a></li>
     <li><a href="outros.html"><i class="fas fa-paw"></i> Outros Pets</a></li>
     <li class="dropdown">
-      <a href="servicos.html"><i class="fas fa-briefcase"></i> Serviços <i class="fas fa-caret-down"></i></a>
+      <a href="servicos.html">Serviços <i class="fas fa-caret-down"></i></a>
       <ul class="submenu">
         <li><a href="banho.html">Banho e Tosa</a></li>
         <li><a href="creche.html">Creche</a></li>
@@ -156,9 +272,9 @@
 <!-- BANNERS -->
 <div class="swiper banner-swiper">
   <div class="swiper-wrapper">
-    <div class="swiper-slide"><a href="promocoes.html"><img src="img/banner1.png" alt="Banner 1" /></a></div>
-    <div class="swiper-slide"><a href="banho.html"><img src="img/banner2.png" alt="Banner 2" /></a></div>
-    <div class="swiper-slide"><a href="clube.html"><img src="img/banner3.png" alt="Banner 3" /></a></div>
+    <div class="swiper-slide"><img src="img/banner1.png" alt="Banner 1" /></div>
+    <div class="swiper-slide"><img src="img/banner2.png" alt="Banner 2" /></div>
+    <div class="swiper-slide"><img src="img/banner3.png" alt="Banner 3" /></div>
   </div>
   <div class="swiper-button-next"></div>
   <div class="swiper-button-prev"></div>
@@ -169,59 +285,95 @@
 <section class="beneficios">
   <h2>Benefícios pra você</h2>
   <div class="beneficios-container">
-    <div class="card-beneficio">
-      <img src="img/entrega.svg" alt="Entregas" />
-      <p><strong>Entregas rápidas</strong></p>
-      <a href="entregas.html" class="btn-agendar">Saiba mais</a>
+    <div class="card-beneficio" onclick="abrirModal('modal-entregas')">
+      <img src="img/entrega.svg" alt="Entregas" class="icone-beneficio" />
+      <p><strong>Nossas<br>entregas</strong></p>
     </div>
-    <div class="card-beneficio">
-      <img src="img/parceiros.svg" alt="Parcerias" />
-      <p><strong>Parcerias locais</strong></p>
-      <a href="servicos.html" class="btn-agendar">Ver serviços</a>
+    <div class="card-beneficio" onclick="abrirModal('modal-parceiros')">
+      <img src="img/parceiros.svg" alt="Parcerias" class="icone-beneficio" />
+      <p><strong>Parcerias com<br>serviços locais</strong></p>
     </div>
-    <div class="card-beneficio">
-      <img src="img/desconto.svg" alt="Descontos" />
-      <p><strong>Descontos especiais</strong></p>
-      <a href="promocoes.html" class="btn-agendar">Ver promoções</a>
+    <div class="card-beneficio" onclick="abrirModal('modal-descontos')">
+      <img src="img/desconto.svg" alt="Descontos" class="icone-beneficio" />
+      <p><strong>Descontos<br>especiais</strong></p>
     </div>
-    <div class="card-beneficio">
-      <img src="img/indique.svg" alt="Indique" />
-      <p><strong>Indique e ganhe</strong></p>
-      <a href="indique.html" class="btn-agendar">Participar</a>
+    <div class="card-beneficio" onclick="abrirModal('modal-indique')">
+      <img src="img/indique.svg" alt="Indique" class="icone-beneficio" />
+      <p><strong>Indicou<br>ganhou</strong></p>
     </div>
-    <div class="card-beneficio">
-      <img src="img/recompra.svg" alt="Recompra" />
-      <p><strong>Recompra recorrente</strong></p>
-      <a href="recorrencia.html" class="btn-agendar">Assinar</a>
+    <div class="card-beneficio" onclick="abrirModal('modal-recompra')">
+      <img src="img/recompra.svg" alt="Recompra" class="icone-beneficio" />
+      <p><strong>Recompra<br>recorrente</strong></p>
     </div>
   </div>
 </section>
+
+<!-- MODAIS -->
+<div class="modal" id="modal-entregas">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-entregas')">&times;</span>
+    <h3>Entregas</h3>
+    <p>Entregamos em até 24h para regiões selecionadas. Consulte prazos e disponibilidade no seu CEP.</p>
+  </div>
+</div>
+
+<div class="modal" id="modal-parceiros">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-parceiros')">&times;</span>
+    <h3>Conectando você aos melhores serviços do bairro!</h3>
+    <p>Fortalecemos laços com parceiros locais para oferecer praticidade, confiança e benefícios exclusivos para você e seu pet.</p>
+  </div>
+</div>
+
+<div class="modal" id="modal-descontos">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-descontos')">&times;</span>
+    <h3>Descontos Especiais</h3>
+    <p>Comprando via <strong>Pix</strong> você ganha <strong>5% de desconto</strong>. Retirando em nossa loja ou com um parceiro próximo, ganha <strong>mais 5%</strong>. Descontos válidos para todos os clientes!</p>
+  </div>
+</div>
+
+<div class="modal" id="modal-indique">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-indique')">&times;</span>
+    <h3>Indique e Ganhe</h3>
+    <p>Indique amigos e ganhe bônus. Seu amigo recebe desconto na primeira compra e você ganha um brinde ou crédito.</p>
+  </div>
+</div>
+
+<div class="modal" id="modal-recompra">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-recompra')">&times;</span>
+    <h3>Recompra Recorrente</h3>
+    <p>Assine produtos para entrega automática com desconto e comodidade. Cancele quando quiser.</p>
+  </div>
+</div>
 
 <!-- SERVIÇOS -->
 <section class="servicos-agendamento">
   <div class="servico">
     <h3>Banho & Tosa</h3>
-    <p>Ambiente seguro e profissionais experientes.</p>
-    <a href="banho.html" class="btn-agendar">Agendar agora</a>
+    <p>Ambiente seguro e profissionais experientes para o cuidado do seu pet.</p>
+    <a href="banho.html" class="btn-agendar">Comprar agora</a>
   </div>
   <div class="servico">
     <h3>Creche Pet</h3>
-    <p>Diversão e cuidado garantidos.</p>
+    <p>Ideal para quem trabalha o dia todo: diversão e cuidado garantidos.</p>
     <a href="creche.html" class="btn-agendar">Agendar agora</a>
   </div>
   <div class="servico">
     <h3>Hospedagem</h3>
-    <p>Seu pet em um lugar aconchegante.</p>
+    <p>Finais de semana ou viagens? Seu pet fica em um lugar aconchegante.</p>
     <a href="hospedagem.html#hospedagem" class="btn-agendar">Agendar agora</a>
   </div>
   <div class="servico">
     <h3>Consultas Veterinárias</h3>
-    <p>Profissionais confiáveis para saúde do seu pet.</p>
+    <p>Profissionais confiáveis para acompanhar a saúde do seu pet.</p>
     <a href="consultaveterinario.html#consulta" class="btn-agendar">Agendar agora</a>
   </div>
 </section>
 
-<!-- PROMOÇÕES DINÂMICAS -->
+<!-- PROMOÇÕES -->
 <section class="promocoes">
   <h2>Promoções da Semana</h2>
   <div class="produtos-destaque" id="listaPromocoes"></div>
@@ -246,147 +398,221 @@
 </section>
 
 <!-- RODAPÉ -->
-<footer class="rodape-completo">...</footer>
+<footer class="rodape-completo">
+  <div class="rodape-conteudo">
+    <div class="coluna">
+      <h4>Sobre Nós</h4>
+      <ul>
+        <li><a href="#">Sobre Nós</a></li>
+        <li><a href="#">Política de Privacidade</a></li>
+        <li><a href="#">Política de Compra</a></li>
+        <li><a href="#">Política de Entrega</a></li>
+        <li><a href="#">Trocas e Devoluções</a></li>
+      </ul>
+    </div>
+    <div class="coluna">
+      <h4>Atendimento ao Cliente</h4>
+      <ul>
+        <li><a href="#">Contato</a></li>
+        <li><a href="#">Devoluções</a></li>
+        <li><a href="#">Mapa do Site</a></li>
+        <li><a href="#">Marcas</a></li>
+      </ul>
+    </div>
+    <div class="coluna">
+      <h4>Minha conta</h4>
+      <ul>
+        <li><a href="#">Minha conta</a></li>
+        <li><a href="#">Histórico de pedidos</a></li>
+      </ul>
+    </div>
+    <div class="coluna newsletter">
+      <h4>Receber Notícias</h4>
+      <p>Mantenha-se atualizado com as novidades e promoções:</p>
+      <form>
+        <input type="tel" placeholder="Seu Telefone" required />
+        <button type="submit"><i class="fas fa-envelope"></i> Enviar</button>
+      </form>
+      <h5>Imagem antispam</h5>
+      <label>Digite o código no campo abaixo <span style="color:red">*</span></label>
+      <div class="recaptcha-fake">
+        <div class="caixa"></div>
+        <span><i class="far fa-square"></i> Não sou um robô</span>
+        <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" />
+      </div>
+      <label><input type="checkbox" required /> Eu li e concordo com o contrato de <a href="#">Segurança e Privacidade</a></label>
+    </div>
+  </div>
 
-<!-- Carrinho flutuante -->
-<div class="carrinho-flutuante" onclick="window.location.href='carrinho.html'">
-  <i class="fas fa-shopping-cart"></i>
-  <span id="qtdCarrinho">0</span>
-</div>
+  <div class="rodape-inferior">
+    <div class="pagamentos">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="MasterCard" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo_%282018%29.svg" alt="Amex" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Elo_card_logo.svg" alt="Elo" />
+      <img src="https://logodownload.org/wp-content/uploads/2019/09/hipercard-logo-2.png" alt="Hipercard" style="height: 28px;" />
+    </div>
+    <div class="selos">
+      <img src="https://www.certisign.com.br/assets/images/selos/selo_site_seguro.png" alt="Site Seguro" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Google_Safe_Browsing_logo.svg" alt="Google Safe" style="height: 28px;" />
+    </div>
+  </div>
+</footer>
 
-<!-- JS Swiper -->
+<!-- Swiper JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
   const swiper = new Swiper('.banner-swiper', {
     loop: true,
-    pagination: { el: '.swiper-pagination', clickable: true },
-    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-    autoplay: { delay: 4000 }
+    slidesPerView: 1,
+    spaceBetween: 20,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    },
+    autoplay: {
+      delay: 4000,
+      disableOnInteraction: false
+    }
   });
+
+  function abrirModal(id) {
+    document.getElementById(id).style.display = 'block';
+  }
+
+  function fecharModal(id) {
+    document.getElementById(id).style.display = 'none';
+  }
+
+  window.onclick = function(event) {
+    document.querySelectorAll('.modal').forEach(function(modal) {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  };
+
+  // Exemplo simples para busca - pode ser expandido
+  function buscarProdutos() {
+    const termo = document.getElementById('campoBusca').value.trim();
+    if(termo) {
+      alert('Buscando por: ' + termo);
+      // implementar lógica real de busca aqui
+    }
+  }
+
+  // Popular os produtos de promoções e mais vendidos (exemplo)
+  const promocoes = [
+    {
+      img: "https://via.placeholder.com/150",
+      nome: "Snack Natural Dog 500g",
+      desc: "De R$ 39,90 por",
+      preco: "R$ 29,90"
+    },
+    {
+      img: "https://via.placeholder.com/150",
+      nome: "Shampoo Neutro 500ml",
+      desc: "Leve 2 e pague 1",
+      preco: "R$ 18,90"
+    },
+    {
+      img: "https://via.placeholder.com/150",
+      nome: "Coleira Antipulgas",
+      desc: "Desconto especial no Pix + Retirada",
+      preco: "R$ 64,90"
+    }
+  ];
+
+  const maisVendidos = [
+    {
+      img: "https://via.placeholder.com/150",
+      nome: "Ração Premium Cães 15kg",
+      desc: "A mais vendida entre tutores exigentes",
+      preco: "R$ 159,90"
+    },
+    {
+      img: "https://via.placeholder.com/150",
+      nome: "Bravecto para cães grandes",
+      desc: "Proteção garantida por até 12 semanas",
+      preco: "R$ 199,90"
+    },
+    {
+      img: "https://via.placeholder.com/150",
+      nome: "Areia Higiênica Gatos 4kg",
+      desc: "Cheirinho agradável e ótima absorção",
+      preco: "R$ 24,90"
+    }
+  ];
+
+  function montarProdutos(lista, containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    lista.forEach(prod => {
+      const div = document.createElement('div');
+      div.className = 'produto';
+      div.innerHTML = `
+        <img src="${prod.img}" alt="${prod.nome}" />
+        <h3>${prod.nome}</h3>
+        <p>${prod.desc}</p>
+        <span class="preco-promocao">${prod.preco}</span>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  montarProdutos(promocoes, 'listaPromocoes');
+  montarProdutos(maisVendidos, 'listaMaisVendidos');
+
 </script>
 
-<!-- Firebase SDK -->
+<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
 
 <script>
+  // Configuração Firebase
   const firebaseConfig = {
-    // sua configuração aqui
+    apiKey: "AIzaSyDVr6OOQRt2rB0kByInjqjdyoQCpnMAt7I",
+    authDomain: "site-f6495.firebaseapp.com",
+    projectId: "site-f6495",
+    storageBucket: "site-f6495.firebasestorage.app",
+    messagingSenderId: "230161402024",
+    appId: "1:230161402024:web:462a911919ebf8a0809a9d",
+    measurementId: "G-51G8XF6JH0"
   };
+
+  // Inicialização
   firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
+  firebase.analytics();
+
   const db = firebase.firestore();
+  const auth = firebase.auth();
 
-  // Controle do modal
-  const modalLogin = document.getElementById('modalLogin');
-  const btnAbrirLogin = document.getElementById('btnAbrirLogin');
-  const fecharModal = document.getElementById('fecharModal');
-
-  btnAbrirLogin.addEventListener('click', e => {
-    e.preventDefault();
-    modalLogin.style.display = 'flex';
-  });
-
-  fecharModal.addEventListener('click', () => {
-    modalLogin.style.display = 'none';
-  });
-
-  window.addEventListener('click', e => {
-    if (e.target === modalLogin) {
-      modalLogin.style.display = 'none';
-    }
-  });
-
-  // Login Firebase
-  document.getElementById('formLogin').addEventListener('submit', e => {
-    e.preventDefault();
-    const email = document.getElementById('emailLogin').value;
-    const senha = document.getElementById('senhaLogin').value;
-
-    auth.signInWithEmailAndPassword(email, senha)
-      .then(({ user }) => {
-        // Busca role no Firestore
-        db.collection('usuarios').doc(user.uid).get()
-          .then(doc => {
-            if (doc.exists) {
-              const role = doc.data().role || 'cliente';
-              modalLogin.style.display = 'none';
-
-              if(role === 'funcionario') {
-                window.location.href = 'funcionario.html';
-              } else if(role === 'parceiro') {
-                window.location.href = 'parceiro.html';
-              } else {
-                window.location.href = 'cliente.html';
-              }
-            } else {
-              alert('Usuário sem perfil definido. Contate o suporte.');
-              auth.signOut();
-            }
-          })
-          .catch(() => {
-            alert('Erro ao buscar perfil do usuário.');
-            auth.signOut();
-          });
-      })
-      .catch(error => {
-        alert('Erro no login: ' + error.message);
-      });
-  });
-
-  // Atualiza menu após login
+  // Atualizar menu usuário conforme login
   auth.onAuthStateChanged(user => {
     const menu = document.getElementById('menuUsuario');
-    if (user) {
-      menu.innerHTML = `<a href="cliente.html"><i class="fas fa-user-circle"></i> Olá, ${user.displayName || user.email}</a>`;
-    } else {
-      menu.innerHTML = `<a href="#" id="btnAbrirLogin"><i class="fas fa-user"></i> Entrar | Cadastrar</a>`;
-      document.getElementById('btnAbrirLogin').addEventListener('click', e => {
+    if(user) {
+      menu.innerHTML = `
+        <a href="#"><i class="fas fa-sync-alt"></i> Recorrência</a>
+        <a href="#"><i class="fas fa-box"></i> Pedidos</a>
+        <a href="#" id="logoutBtn"><i class="fas fa-user"></i> ${user.email} (Sair)</a>
+      `;
+      document.getElementById('logoutBtn').addEventListener('click', e => {
         e.preventDefault();
-        modalLogin.style.display = 'flex';
+        auth.signOut();
       });
+    } else {
+      menu.innerHTML = `<a href="login.html"><i class="fas fa-user"></i> Entrar | Cadastrar</a>`;
     }
   });
-
-  // Carregar promoções do Firestore
-  db.collection('promocoes').get().then(snapshot => {
-    let html = '';
-    snapshot.forEach(doc => {
-      let p = doc.data();
-      html += `<div class="produto">
-        <img src="${p.imagem}" alt="${p.nome}" />
-        <h3>${p.nome}</h3>
-        <p>${p.descricao}</p>
-        <span class="preco-promocao">R$ ${p.preco}</span>
-      </div>`;
-    });
-    document.getElementById('listaPromocoes').innerHTML = html;
-  });
-
-  // Carregar mais vendidos
-  db.collection('produtos').where('maisVendido', '==', true).get().then(snapshot => {
-    let html = '';
-    snapshot.forEach(doc => {
-      let p = doc.data();
-      html += `<div class="produto">
-        <img src="${p.imagem}" alt="${p.nome}" />
-        <h3>${p.nome}</h3>
-        <p>${p.descricao}</p>
-        <span class="preco">R$ ${p.preco}</span>
-      </div>`;
-    });
-    document.getElementById('listaMaisVendidos').innerHTML = html;
-  });
-
-  // Busca de produtos
-  function buscarProdutos() {
-    const termo = document.getElementById('campoBusca').value;
-    if (termo.trim()) {
-      window.location.href = `resultados.html?q=${encodeURIComponent(termo)}`;
-    }
-  }
 </script>
 
+<script src="main.js"></script>
 </body>
 </html>
