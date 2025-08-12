@@ -1,66 +1,395 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Área do Cliente - Petshop</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pet Dudis - Início</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0; padding: 0;
+    background: #f8f8f8;
+    color: #333;
+  }
+  header {
+    background: #6a1b9a;
+    color: #fff;
+    padding: 10px 20px;
+  }
+  header .cabecalho-conteudo {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+  }
+  header .logo-container img {
+    height: 48px;
+  }
+  .cep-busca {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+    max-width: 600px;
+  }
+  .cep-busca input {
+    padding: 6px 8px;
+    border-radius: 4px;
+    border: none;
+    flex: 1;
+  }
+  .btn-busca {
+    background: #4a148c;
+    border: none;
+    color: white;
+    padding: 7px 14px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .acoes-usuario a {
+    color: #ddd;
+    text-decoration: none;
+    margin-left: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .acoes-usuario a:hover {
+    text-decoration: underline;
+  }
+  nav.faixa-categorias {
+    background: #4a148c;
+    padding: 10px 0;
+  }
+  nav.faixa-categorias ul {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    color: white;
+    font-weight: 600;
+  }
+  nav.faixa-categorias ul li a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  nav.faixa-categorias ul li a:hover {
+    text-decoration: underline;
+  }
+  /* Benefícios */
+  .beneficios {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+  }
+  .beneficios h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #4a148c;
+  }
+  .beneficios-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+  }
+  .card-beneficio {
+    background: white;
+    width: 160px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgb(0 0 0 / 0.12);
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .card-beneficio:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 14px rgb(0 0 0 / 0.18);
+  }
+  .card-beneficio img {
+    width: 50px;
+    margin-bottom: 12px;
+  }
+  .card-beneficio p {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.3;
+    color: #4a148c;
+  }
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1500;
+    left: 0; top: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.4);
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-conteudo {
+    background: white;
+    padding: 20px 25px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 0 15px rgb(0 0 0 / 0.2);
+    position: relative;
+  }
+  .modal-conteudo h3 {
+    margin-top: 0;
+    color: #4a148c;
+  }
+  .modal-conteudo p {
+    margin-bottom: 15px;
+  }
+  .modal-conteudo .fechar {
+    position: absolute;
+    top: 10px; right: 15px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #999;
+    cursor: pointer;
+  }
+  .modal-conteudo .fechar:hover {
+    color: #4a148c;
+  }
+  /* Footer simples */
+  footer {
+    background: #222;
+    color: #ccc;
+    text-align: center;
+    padding: 25px 10px;
+    font-size: 14px;
+  }
+  /* Responsivo */
+  @media (max-width: 700px) {
+    .beneficios-container {
+      gap: 15px;
+    }
+    .card-beneficio {
+      width: 140px;
+      padding: 10px;
+    }
+    header .cabecalho-conteudo {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+    .cep-busca {
+      max-width: 100%;
+      flex-wrap: nowrap;
+    }
+    nav.faixa-categorias ul {
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+  }
+</style>
 </head>
 <body>
-    <!-- Menu lateral -->
-    <aside class="sidebar">
-        <div class="user-info">
-            <img id="user-photo" src="img/default-user.png" alt="Foto do usuário">
-            <h3 id="user-name">Nome do Cliente</h3>
-            <p id="user-phone">Telefone</p>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#beneficios">Benefícios</a></li>
-                <li><a href="#mais-vendidos">Mais Vendidos</a></li>
-                <li><a href="#marcas">Marcas</a></li>
-                <li><a href="#" id="logout-btn">Sair</a></li>
-            </ul>
-        </nav>
-    </aside>
 
-    <!-- Conteúdo principal -->
-    <main class="main-content">
-        <!-- Área de Login -->
-        <section class="login-section" id="login-section">
-            <h2>Login</h2>
-            <input type="email" id="login-email" placeholder="E-mail">
-            <input type="password" id="login-password" placeholder="Senha">
-            <button id="login-btn">Entrar</button>
-            <p id="login-error" class="error-msg"></p>
-        </section>
+<header>
+  <div class="cabecalho-conteudo">
+    <div class="logo-container">
+      <a href="#"><img src="https://i.imgur.com/1XKsf12.png" alt="Pet Dudis Logo" /></a>
+    </div>
+    <div class="cep-busca">
+      <input type="text" placeholder="Informar CEP" id="cepInput" />
+      <input type="text" placeholder="O que seu pet precisa?" id="campoBusca" />
+      <button class="btn-busca" onclick="buscarProdutos()">🔍</button>
+    </div>
+    <div class="acoes-usuario" id="menuUsuario">
+      <a href="#" id="btnEntrar">Entrar | Cadastrar</a>
+    </div>
+  </div>
+</header>
 
-        <!-- Área de benefícios -->
-        <section id="beneficios" class="benefits-section">
-            <h2>Seus Benefícios</h2>
-            <div id="benefits-list">
-                <!-- Conteúdo preenchido via JS -->
-            </div>
-        </section>
+<nav class="faixa-categorias">
+  <ul>
+    <li><a href="#"><i class="fas fa-dog"></i> Cachorro</a></li>
+    <li><a href="#"><i class="fas fa-cat"></i> Gato</a></li>
+    <li><a href="#"><i class="fas fa-paw"></i> Outros Pets</a></li>
+    <li><a href="#">Serviços</a></li>
+  </ul>
+</nav>
 
-        <!-- Itens mais vendidos -->
-        <section id="mais-vendidos" class="best-sellers-section">
-            <h2>Itens Mais Vendidos</h2>
-            <div class="items-grid" id="best-sellers-list">
-                <!-- Conteúdo preenchido via JS -->
-            </div>
-        </section>
+<section class="beneficios">
+  <h2>Benefícios pra você</h2>
+  <div class="beneficios-container">
+    <div class="card-beneficio" onclick="abrirModal('modal-entregas')">
+      <img src="https://i.imgur.com/W9N1Lqp.png" alt="Entregas" />
+      <p>Nossas entregas</p>
+    </div>
+    <div class="card-beneficio" onclick="abrirModal('modal-parceiros')">
+      <img src="https://i.imgur.com/gV8kSGP.png" alt="Parcerias" />
+      <p>Parcerias com serviços locais</p>
+    </div>
+    <div class="card-beneficio" onclick="abrirModal('modal-descontos')">
+      <img src="https://i.imgur.com/Vr0i71P.png" alt="Descontos" />
+      <p>Descontos especiais</p>
+    </div>
+    <div class="card-beneficio" onclick="abrirModal('modal-indique')">
+      <img src="https://i.imgur.com/pmHlmLq.png" alt="Indique" />
+      <p>Indicou ganhou</p>
+    </div>
+    <div class="card-beneficio" onclick="abrirModal('modal-recompra')">
+      <img src="https://i.imgur.com/hEzn8yi.png" alt="Recompra" />
+      <p>Recompra recorrente</p>
+    </div>
+  </div>
+</section>
 
-        <!-- Marcas -->
-        <section id="marcas" class="brands-section">
-            <h2>Marcas</h2>
-            <div class="brands-grid" id="brands-list">
-                <!-- Conteúdo preenchido via JS -->
-            </div>
-        </section>
-    </main>
+<!-- Modais -->
+<div class="modal" id="modal-entregas">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-entregas')">&times;</span>
+    <h3>Entregas</h3>
+    <p>Entregamos em até 24h para regiões selecionadas. Consulte prazos e disponibilidade no seu CEP.</p>
+  </div>
+</div>
 
-    <!-- Firebase -->
-    <script type="module" src="main.js"></script>
+<div class="modal" id="modal-parceiros">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-parceiros')">&times;</span>
+    <h3>Parcerias Locais</h3>
+    <p>Fortalecemos laços com parceiros locais para oferecer praticidade e benefícios exclusivos.</p>
+  </div>
+</div>
+
+<div class="modal" id="modal-descontos">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-descontos')">&times;</span>
+    <h3>Descontos Especiais</h3>
+    <p>Comprando via Pix, ganhe 5% de desconto. Retirando na loja, mais 5%!</p>
+  </div>
+</div>
+
+<div class="modal" id="modal-indique">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-indique')">&times;</span>
+    <h3>Indique e Ganhe</h3>
+    <p>Indique um amigo e ganhe bônus, seu amigo também recebe desconto!</p>
+  </div>
+</div>
+
+<div class="modal" id="modal-recompra">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-recompra')">&times;</span>
+    <h3>Recompra Recorrente</h3>
+    <p>Assine produtos com desconto e receba automaticamente. Fácil e prático!</p>
+  </div>
+</div>
+
+<footer>
+  Pet Dudis © 2025 - Todos os direitos reservados
+</footer>
+
+<script>
+  // Modal functions
+  function abrirModal(id) {
+    document.getElementById(id).style.display = 'flex';
+  }
+  function fecharModal(id) {
+    document.getElementById(id).style.display = 'none';
+  }
+  window.onclick = function(event) {
+    if(event.target.classList.contains('modal')) {
+      event.target.style.display = 'none';
+    }
+  }
+
+  // Busca simulada
+  function buscarProdutos() {
+    const termo = document.getElementById('campoBusca').value.trim();
+    if(!termo) {
+      alert('Por favor, informe o que seu pet precisa.');
+      return;
+    }
+    alert('Buscando por: ' + termo);
+  }
+
+  // Firebase config e inicialização
+  // ** Atenção: use sua própria configuração aqui **
+  const firebaseConfig = {
+    apiKey: "AIzaSyDVr6OOQRt2rB0kByInjqjdyoQCpnMAt7I",
+    authDomain: "site-f6495.firebaseapp.com",
+    projectId: "site-f6495",
+    storageBucket: "site-f6495.appspot.com",
+    messagingSenderId: "230161402024",
+    appId: "1:230161402024:web:462a911919ebf8a0809a9d",
+    measurementId: "G-51G8XF6JH0"
+  };
+
+  // Carregar Firebase SDKs (compat) via CDN
+  const firebaseScripts = [
+    "https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js",
+    "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"
+  ];
+
+  function loadFirebaseScripts(scripts, callback) {
+    if(!scripts.length) return callback();
+    const src = scripts.shift();
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = () => loadFirebaseScripts(scripts, callback);
+    document.head.appendChild(script);
+  }
+
+  loadFirebaseScripts(firebaseScripts, () => {
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    const menu = document.getElementById('menuUsuario');
+    const btnEntrar = document.getElementById('btnEntrar');
+
+    btnEntrar.addEventListener('click', (e) => {
+      e.preventDefault();
+      // Simula login - aqui vc pode abrir modal de login real
+      const email = prompt('Informe seu e-mail:');
+      if(!email) return alert('E-mail é obrigatório');
+      const senha = prompt('Informe sua senha:');
+      if(!senha) return alert('Senha é obrigatória');
+      auth.signInWithEmailAndPassword(email, senha)
+        .then(userCredential => {
+          alert('Login realizado com sucesso!');
+        })
+        .catch(error => {
+          alert('Erro no login: ' + error.message);
+        });
+    });
+
+    auth.onAuthStateChanged(user => {
+      if(user) {
+        menu.innerHTML = `
+          <span style="color:#ddd; font-weight:600; margin-right:10px;">Olá, ${user.email}</span>
+          <a href="#" id="btnLogout" style="color:#f44336;">Sair</a>
+        `;
+        document.getElementById('btnLogout').addEventListener('click', e => {
+          e.preventDefault();
+          auth.signOut();
+        });
+      } else {
+        menu.innerHTML = `<a href="#" id="btnEntrar">Entrar | Cadastrar</a>`;
+        document.getElementById('btnEntrar').addEventListener('click', (e) => {
+          e.preventDefault();
+          alert('Aqui você abriria o modal de login ou cadastro.');
+        });
+      }
+    });
+  });
+</script>
+
+<!-- FontAwesome CDN para ícones -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
 </body>
 </html>
+
