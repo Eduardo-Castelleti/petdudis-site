@@ -1,11 +1,11 @@
 // Configuração Firebase — substitua com a sua config real
 const firebaseConfig = {
-  apiKey: "SUA_APIKEY",
-  authDomain: "SEU_AUTHDOMAIN",
-  projectId: "SEU_PROJECTID",
-  storageBucket: "SEU_STORAGEBUCKET",
-  messagingSenderId: "SEU_MESSAGINGSENDERID",
-  appId: "SEU_APPID"
+  apiKey: "AIzaSyDVr6OOQRt2rB0kByInjqjdyoQCpnMAt7I",
+  authDomain: "site-f6495.firebaseapp.com",
+  projectId: "site-f6495",
+  storageBucket: "site-f6495.firebasestorage.app",
+  messagingSenderId: "230161402024",
+  appId: "1:230161402024:web:462a911919ebf8a0809a9d"
 };
 
 // Inicializa Firebase
@@ -292,3 +292,4 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+
