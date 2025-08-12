@@ -1,458 +1,224 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Painel do Parceiro</title>
-<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #f8f9fa;
-    margin: 0; padding: 0;
-  }
-  header {
-    background: #5e2ca5;
-    color: white;
-    padding: 15px;
-    text-align: center;
-    font-size: 1.5rem;
-  }
-  .tabs {
-    display: flex;
-    background: white;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    overflow-x: auto;
-  }
-  .tab-btn {
-    flex: 1;
-    padding: 12px;
-    background: white;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    color: #5e2ca5;
-    border-bottom: 3px solid transparent;
-    transition: 0.3s;
-  }
-  .tab-btn.active {
-    border-bottom: 3px solid #5e2ca5;
-    background: #f3f0f9;
-  }
-  .container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: auto;
-  }
-  .tab-content {
-    display: none;
-    animation: fadeIn 0.3s ease-in-out;
-  }
-  .tab-content.active {
-    display: block;
-  }
-  @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-  }
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-    gap: 15px;
-  }
-  .card {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    text-align: center;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  table th, table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-  }
-  table th {
-    background: #5e2ca5;
-    color: white;
-  }
-  .btn {
-    background: #5e2ca5;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  .btn:hover {
-    background: #431d77;
-  }
-  textarea, input, select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-  }
-  .form-popup {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    display: none;
-    z-index: 999;
-    max-width: 400px;
-    width: 100%;
-  }
-  .form-popup.active {
-    display: block;
-  }
-  .form-popup h3 {
-    margin-top: 0;
-  }
-  /* Modal Status Evento */
-  #modalStatusEvento {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    z-index: 10000;
-    min-width: 300px;
-    text-align: center;
-    display: none;
-  }
-  #modalStatusEvento.active {
-    display: block;
-  }
-  #modalStatusEvento button {
-    margin-top: 8px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background: #5e2ca5;
-    color: white;
-    width: 80%;
-    max-width: 250px;
-  }
-  #modalStatusEvento button[style*="background:#d62828"] {
-    background: #d62828 !important;
-  }
-  #modalStatusEvento button:hover {
-    filter: brightness(0.9);
-  }
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        background-color: #f5f5f5;
+    }
+    /* MENU LATERAL */
+    .sidebar {
+        width: 250px;
+        background-color: #2c3e50;
+        color: white;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+        position: fixed;
+    }
+    .sidebar img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+        border: 2px solid white;
+    }
+    .sidebar h3 {
+        margin: 5px 0;
+    }
+    .sidebar p {
+        font-size: 14px;
+        color: #ccc;
+        margin-bottom: 20px;
+    }
+    .sidebar button {
+        width: 90%;
+        padding: 10px;
+        margin: 5px 0;
+        border: none;
+        background-color: #34495e;
+        color: white;
+        text-align: left;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background 0.3s;
+    }
+    .sidebar button:hover {
+        background-color: #1abc9c;
+    }
+    /* CONTEÚDO PRINCIPAL */
+    .content {
+        margin-left: 250px;
+        padding: 20px;
+        width: calc(100% - 250px);
+    }
+    .hidden {
+        display: none;
+    }
+    /* FORMULÁRIOS */
+    form {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    form input, form select {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    form button {
+        background-color: #1abc9c;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    /* TABELAS */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        margin-top: 10px;
+    }
+    table th, table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+    table th {
+        background-color: #1abc9c;
+        color: white;
+    }
+    .status-btn {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
 </style>
 </head>
 <body>
 
-<header>Painel do Parceiro</header>
-
-<!-- Abas na nova ordem -->
-<div class="tabs">
-  <button class="tab-btn active" data-tab="agenda">Agenda</button>
-  <button class="tab-btn" data-tab="pedidos">Pedidos</button>
-  <button class="tab-btn" data-tab="clientes">Clientes & Pets</button>
-  <button class="tab-btn" data-tab="resumo">Resumo</button>
-  <button class="tab-btn" data-tab="comunicacao">Comunicação</button>
-  <button class="tab-btn" data-tab="materiais">Materiais</button>
+<!-- MENU LATERAL -->
+<div class="sidebar">
+    <img src="https://via.placeholder.com/100" alt="Foto Parceiro">
+    <h3>Petshop Parceiro</h3>
+    <p>Porto Alegre - RS</p>
+    <button onclick="showSection('pedidos')">Pedidos</button>
+    <button onclick="showSection('clientes')">Clientes & Pets</button>
+    <button onclick="showSection('resumo')">Resumo</button>
+    <button onclick="showSection('comunicacao')">Comunicação</button>
+    <button onclick="showSection('materiais')">Materiais</button>
+    <button onclick="showSection('servicos')">Serviços</button>
 </div>
 
-<div class="container">
+<!-- CONTEÚDO -->
+<div class="content">
 
-  <!-- Agenda -->
-  <div id="agenda" class="tab-content active">
-    <h2>Agenda de Serviços</h2>
-    <button class="btn" onclick="abrirFormularioAgendamento()">+ Novo Agendamento</button>
-    <div id="calendar"></div>
-  </div>
-
-  <!-- Pedidos -->
-  <div id="pedidos" class="tab-content">
-    <h2>Pedidos e Serviços</h2>
-    <table>
-      <tr><th>Data</th><th>Cliente</th><th>Pet</th><th>Serviço/Produto</th><th>Status</th><th>Valor</th><th>Comissão</th></tr>
-      <tr><td>08/08/2025</td><td>João Silva</td><td>Rex</td><td>Banho e Tosa</td><td>Confirmado</td><td>R$ 90,00</td><td>R$ 9,00</td></tr>
-    </table>
-  </div>
-
-  <!-- Clientes & Pets -->
-  <div id="clientes" class="tab-content">
-    <h2>Cadastrar Cliente & Pet</h2>
-    <input type="text" placeholder="Nome do Cliente" id="clienteNome" />
-    <input type="tel" placeholder="Telefone" id="clienteTelefone" />
-    <input type="text" placeholder="Nome do Pet" id="petNome" />
-    <input type="text" placeholder="Espécie" id="petEspecie" />
-    <input type="text" placeholder="Raça" id="petRaca" />
-    <input type="number" placeholder="Idade (anos)" id="petIdade" min="0" />
-    <input type="number" placeholder="Peso (kg)" id="petPeso" min="0" step="0.1" />
-    <button class="btn" onclick="salvarClientePet()">Salvar Cliente</button>
-
-    <h3>Clientes Cadastrados</h3>
-    <table id="clientesTable">
-      <thead>
-        <tr>
-          <th>Cliente</th><th>Telefone</th><th>Pet</th><th>Espécie</th><th>Raça</th><th>Idade</th><th>Peso (kg)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Dados inseridos aqui -->
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Resumo -->
-  <div id="resumo" class="tab-content">
-    <div class="cards">
-      <div class="card"><h3>Vendas no mês</h3><p>R$ 2.350,00</p></div>
-      <div class="card"><h3>Serviços indicados</h3><p>14</p></div>
-      <div class="card"><h3>Comissão acumulada</h3><p>R$ 325,00</p></div>
-      <div class="card"><h3>Último pagamento</h3><p>05/08/2025</p></div>
+    <!-- PEDIDOS -->
+    <div id="pedidos" class="section">
+        <h2>Pedidos</h2>
+        <table>
+            <tr><th>Cliente</th><th>Pet</th><th>Serviço</th><th>Status</th></tr>
+            <tr>
+                <td>Maria Silva</td>
+                <td>Rex</td>
+                <td>Banho</td>
+                <td>
+                    <select onchange="alert('Status alterado para: ' + this.value)">
+                        <option>Pendente</option>
+                        <option>Confirmado</option>
+                        <option>Concluído</option>
+                        <option>Cancelado</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
     </div>
-  </div>
 
-  <!-- Comunicação -->
-  <div id="comunicacao" class="tab-content">
-    <h2>Mensagem para a Loja</h2>
-    <textarea placeholder="Digite sua mensagem..."></textarea>
-    <button class="btn">Enviar</button>
-  </div>
+    <!-- CLIENTES & PETS -->
+    <div id="clientes" class="section hidden">
+        <h2>Cadastro de Clientes & Pets</h2>
+        <form id="formClientes">
+            <input type="text" placeholder="Nome do Cliente" required>
+            <input type="tel" placeholder="Telefone" required>
+            <input type="text" placeholder="Nome do Pet" required>
+            <select required>
+                <option value="">Espécie</option>
+                <option>Cão</option>
+                <option>Gato</option>
+                <option>Outro</option>
+            </select>
+            <input type="text" placeholder="Raça" required>
+            <input type="number" placeholder="Idade" required>
+            <input type="number" step="0.1" placeholder="Peso (kg)" required>
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
 
-  <!-- Materiais -->
-  <div id="materiais" class="tab-content">
-    <h2>Materiais de Marketing</h2>
-    <p>Seu link exclusivo:</p>
-    <input type="text" id="linkParceiro" value="https://minhaloja.com/parceiro123" readonly />
-    <button class="btn" onclick="copiarLink()">Copiar Link</button>
-    <br /><br />
-    <button class="btn">Baixar Banners</button>
-  </div>
+    <!-- RESUMO -->
+    <div id="resumo" class="section hidden">
+        <h2>Resumo</h2>
+        <canvas id="graficoVendas" height="100"></canvas>
+    </div>
+
+    <!-- COMUNICAÇÃO -->
+    <div id="comunicacao" class="section hidden">
+        <h2>Comunicação</h2>
+        <p>Área para mensagens rápidas entre você e a loja.</p>
+    </div>
+
+    <!-- MATERIAIS -->
+    <div id="materiais" class="section hidden">
+        <h2>Materiais</h2>
+        <p>Aqui você encontrará banners, panfletos e outros materiais para divulgação.</p>
+    </div>
+
+    <!-- SERVIÇOS -->
+    <div id="servicos" class="section hidden">
+        <h2>Cadastro de Serviços</h2>
+        <form id="formServicos">
+            <input type="text" placeholder="Nome do Serviço" required>
+            <input type="number" step="0.01" placeholder="Valor (R$)" required>
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
 
 </div>
 
-<!-- Popup Form Agendamento -->
-<div id="formAgendamento" class="form-popup">
-  <h3>Novo Agendamento</h3>
-  <input type="text" placeholder="Nome do Cliente" id="agendamentoClienteNome" />
-  <input type="text" placeholder="Nome do Pet" id="agendamentoPetNome" />
-  <select id="agendamentoServico">
-    <option>Banho</option>
-    <option>Tosa</option>
-    <option>Banho e Tosa</option>
-    <option>Consulta</option>
-  </select>
-  <input type="date" id="agendamentoData" />
-  <input type="time" id="agendamentoHora" />
-  <textarea placeholder="Observações" id="agendamentoObs"></textarea>
-  <button class="btn" onclick="salvarAgendamento()">Salvar</button>
-  <button class="btn" style="background:red;" onclick="fecharFormularioAgendamento()">Fechar</button>
-</div>
-
-<!-- Modal Status Evento -->
-<div id="modalStatusEvento" class="">
-  <!-- conteúdo gerado dinamicamente via JS -->
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 <script>
-  // Troca de abas
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-      document.getElementById(btn.dataset.tab).classList.add('active');
-    });
-  });
+// Alterna seções
+function showSection(id) {
+    document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+}
 
-  // Copiar link
-  function copiarLink() {
-    const link = document.getElementById('linkParceiro');
-    link.select();
-    document.execCommand('copy');
-    alert('Link copiado!');
-  }
-
-  // Form Agendamento
-  function abrirFormularioAgendamento() {
-    document.getElementById('formAgendamento').classList.add('active');
-  }
-  function fecharFormularioAgendamento() {
-    document.getElementById('formAgendamento').classList.remove('active');
-  }
-
-  // Armazenar clientes & pets em memória temporária (exemplo)
-  let clientesPets = [];
-
-  function salvarClientePet() {
-    const clienteNome = document.getElementById('clienteNome').value.trim();
-    const clienteTelefone = document.getElementById('clienteTelefone').value.trim();
-    const petNome = document.getElementById('petNome').value.trim();
-    const petEspecie = document.getElementById('petEspecie').value.trim();
-    const petRaca = document.getElementById('petRaca').value.trim();
-    const petIdade = document.getElementById('petIdade').value.trim();
-    const petPeso = document.getElementById('petPeso').value.trim();
-
-    if (!clienteNome || !clienteTelefone || !petNome) {
-      alert('Preencha pelo menos Nome do Cliente, Telefone e Nome do Pet.');
-      return;
+// Gráfico Resumo
+const ctx = document.getElementById('graficoVendas').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+        datasets: [{
+            label: 'Vendas (R$)',
+            data: [1200, 1500, 1800, 2000, 1700, 2100],
+            backgroundColor: '#1abc9c'
+        }]
     }
-
-    clientesPets.push({
-      clienteNome,
-      clienteTelefone,
-      petNome,
-      petEspecie,
-      petRaca,
-      petIdade,
-      petPeso
-    });
-
-    atualizarTabelaClientes();
-    limparFormularioClientes();
-    alert('Cliente e pet salvos com sucesso!');
-  }
-
-  function atualizarTabelaClientes() {
-    const tbody = document.querySelector('#clientesTable tbody');
-    tbody.innerHTML = '';
-    clientesPets.forEach((item, i) => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${item.clienteNome}</td>
-        <td>${item.clienteTelefone}</td>
-        <td>${item.petNome}</td>
-        <td>${item.petEspecie || '-'}</td>
-        <td>${item.petRaca || '-'}</td>
-        <td>${item.petIdade || '-'}</td>
-        <td>${item.petPeso || '-'}</td>
-      `;
-      tbody.appendChild(tr);
-    });
-  }
-
-  function limparFormularioClientes() {
-    ['clienteNome','clienteTelefone','petNome','petEspecie','petRaca','petIdade','petPeso'].forEach(id => {
-      document.getElementById(id).value = '';
-    });
-  }
-
-  // Variável global para evento selecionado
-  let eventoSelecionado = null;
-  let calendar;
-
-  // Função para abrir modal de status do evento
-  function abrirModalStatusEvento(evento) {
-    eventoSelecionado = evento;
-    const modal = document.getElementById('modalStatusEvento');
-    modal.innerHTML = `
-      <h3>${evento.title}</h3>
-      <button onclick="atualizarStatusEvento('confirmado')">Confirmar banho</button><br/><br/>
-      <button onclick="atualizarStatusEvento('realizado')">Banho realizado</button><br/><br/>
-      <button onclick="atualizarStatusEvento('cancelado')" style="background:#d62828;">Cancelar banho</button><br/><br/>
-      <button onclick="fecharModalStatusEvento()" style="background:#777;">Fechar</button>
-    `;
-    modal.classList.add('active');
-  }
-
-  // Função para atualizar status do evento e fechar modal
-  function atualizarStatusEvento(status) {
-    if (!eventoSelecionado) return;
-    eventoSelecionado.setExtendedProp('status', status);
-
-    let novoTitulo = eventoSelecionado.title.split(' - ')[0];
-    if (status === 'confirmado') novoTitulo += ' - Confirmado';
-    else if (status === 'realizado') novoTitulo += ' - Realizado';
-    else if (status === 'cancelado') novoTitulo += ' - Cancelado';
-
-    eventoSelecionado.setProp('title', novoTitulo);
-
-    fecharModalStatusEvento();
-    calendar.refetchEvents();
-  }
-
-  // Função para fechar modal
-  function fecharModalStatusEvento() {
-    const modal = document.getElementById('modalStatusEvento');
-    modal.classList.remove('active');
-  }
-
-  // Inicializa calendário
-  document.addEventListener('DOMContentLoaded', function () {
-    let calendarEl = document.getElementById('calendar');
-    calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      locale: 'pt-br',
-      headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' },
-      events: [
-        { id: '1', title: 'Banho - Rex', start: '2025-08-12', status: 'pendente' },
-        { id: '2', title: 'Tosa - Belinha', start: '2025-08-13', status: 'pendente' },
-        { id: '3', title: 'Consulta - Bob', start: '2025-08-15', status: 'pendente' }
-      ],
-      eventClick: function(info) {
-        abrirModalStatusEvento(info.event);
-      },
-      eventDidMount: function(info) {
-        const status = info.event.extendedProps.status || 'pendente';
-        let bgColor = '#3788d8'; // azul padrão
-        if (status === 'confirmado') bgColor = '#2a9d8f';  // verde
-        else if (status === 'realizado') bgColor = '#6a994e'; // verde escuro
-        else if (status === 'cancelado') bgColor = '#d62828'; // vermelho
-        info.el.style.backgroundColor = bgColor;
-        info.el.style.borderColor = bgColor;
-      }
-    });
-    calendar.render();
-  });
-
-  function salvarAgendamento() {
-    const cliente = document.getElementById('agendamentoClienteNome').value.trim();
-    const pet = document.getElementById('agendamentoPetNome').value.trim();
-    const servico = document.getElementById('agendamentoServico').value;
-    const data = document.getElementById('agendamentoData').value;
-    const hora = document.getElementById('agendamentoHora').value;
-    const obs = document.getElementById('agendamentoObs').value.trim();
-
-    if (!cliente || !pet || !data || !hora) {
-      alert('Preencha os campos Cliente, Pet, Data e Hora.');
-      return;
-    }
-
-    const dateTime = data + 'T' + hora;
-
-    calendar.addEvent({
-      title: `${servico} - ${pet}`,
-      start: dateTime,
-      allDay: false,
-      extendedProps: { observacoes: obs, cliente: cliente, status: 'pendente' }
-    });
-
-    alert('Agendamento salvo!');
-    fecharFormularioAgendamento();
-
-    // Limpa form
-    document.getElementById('agendamentoClienteNome').value = '';
-    document.getElementById('agendamentoPetNome').value = '';
-    document.getElementById('agendamentoServico').value = 'Banho';
-    document.getElementById('agendamentoData').value = '';
-    document.getElementById('agendamentoHora').value = '';
-    document.getElementById('agendamentoObs').value = '';
-  }
+});
 </script>
 
 </body>
