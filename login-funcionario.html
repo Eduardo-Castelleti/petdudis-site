@@ -68,7 +68,7 @@
         auth.signInWithEmailAndPassword(email, senha)
         .then(userCredential => {
             const user = userCredential.user;
-            db.collection("usuarios").doc(user.uid).get()
+            db.collection("users").doc(user.uid).get()
             .then(doc => {
                 if (doc.exists && doc.data().role === "funcionario") {
                     window.location.href = "painel-funcionario.html";
