@@ -190,17 +190,135 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // -------------------- USUÁRIO LOGADO --------------------
+  // -------------------- LOGIN E CADASTRO DO MODAL --------------------
+
+  // Elementos do modal login
+  const modalLogin = document.getElementById('modal-login');
+  const formLogin = document.getElementById('form-login');
+  const inputEmail = document.getElementById('email');
+  const inputSenha = document.getElementById('password');
+  const btnCadastrarModal = document.getElementById('btnCadastrar');
+  const mensagemErroLogin = document.getElementById('mensagem-erro');
+  const btnAbrirLogin = document.getElementById('btnAbrirLogin');
+
+  // Função para mostrar erro no modal login
+  function showErroLogin(msg) {
+    mensagemErroLogin.textContent = msg;
+    mensagemErroLogin.style.display = 'block';
+  }
+  function limparErroLogin() {
+    mensagemErroLogin.textContent = '';
+    mensagemErroLogin.style.display = 'none';
+  }
+
+  if (formLogin) {
+    formLogin.addEventListener('submit', (e) => {
+      e.preventDefault();
+      limparErroLogin();
+
+      const email = inputEmail.value.trim();
+      const senha = inputSenha.value.trim();
+
+      if (!email || !senha) {
+        showErroLogin("Preencha email e senha.");
+        return;
+      }
+
+      // Login com Firebase Auth
+      firebase.auth().signInWithEmailAndPassword(email, senha)
+        .then(userCredential => {
+          // Login bem-sucedido
+          fecharModalLogin();
+          atualizarBotaoLogin(userCredential.user);
+        })
+        .catch(error => {
+          showErroLogin(error.message);
+        });
+    });
+  }
+
+  // Cadastro via modal
+  if (btnCadastrarModal) {
+    btnCadastrarModal.addEventListener('click', () => {
+      limparErroLogin();
+
+      const email = inputEmail.value.trim();
+      const senha = inputSenha.value.trim();
+
+      if (!email || !senha) {
+        showErroLogin("Preencha email e senha para cadastro.");
+        return;
+      }
+
+      // Solicitar nome via prompt (poderia mudar para input no modal)
+      const nome = prompt("Digite seu nome completo para cadastro:");
+      if (!nome || nome.trim().length < 3) {
+        showErroLogin("Nome inválido para cadastro.");
+        return;
+      }
+
+      firebase.auth().createUserWithEmailAndPassword(email, senha)
+        .then(userCredential => {
+          const user = userCredential.user;
+          return user.updateProfile({
+            displayName: nome.trim(),
+            photoURL: ""
+          });
+        })
+        .then(() => {
+          fecharModalLogin();
+          firebase.auth().currentUser && atualizarBotaoLogin(firebase.auth().currentUser);
+          alert("Cadastro realizado com sucesso!");
+        })
+        .catch(error => {
+          showErroLogin(error.message);
+        });
+    });
+  }
+
+  // Função para fechar modal login
+  function fecharModalLogin() {
+    if (modalLogin) {
+      modalLogin.style.display = 'none';
+      inputEmail.value = '';
+      inputSenha.value = '';
+      limparErroLogin();
+    }
+  }
+
+  // Atualiza o botão de login no cabeçalho
+  function atualizarBotaoLogin(user) {
+    if (!user) return;
+
+    const nome = user.displayName || "Cliente";
+    const foto = user.photoURL || "default-avatar.png";
+
+    // Substitui o conteúdo do link login no header
+    if (btnAbrirLogin) {
+      btnAbrirLogin.innerHTML = `
+        <img src="${foto}" alt="Foto" style="width:32px;height:32px;border-radius:50%;margin-right:8px;vertical-align:middle;">
+        <span>${nome.split(" ")[0]}</span>
+      `;
+      // opcional: pode transformar em logout
+      btnAbrirLogin.href = "#";
+      btnAbrirLogin.onclick = (e) => {
+        e.preventDefault();
+        if (confirm("Deseja sair?")) {
+          firebase.auth().signOut().then(() => {
+            location.reload();
+          });
+        }
+      };
+    }
+  }
+
+  // Verifica usuário logado ao carregar a página
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
-      const btnLogin = document.getElementById("btn-login");
-      if (btnLogin) {
-        const nome = user.displayName || "Cliente";
-        const foto = user.photoURL || "default-avatar.png";
-        btnLogin.innerHTML = `
-          <img src="${foto}" alt="Foto" style="width:32px;height:32px;border-radius:50%;margin-right:8px;">
-          <span>${nome.split(" ")[0]}</span>
-        `;
+      atualizarBotaoLogin(user);
+      // Se modal aberto, fecha ele
+      if (modalLogin && modalLogin.style.display === 'block') {
+        fecharModalLogin();
       }
     }
   });
@@ -213,4 +331,3 @@ document.addEventListener('DOMContentLoaded', function () {
     paginaCadastro();
   }
 });
-
