@@ -110,15 +110,203 @@
   </div>
 </section>
 
-<!-- MODAIS -->
-<div class="modal" id="modal-entregas">
-  <div class="modal-conteudo">
-    <span class="fechar" onclick="fecharModal('modal-entregas')">&times;</span>
-    <h3>Entregas</h3>
-    <p>Entregamos em até 24h para regiões selecionadas. Consulte prazos e disponibilidade no seu CEP.</p>
+  <!-- BENEFÍCIOS -->
+<section class="beneficios">
+  <h2>Benefícios pra você</h2>
+  <div class="beneficios-container">
+    <div class="card-beneficio" onclick="abrirModal('modal-entregas')">
+      <img src="img/entrega.svg" alt="Entregas" class="icone-beneficio" />
+      <p><strong>Nossas<br>entregas</strong></p>
+    </div>
+    <div class="card-beneficio" onclick="abrirModal('modal-parceiros')">
+      <img src="img/parceiros.svg" alt="Parcerias" class="icone-beneficio" />
+      <p><strong>Parcerias com<br>serviços locais</strong></p>
+    </div>
+    <div class="card-beneficio" onclick="abrirModal('modal-descontos')">
+      <img src="img/desconto.svg" alt="Descontos" class="icone-beneficio" />
+      <p><strong>Descontos<br>especiais</strong></p>
+    </div>
+    <div class="card-beneficio" onclick="abrirModal('modal-indique')">
+      <img src="img/indique.svg" alt="Indique" class="icone-beneficio" />
+      <p><strong>Indicou<br>ganhou</strong></p>
+    </div>
+    <div class="card-beneficio" onclick="abrirModal('modal-recompra')">
+      <img src="img/recompra.svg" alt="Recompra" class="icone-beneficio" />
+      <p><strong>Recompra<br>recorrente</strong></p>
+    </div>
   </div>
-</div>
-<!-- restante dos modais segue igual -->
+</section>
+
+  <!-- MODAIS -->
+  <div class="modal" id="modal-entregas">
+    <div class="modal-conteudo">
+      <span class="fechar" onclick="fecharModal('modal-entregas')">&times;</span>
+      <h3>Entregas</h3>
+      <p>Entregamos em até 24h para regiões selecionadas. Consulte prazos e disponibilidade no seu CEP.</p>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-parceiros">
+    <div class="modal-conteudo">
+      <span class="fechar" onclick="fecharModal('modal-parceiros')">&times;</span>
+      <h3>Conectando você aos melhores serviços do bairro!</h3>
+      <p>Fortalecemos laços com parceiros locais para oferecer praticidade, confiança e benefícios exclusivos para você e seu pet.</p>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-descontos">
+    <div class="modal-conteudo">
+      <span class="fechar" onclick="fecharModal('modal-descontos')">&times;</span>
+      <h3>Descontos Especiais</h3>
+      <p>Comprando via <strong>Pix</strong> você ganha <strong>5% de desconto</strong>. Retirando em nossa loja ou com um parceiro próximo, ganha <strong>mais 5%</strong>. Descontos válidos para todos os clientes!</p>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-indique">
+    <div class="modal-conteudo">
+      <span class="fechar" onclick="fecharModal('modal-indique')">&times;</span>
+      <h3>Indique e Ganhe</h3>
+      <p>Indique amigos e ganhe bônus. Seu amigo recebe desconto na primeira compra e você ganha um brinde ou crédito.</p>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-recompra">
+    <div class="modal-conteudo">
+      <span class="fechar" onclick="fecharModal('modal-recompra')">&times;</span>
+      <h3>Recompra Recorrente</h3>
+      <p>Assine produtos para entrega automática com desconto e comodidade. Cancele quando quiser.</p>
+    </div>
+  </div>
+
+  <!-- SERVIÇOS -->
+  <section class="servicos-agendamento">
+    <div class="servico">
+      <h3>Banho & Tosa</h3>
+      <p>Ambiente seguro e profissionais experientes para o cuidado do seu pet.</p>
+      <a href="banho.html" class="btn-agendar">Comprar agora</a>
+    </div>
+    <div class="servico">
+      <h3>Creche Pet</h3>
+      <p>Ideal para quem trabalha o dia todo: diversão e cuidado garantidos.</p>
+      <a href="creche.html" class="btn-agendar">Agendar agora</a>
+    </div>
+    <div class="servico">
+      <h3>Hospedagem</h3>
+      <p>Finais de semana ou viagens? Seu pet fica em um lugar aconchegante.</p>
+      <a href="hospedagem.html#hospedagem" class="btn-agendar">Agendar agora</a>
+    </div>
+    <div class="servico">
+      <h3>Consultas Veterinárias</h3>
+      <p>Profissionais confiáveis para acompanhar a saúde do seu pet.</p>
+      <a href="consultaveterinario.html#consulta" class="btn-agendar">Agendar agora</a>
+    </div>
+  </section>
+
+  <!-- PROMOÇÕES -->
+  <section class="promocoes">
+    <h2>Promoções da Semana</h2>
+    <div class="produtos-destaque">
+      <div class="produto">
+        <img src="https://via.placeholder.com/150" alt="Snack Natural Dog" />
+        <h3>Snack Natural Dog 500g</h3>
+        <p>De R$ 39,90 por</p>
+        <span class="preco-promocao">R$ 29,90</span>
+      </div>
+      <div class="produto">
+        <img src="https://via.placeholder.com/150" alt="Shampoo Neutro" />
+        <h3>Shampoo Neutro 500ml</h3>
+        <p>Leve 2 e pague 1</p>
+        <span class="preco-promocao">R$ 18,90</span>
+      </div>
+      <div class="produto">
+        <img src="https://via.placeholder.com/150" alt="Coleira Antipulgas" />
+        <h3>Coleira Antipulgas</h3>
+        <p>Desconto especial no Pix + Retirada</p>
+        <span class="preco-promocao">R$ 64,90</span>
+      </div>
+    </div>
+  </section>
+
+<!-- MAIS VENDIDOS -->
+<section class="mais-vendidos">
+  <h2>Itens mais vendidos</h2>
+  <div class="produtos-destaque" id="listaMaisVendidos"></div>
+</section>
+  
+  <!-- MARCAS -->
+  <section class="marcas">
+    <h2>Trabalhamos com as melhores marcas</h2>
+    <div class="marcas-container">
+      <img src="marcas/specialdog.png" alt="Special Dog" />
+      <img src="marcas/premierpet.png" alt="Premier Pet" />
+      <img src="marcas/nexgard.png" alt="Nexgard" />
+      <img src="marcas/royalcanin.png" alt="Royal Canin" />
+      <img src="marcas/buddytoys.png" alt="Buddy Toys" />
+    </div>
+  </section>
+
+  
+  <!-- RODAPÉ -->
+  <footer class="rodape-completo">
+    <div class="rodape-conteudo">
+      <div class="coluna">
+        <h4>Sobre Nós</h4>
+        <ul>
+          <li><a href="#">Sobre Nós</a></li>
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Política de Compra</a></li>
+          <li><a href="#">Política de Entrega</a></li>
+          <li><a href="#">Trocas e Devoluções</a></li>
+        </ul>
+      </div>
+      <div class="coluna">
+        <h4>Atendimento ao Cliente</h4>
+        <ul>
+          <li><a href="#">Contato</a></li>
+          <li><a href="#">Devoluções</a></li>
+          <li><a href="#">Mapa do Site</a></li>
+          <li><a href="#">Marcas</a></li>
+        </ul>
+      </div>
+      <div class="coluna">
+        <h4>Minha conta</h4>
+        <ul>
+          <li><a href="#">Minha conta</a></li>
+          <li><a href="#">Histórico de pedidos</a></li>
+        </ul>
+      </div>
+      <div class="coluna newsletter">
+        <h4>Receber Notícias</h4>
+        <p>Mantenha-se atualizado com as novidades e promoções:</p>
+        <form>
+          <input type="tel" placeholder="Seu Telefone" required />
+          <button type="submit"><i class="fas fa-envelope"></i> Enviar</button>
+        </form>
+        <h5>Imagem antispam</h5>
+        <label>Digite o código no campo abaixo <span style="color:red">*</span></label>
+        <div class="recaptcha-fake">
+          <div class="caixa"></div>
+          <span><i class="far fa-square"></i> Não sou um robô</span>
+          <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" />
+        </div>
+        <label><input type="checkbox" required /> Eu li e concordo com o contrato de <a href="#">Segurança e Privacidade</a></label>
+      </div>
+    </div>
+
+    <div class="rodape-inferior">
+      <div class="pagamentos">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="MasterCard" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo_%282018%29.svg" alt="Amex" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Elo_card_logo.svg" alt="Elo" />
+        <img src="https://logodownload.org/wp-content/uploads/2019/09/hipercard-logo-2.png" alt="Hipercard" style="height: 28px;" />
+      </div>
+      <div class="selos">
+        <img src="https://www.certisign.com.br/assets/images/selos/selo_site_seguro.png" alt="Site Seguro" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Google_Safe_Browsing_logo.svg" alt="Google Safe" style="height: 28px;" />
+      </div>
+    </div>
+  </footer>
 
 <!-- JS Banners e modais -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -140,3 +328,4 @@
     });
   };
 </script>
+
