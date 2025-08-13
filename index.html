@@ -87,13 +87,34 @@
 </head>
 <body>
 
-<header>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pet Dudis - Início</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<!-- CABEÇALHO -->
+<header class="cabecalho">
+  <div class="cabecalho-conteudo">
+    <!-- Logo -->
+    <div class="logo-container">
+      <img src="logo.svg" alt="Logo Pet Dudis" class="logo">
+    </div>
+
+    <!-- Campos CEP e Busca -->
+    <div class="cep-busca">
+      <div class="cep-input-wrapper">
+        <span>📍</span>
+        <input type="text" placeholder="Informar CEP" class="cep-input">
+      </div>
+      <div class="busca-input-wrapper">
+        <span>🔍</span>
+        <input type="text" placeholder="O que seu pet precisa?" class="busca-input">
+        <button class="btn-busca">🔍</button>
+      </div>
+    </div>
+
+    <!-- Ícones à direita -->
+    <div class="acoes-usuario">
+      <a href="#"><i class="fas fa-sync-alt"></i> Recorrência</a>
+      <a href="#"><i class="fas fa-box"></i> Pedidos</a>
+      <a href="#"><i class="fas fa-user"></i> Entrar | Cadastrar</a>
+    </div>
+  </div>
 </header>
 
 <!-- Menu Lateral do Cliente -->
@@ -180,4 +201,5 @@
 
 </body>
 </html>
+
 
