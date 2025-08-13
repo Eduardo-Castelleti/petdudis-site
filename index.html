@@ -11,42 +11,62 @@
         background: #f4f4f4;
     }
 
-    /* Header */
-    header {
+    /* Cabeçalho */
+    .cabecalho {
+        background: #6a0dad;
+        padding: 10px 20px;
+        color: white;
+    }
+
+    .cabecalho-conteudo {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: #6a0dad;
-        color: #fff;
-        padding: 10px 20px;
+        flex-wrap: wrap;
     }
 
     .logo {
-        font-size: 1.5em;
-        font-weight: bold;
+        height: 40px;
     }
 
-    .menu-topo {
+    .cep-busca {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .cep-input-wrapper, .busca-input-wrapper {
+        background: white;
+        padding: 5px 10px;
+        border-radius: 5px;
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 5px;
     }
 
-    .nome-cliente {
+    .cep-input, .busca-input {
+        border: none;
+        outline: none;
+    }
+
+    .btn-busca {
+        border: none;
+        background: none;
         cursor: pointer;
+    }
+
+    .acoes-usuario a {
+        color: white;
+        margin-left: 15px;
+        text-decoration: none;
         font-weight: bold;
-    }
-
-    .icone-carrinho {
-        font-size: 1.2em;
-        cursor: pointer;
     }
 
     /* Menu Lateral */
     .menu-lateral {
         position: fixed;
         top: 0;
-        right: -250px; /* escondido por padrão */
+        right: -250px;
         width: 250px;
         height: 100%;
         background: #fff;
@@ -60,8 +80,12 @@
         right: 0;
     }
 
-    .menu-lateral h3 {
-        margin-top: 0;
+    .fechar-menu {
+        display: block;
+        text-align: right;
+        font-size: 1.5em;
+        cursor: pointer;
+        margin-bottom: 20px;
     }
 
     .menu-lateral a {
@@ -74,14 +98,6 @@
 
     .menu-lateral a:hover {
         background: #f4f4f4;
-    }
-
-    .fechar-menu {
-        display: block;
-        text-align: right;
-        font-size: 1.5em;
-        cursor: pointer;
-        margin-bottom: 20px;
     }
 </style>
 </head>
@@ -112,12 +128,12 @@
     <div class="acoes-usuario">
       <a href="#"><i class="fas fa-sync-alt"></i> Recorrência</a>
       <a href="#"><i class="fas fa-box"></i> Pedidos</a>
-      <a href="#"><i class="fas fa-user"></i> Entrar | Cadastrar</a>
+      <a href="#" id="botaoMenu"><i class="fas fa-user"></i> Olá, João</a>
     </div>
   </div>
 </header>
 
-<!-- Menu Lateral do Cliente -->
+<!-- Menu Lateral -->
 <div class="menu-lateral" id="menuLateral">
     <span class="fechar-menu" id="fecharMenu">&times;</span>
     <h3>Área do Cliente</h3>
@@ -125,6 +141,9 @@
     <a href="#">Agendamentos</a>
     <a href="#">Consultas</a>
     <a href="#">Histórico</a>
+    <hr>
+    <p><strong>E-mail:</strong> cliente@exemplo.com</p>
+    <p><strong>Telefone:</strong> (11) 99999-9999</p>
     <a href="#" id="btnLogout">Sair</a>
 </div>
 
@@ -133,73 +152,23 @@
     <p>Conteúdo principal aqui...</p>
 </main>
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-
 <script>
-    // Configuração do Firebase (substitua pelos seus dados)
-    const firebaseConfig = {
-        apiKey: "SUA_API_KEY",
-        authDomain: "SEU_PROJECT_ID.firebaseapp.com",
-        projectId: "SEU_PROJECT_ID",
-        storageBucket: "SEU_PROJECT_ID.appspot.com",
-        messagingSenderId: "SENDER_ID",
-        appId: "APP_ID"
-    };
-    firebase.initializeApp(firebaseConfig);
+    document.getElementById("botaoMenu").addEventListener("click", function(event) {
+        event.preventDefault();
+        document.getElementById("menuLateral").classList.add("ativo");
+    });
 
-    const botaoMenu = document.getElementById("botaoMenu");
-    const menuLateral = document.getElementById("menuLateral");
-    const fecharMenu = document.getElementById("fecharMenu");
-    const btnLogout = document.getElementById("btnLogout");
+    document.getElementById("fecharMenu").addEventListener("click", function() {
+        document.getElementById("menuLateral").classList.remove("ativo");
+    });
 
-    // Estado de login
-    firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-            botaoMenu.textContent = "Olá, " + (user.displayName || user.email.split('@')[0]);
-            botaoMenu.onclick = () => {
-                menuLateral.classList.add("ativo");
-            };
-        } else {
-            botaoMenu.textContent = "Entrar";
-            botaoMenu.onclick = () => {
-                const email = prompt("Digite seu e-mail:");
-                const senha = prompt("Digite sua senha:");
-                if (email && senha) {
-                    firebase.auth().signInWithEmailAndPassword(email, senha)
-                        .catch(err => alert("Erro: " + err.message));
-                }
-            };
+    window.addEventListener("click", function(event) {
+        let menu = document.getElementById("menuLateral");
+        if (event.target !== menu && !menu.contains(event.target) && event.target.id !== "botaoMenu") {
+            menu.classList.remove("ativo");
         }
-    });
-
-    // Fechar menu lateral
-    fecharMenu.addEventListener("click", () => {
-        menuLateral.classList.remove("ativo");
-    });
-
-    // Fechar clicando fora do menu
-    window.addEventListener("click", event => {
-        if (event.target !== menuLateral && !menuLateral.contains(event.target) && event.target !== botaoMenu) {
-            menuLateral.classList.remove("ativo");
-        }
-    });
-
-    // Logout
-    btnLogout.addEventListener("click", e => {
-        e.preventDefault();
-        firebase.auth().signOut();
-        menuLateral.classList.remove("ativo");
-    });
-
-    // Carrinho
-    document.getElementById("carrinho").addEventListener("click", () => {
-        alert("Abrir carrinho (implementar)");
     });
 </script>
 
 </body>
 </html>
-
-
