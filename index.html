@@ -8,25 +8,34 @@
 </head>
 <body>
 
-  <!-- Cabeçalho -->
-  <header class="cabecalho">
-    <div class="cabecalho-conteudo">
-      <!-- Logo -->
-      <a href="#"><img src="logo.png" alt="Logo" class="logo"></a>
+<!-- CABEÇALHO -->
+<header class="cabecalho">
+  <div class="cabecalho-conteudo">
+    <!-- Logo -->
+    <div class="logo-container">
+      <img src="logo.svg" alt="Logo Pet Dudis" class="logo">
+    </div>
 
-      <!-- Busca e CEP -->
-      <div class="cep-busca">
-        <div class="cep-input-wrapper">
-          <input type="text" class="cep-input" placeholder="Digite seu CEP">
-          <button class="btn-busca">OK</button>
-        </div>
-        <div class="busca-input-wrapper">
-          <input type="text" class="busca-input" placeholder="Buscar produtos">
-          <button class="btn-busca">🔍</button>
-        </div>
+    <!-- Campos CEP e Busca -->
+    <div class="cep-busca">
+      <div class="cep-input-wrapper">
+        <span>📍</span>
+        <input type="text" placeholder="Informar CEP" class="cep-input">
       </div>
+      <div class="busca-input-wrapper">
+        <span>🔍</span>
+        <input type="text" placeholder="O que seu pet precisa?" class="busca-input">
+        <button class="btn-busca">🔍</button>
+      </div>
+    </div>
 
-      <!-- Ações do usuário -->
+    <!-- Ícones à direita -->
+    <div class="acoes-usuario">
+      <a href="#"><i class="acoes-usuario"></i> Entrar | Cadastrar</a>
+    </div>
+  </div>
+
+  <!-- Ações do usuário -->
       <div class="acoes-usuario">
         <a href="#"><img src="icone-carrinho.png" alt="Carrinho" width="20"> Carrinho</a>
 
@@ -48,20 +57,38 @@
     </div>
   </header>
 
-  <!-- Categorias -->
+  <!-- CATEGORIAS -->
   <nav class="faixa-categorias">
     <ul>
-      <li><a href="#">Medicamentos</a></li>
-      <li><a href="#">Beleza</a></li>
-      <li><a href="#">Higiene</a></li>
-      <li><a href="#">Infantil</a></li>
+      <li><a href="cachorro.html">Cachorro</a></li>
+      <li><a href="gato.html">Gato</a></li>
+      <li><a href="outros.html">Outros Pets</a></li>
+      <li class="dropdown">
+        <a href="servicos.html">Serviços <i class="fas fa-caret-down"></i></a>
+        <ul class="submenu">
+          <li><a href="banho.html">Banho e Tosa</a></li>
+          <li><a href="creche.html">Creche</a></li>
+          <li><a href="hospedagem.html#hospedagem">Hospedagem</a></li>
+          <li><a href="consultaveterinario.html#consulta">Consulta Veterinária</a></li>
+          <li><a href="dogwalker.html#dogwalker">Dog Walker</a></li>
+          <li><a href="petsitter.html#petsitter">Pet Sitter</a></li>
+          <li><a href="adestramento.html#adestramento">Adestramento</a></li>
+        </ul>
+      </li>
     </ul>
   </nav>
 
-  <!-- Banner -->
-  <section class="banner-swiper">
-    <img src="banner1.jpg" alt="Promoção 1">
-  </section>
+  <!-- BANNERS -->
+  <div class="swiper banner-swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img src="img/banner1.png" alt="Banner 1" /></div>
+      <div class="swiper-slide"><img src="img/banner2.png" alt="Banner 2" /></div>
+      <div class="swiper-slide"><img src="img/banner3.png" alt="Banner 3" /></div>
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+  </div>
 
   <!-- BENEFÍCIOS -->
 <section class="beneficios">
@@ -314,3 +341,4 @@
 
 </body>
 </html>
+
