@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home - Loja</title>
+  <title>Home - Pet Dudis</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -34,36 +34,35 @@
     <div class="acoes-usuario">
       <a href="#"><img src="icone-carrinho.png" alt="Carrinho" width="20"> Carrinho</a>
       <a href="javascript:void(0)" id="btn-login"><i class="fas fa-user"></i> Entrar | Cadastrar</a>
-
-      <!-- Dropdown Cliente (aparece após login) -->
-      <div class="dropdown" id="menu-logado" style="display:none;">
-        <a href="javascript:void(0)">
-          <img src="icone-user.png" alt="Usuário" width="20" id="user-avatar">
-          <span id="user-nome">Usuário</span>
-        </a>
-        <ul class="submenu">
-          <li><a href="#">Pedidos / Agendamentos</a></li>
-          <li><a href="#">Consultas</a></li>
-          <li><a href="#">Histórico</a></li>
-          <li><a href="#">Configurações</a></li>
-          <li><a href="#" onclick="logout()">Sair</a></li>
-        </ul>
-      </div>
     </div>
   </div>
 </header>
 
-<!-- Modal de Login -->
+<!-- MODAL LOGIN -->
 <div class="modal" id="modal-login">
   <div class="modal-conteudo">
     <span class="fechar" onclick="fecharModal('modal-login')">&times;</span>
-    <h3>Login</h3>
+    <h3>Login do Cliente</h3>
     <form id="form-login">
       <input type="email" id="login-email" placeholder="Email" required>
       <input type="password" id="login-senha" placeholder="Senha" required>
       <button type="submit">Entrar</button>
       <p>Não tem conta? <a href="#" id="link-cadastrar">Cadastrar</a></p>
-      <p id="login-msg" style="color:red;"></p>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL CADASTRO -->
+<div class="modal" id="modal-cadastro">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-cadastro')">&times;</span>
+    <h3>Cadastro de Cliente</h3>
+    <form id="form-cadastro">
+      <input type="text" id="cadastro-nome" placeholder="Nome" required>
+      <input type="email" id="cadastro-email" placeholder="Email" required>
+      <input type="password" id="cadastro-senha" placeholder="Senha" required>
+      <button type="submit">Cadastrar</button>
+      <p>Já tem conta? <a href="#" id="link-login">Entrar</a></p>
     </form>
   </div>
 </div>
@@ -126,7 +125,7 @@
   </div>
 </section>
 
-<!-- MODAIS DE BENEFÍCIOS -->
+<!-- MODAIS BENEFÍCIOS -->
 <div class="modal" id="modal-entregas">
   <div class="modal-conteudo">
     <span class="fechar" onclick="fecharModal('modal-entregas')">&times;</span>
@@ -230,20 +229,47 @@
 
 <!-- RODAPÉ -->
 <footer class="rodape-completo">
-  <!-- Conteúdo igual ao original -->
+  <div class="rodape-conteudo">
+    <div class="coluna">
+      <h4>Sobre Nós</h4>
+      <ul>
+        <li><a href="#">Sobre Nós</a></li>
+        <li><a href="#">Política de Privacidade</a></li>
+        <li><a href="#">Política de Compra</a></li>
+        <li><a href="#">Política de Entrega</a></li>
+        <li><a href="#">Trocas e Devoluções</a></li>
+      </ul>
+    </div>
+    <div class="coluna">
+      <h4>Atendimento ao Cliente</h4>
+      <ul>
+        <li><a href="#">Contato</a></li>
+        <li><a href="#">Devoluções</a></li>
+        <li><a href="#">Mapa do Site</a></li>
+        <li><a href="#">Marcas</a></li>
+      </ul>
+    </div>
+    <div class="coluna">
+      <h4>Minha conta</h4>
+      <ul>
+        <li><a href="#">Minha conta</a></li>
+        <li><a href="#">Histórico de pedidos</a></li>
+      </ul>
+    </div>
+  </div>
 </footer>
 
-<!-- SWIPER -->
+<!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-<!-- FIREBASE -->
+<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
 
 <script>
-  // Config Firebase
+  // CONFIGURAÇÃO FIREBASE
   const firebaseConfig = {
     apiKey: "AIzaSyDVr6OOQRt2rB0kByInjqjdyoQCpnMAt7I",
     authDomain: "site-f6495.firebaseapp.com",
@@ -255,99 +281,110 @@
   };
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
-
   const db = firebase.firestore();
   const auth = firebase.auth();
 
+  // SWIPER
+  const swiper = new Swiper('.banner-swiper', {
+    loop: true,
+    slidesPerView: 1,
+    spaceBetween: 20,
+    pagination: { el: '.swiper-pagination', clickable: true },
+    autoplay: { delay: 4000, disableOnInteraction: false }
+  });
+
   // MODAIS
-  function abrirModal(id){ document.getElementById(id).style.display='block'; }
-  function fecharModal(id){ document.getElementById(id).style.display='none'; }
-  window.onclick = function(e){
-    document.querySelectorAll('.modal').forEach(modal => { if(e.target===modal) modal.style.display='none'; });
-  }
+  function abrirModal(id) { document.getElementById(id).style.display = 'block'; }
+  function fecharModal(id) { document.getElementById(id).style.display = 'none'; }
+  window.onclick = function(event) {
+    document.querySelectorAll('.modal').forEach(modal => { if(event.target===modal) modal.style.display='none'; });
+  };
+
+  // Abrir modal cadastro/login
+  document.getElementById('btn-login').addEventListener('click', () => abrirModal('modal-login'));
+  document.getElementById('link-cadastrar').addEventListener('click', () => {
+    fecharModal('modal-login');
+    abrirModal('modal-cadastro');
+  });
+  document.getElementById('link-login').addEventListener('click', () => {
+    fecharModal('modal-cadastro');
+    abrirModal('modal-login');
+  });
+
+  // CADASTRO CLIENTE
+  const cadastroForm = document.getElementById('form-cadastro');
+  cadastroForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nome = document.getElementById('cadastro-nome').value;
+    const email = document.getElementById('cadastro-email').value;
+    const senha = document.getElementById('cadastro-senha').value;
+
+    auth.createUserWithEmailAndPassword(email, senha)
+      .then(userCredential => {
+        const user = userCredential.user;
+        return db.collection('usuarios').doc(user.uid).set({
+          nome: nome,
+          email: email,
+          perfil: "cliente"
+        });
+      })
+      .then(() => { alert("Cadastro concluído! Faça login."); cadastroForm.reset(); fecharModal('modal-cadastro'); abrirModal('modal-login'); })
+      .catch(error => { console.error(error); alert(error.message); });
+  });
 
   // LOGIN
-  document.getElementById('btn-login').addEventListener('click',()=>abrirModal('modal-login'));
-  document.getElementById('form-login').addEventListener('submit', e=>{
+  const loginForm = document.getElementById('form-login');
+  loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const email=document.getElementById('login-email').value;
-    const senha=document.getElementById('login-senha').value;
-    const msg=document.getElementById('login-msg');
+    const email = document.getElementById('login-email').value;
+    const senha = document.getElementById('login-senha').value;
 
-    auth.signInWithEmailAndPassword(email,senha).then(userCredential=>{
-      const user=userCredential.user;
-      db.collection('usuarios').doc(user.uid).get().then(doc=>{
-        if(doc.exists){
-          const tipo=doc.data().tipo;
-          document.getElementById('modal-login').style.display='none';
-          document.getElementById('btn-login').style.display='none';
-          document.getElementById('menu-logado').style.display='inline-block';
-          document.getElementById('user-nome').textContent=doc.data().nome || "Usuário";
-        } else { msg.textContent='Usuário sem perfil definido.' }
-      });
-    }).catch(err=>{ msg.textContent='Erro: '+err.message; });
+    auth.signInWithEmailAndPassword(email, senha)
+      .then(userCredential => db.collection('usuarios').doc(userCredential.user.uid).get())
+      .then(doc => {
+        if(!doc.exists) return alert("Usuário sem perfil definido.");
+        const perfil = doc.data().perfil;
+        if(perfil==="cliente") window.location.href="meus-pedidos.html";
+        else if(perfil==="parceiro") window.location.href="painel-parceiro.html";
+        else if(perfil==="funcionario") window.location.href="painel-funcionario.html";
+        else alert("Perfil desconhecido.");
+      })
+      .catch(error => { console.error(error); alert(error.message); });
   });
 
-  function logout(){
-    auth.signOut().then(()=>{
-      document.getElementById('menu-logado').style.display='none';
-      document.getElementById('btn-login').style.display='inline-block';
-    });
-  }
-
-  // Carregar Mais Vendidos
+  // CARREGAR MAIS VENDIDOS
   function carregarMaisVendidos(){
-    const container=document.getElementById('mais-vendidos-container'); container.innerHTML='Carregando...';
-    db.collection('maisVendidos').get().then(qs=>{
-      container.innerHTML=''; qs.forEach(doc=>{
-        const data=doc.data();
-        container.innerHTML+=`
-          <div class="produto">
-            <img src="${data.imagem}" alt="${data.nome}" />
-            <h3>${data.nome}</h3>
-            <p>${data.descricao}</p>
-            <span class="preco">${data.preco}</span>
-          </div>`;
-      });
-    }).catch(err=>{ container.innerHTML='<p>Erro ao carregar produtos.</p>'; console.error(err); });
-  }
-
-  // Carregar Marcas
-  function carregarMarcas(){
-    const container=document.getElementById('marcas-container'); container.innerHTML='Carregando...';
-    db.collection('marcas').get().then(qs=>{
-      container.innerHTML=''; qs.forEach(doc=>{
-        const data=doc.data();
-        container.innerHTML+=`<img src="${data.logo}" alt="${data.nome}" />`;
-      });
-    }).catch(err=>{ container.innerHTML='<p>Erro ao carregar marcas.</p>'; console.error(err); });
-  }
-
-  window.addEventListener('DOMContentLoaded', ()=>{
-    carregarMaisVendidos();
-    carregarMarcas();
-
-    // Verifica login ativo
-    auth.onAuthStateChanged(user=>{
-      if(user){
-        db.collection('usuarios').doc(user.uid).get().then(doc=>{
-          if(doc.exists){
-            document.getElementById('btn-login').style.display='none';
-            document.getElementById('menu-logado').style.display='inline-block';
-            document.getElementById('user-nome').textContent=doc.data().nome;
-          }
+    const container = document.getElementById('mais-vendidos-container');
+    container.innerHTML='Carregando...';
+    db.collection('maisVendidos').get()
+      .then(snapshot => {
+        container.innerHTML='';
+        snapshot.forEach(doc=>{
+          const produto = doc.data();
+          container.innerHTML+=`
+            <div class="produto">
+              <img src="${produto.imagem}" alt="${produto.nome}" />
+              <h3>${produto.nome}</h3>
+              <p>${produto.descricao}</p>
+              <span class="preco-promocao">R$ ${produto.preco}</span>
+            </div>`;
         });
-      }
-    });
-  });
+      });
+  }
+  carregarMaisVendidos();
 
-  // Swiper Banner
-  const swiper=new Swiper('.banner-swiper',{
-    loop:true, slidesPerView:1, spaceBetween:20,
-    pagination:{el:'.swiper-pagination',clickable:true},
-    autoplay:{delay:4000,disableOnInteraction:false}
-  });
+  // CARREGAR MARCAS
+  function carregarMarcas(){
+    const container = document.getElementById('marcas-container');
+    db.collection('marcas').get()
+      .then(snapshot=>{
+        snapshot.forEach(doc=>{
+          const marca = doc.data();
+          container.innerHTML+=`<img src="${marca.logo}" alt="${marca.nome}" class="marca-logo"/>`;
+        });
+      });
+  }
+  carregarMarcas();
 </script>
-
 </body>
 </html>
