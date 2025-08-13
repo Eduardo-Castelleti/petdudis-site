@@ -32,8 +32,22 @@
 
     <!-- Ícones à direita -->
     <div class="acoes-usuario">
-      <a href="#"><i class="fas fa-user"></i> Entrar | Cadastrar</a>
       <a href="#"><img src="icone-carrinho.png" alt="Carrinho" width="20"> Carrinho</a>
+      <a href="javascript:void(0)" id="btn-login"><i class="fas fa-user"></i> Entrar | Cadastrar</a>
+
+<!-- Modal de Login -->
+<div class="modal" id="modal-login">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-login')">&times;</span>
+    <h3>Login do Cliente</h3>
+    <form id="form-login">
+      <input type="email" id="login-email" placeholder="Email" required>
+      <input type="password" id="login-senha" placeholder="Senha" required>
+      <button type="submit">Entrar</button>
+      <p>Não tem conta? <a href="#" id="link-cadastrar">Cadastrar</a></p>
+    </form>
+  </div>
+</div>
 
       <!-- Dropdown Cliente -->
       <div class="dropdown">
@@ -82,33 +96,6 @@
   </div>
   <div class="swiper-pagination"></div>
 </div>
-
-<!-- BENEFÍCIOS -->
-<section class="beneficios">
-  <h2>Benefícios pra você</h2>
-  <div class="beneficios-container">
-    <div class="card-beneficio" onclick="abrirModal('modal-entregas')">
-      <img src="img/entrega.svg" alt="Entregas" class="icone-beneficio" />
-      <p><strong>Nossas<br>entregas</strong></p>
-    </div>
-    <div class="card-beneficio" onclick="abrirModal('modal-parceiros')">
-      <img src="img/parceiros.svg" alt="Parcerias" class="icone-beneficio" />
-      <p><strong>Parcerias com<br>serviços locais</strong></p>
-    </div>
-    <div class="card-beneficio" onclick="abrirModal('modal-descontos')">
-      <img src="img/desconto.svg" alt="Descontos" class="icone-beneficio" />
-      <p><strong>Descontos<br>especiais</strong></p>
-    </div>
-    <div class="card-beneficio" onclick="abrirModal('modal-indique')">
-      <img src="img/indique.svg" alt="Indique" class="icone-beneficio" />
-      <p><strong>Indicou<br>ganhou</strong></p>
-    </div>
-    <div class="card-beneficio" onclick="abrirModal('modal-recompra')">
-      <img src="img/recompra.svg" alt="Recompra" class="icone-beneficio" />
-      <p><strong>Recompra<br>recorrente</strong></p>
-    </div>
-  </div>
-</section>
 
   <!-- BENEFÍCIOS -->
 <section class="beneficios">
@@ -328,4 +315,5 @@
     });
   };
 </script>
+
 
