@@ -212,3 +212,53 @@ document.addEventListener('DOMContentLoaded', () => {
   carregarMaisVendidos();
   carregarMarcas();
 });
+
+// Mostrar modal de login
+document.getElementById('btn-login').addEventListener('click', () => {
+  abrirModal('modal-login');
+});
+
+// Fechar modal ao clicar fora
+window.onclick = function(event) {
+  document.querySelectorAll('.modal').forEach(modal => {
+    if (event.target === modal) modal.style.display = 'none';
+  });
+};
+
+// Login com Firebase
+const formLogin = document.getElementById('form-login');
+formLogin.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = document.getElementById('login-email').value;
+  const senha = document.getElementById('login-senha').value;
+
+  auth.signInWithEmailAndPassword(email, senha)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      fecharModal('modal-login');
+      atualizarInterface(user);
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+});
+
+// Atualizar interface após login
+function atualizarInterface(user) {
+  const btnLogin = document.getElementById('btn-login');
+  btnLogin.style.display = 'none'; // esconde botão de login
+
+  // mostra dropdown
+  document.querySelector('.dropdown').style.display = 'inline-block';
+}
+
+// Monitorar estado de autenticação
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    atualizarInterface(user);
+  } else {
+    // usuário deslogado
+    document.getElementById('btn-login').style.display = 'inline-block';
+    document.querySelector('.dropdown').style.display = 'none';
+  }
+});
