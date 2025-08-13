@@ -1,166 +1,585 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pet Shop</title>
-<link rel="stylesheet" href="style.css">
-<style>
-/* ===== RESET ===== */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: Arial, sans-serif; background: #fafafa; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home - Pet Dudis</title>
 
-/* ===== CABEÇALHO ===== */
-header {
-  background: white;
-  padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-header h1 { color: #333; }
+  <!-- Seu CSS principal (opcional, se existir) -->
+  <link rel="stylesheet" href="style.css" />
 
-/* ===== MENU CATEGORIAS ===== */
-.faixa-categorias {
-  background-color: #f0f0f0;
-}
-.faixa-categorias ul {
-  display: flex;
-  list-style: none;
-  padding: 10px 20px;
-}
-.faixa-categorias ul li {
-  position: relative;
-}
-.faixa-categorias ul li a {
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
-  padding: 10px 15px;
-  display: block;
-}
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-/* ===== DROPDOWN ===== */
-.faixa-categorias li .submenu {
-  display: none;
-  position: absolute;
-  background-color: #f0f0f0;
-  top: 100%;
-  left: 0;
-  min-width: 180px;
-  z-index: 1000;
-}
-.faixa-categorias li .submenu li a {
-  padding: 8px 20px;
-  font-weight: normal;
-}
-.faixa-categorias li.dropdown:hover .submenu {
-  display: block;
-}
+  <!-- Swiper CSS (para os banners) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-/* ===== BOTÃO LOGIN ===== */
-#btn-login img {
-  border-radius: 50%;
-  vertical-align: middle;
-}
+  <!-- Ajustes visuais pedidos -->
+  <style>
+    /* RESET */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, Helvetica, sans-serif; color: #222; background: #fafafa; }
 
-/* ===== MODAL ===== */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 2000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-}
-.modal-conteudo {
-  background: white;
-  padding: 20px;
-  max-width: 400px;
-  margin: 10% auto;
-  border-radius: 8px;
-}
-</style>
+    /* CABEÇALHO */
+    .cabecalho { background: #fff; border-bottom: 1px solid #e6e6e6; }
+    .cabecalho-conteudo {
+      max-width: 1200px; margin: 0 auto; padding: 12px 16px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .logo { height: 40px; }
+
+    .cep-busca { display: flex; gap: 12px; flex: 1; justify-content: center; }
+    .cep-input-wrapper, .busca-input-wrapper {
+      display: flex; align-items: center; gap: 8px; background: #f3f3f3; border-radius: 999px; padding: 8px 12px;
+    }
+    .cep-input, .busca-input { border: none; outline: none; background: transparent; }
+    .btn-busca { border: none; background: transparent; cursor: pointer; }
+
+    .acoes-usuario { display: flex; align-items: center; gap: 16px; }
+    .acoes-usuario a { color: #333; text-decoration: none; font-weight: 600; }
+    .avatar-btn { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+    .avatar-img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #ddd; }
+
+    /* DROPDOWN DO USUÁRIO */
+    .user-dropdown { position: relative; }
+    .user-menu { position: absolute; right: 0; top: 110%; background: #fff; border: 1px solid #e5e5e5; border-radius: 8px;
+                 box-shadow: 0 10px 20px rgba(0,0,0,.08); min-width: 220px; display: none; z-index: 1000; }
+    .user-menu ul { list-style: none; }
+    .user-menu li a { display: block; padding: 10px 12px; color: #333; text-decoration: none; }
+    .user-menu li a:hover { background: #f5f5f5; }
+    .user-dropdown.open .user-menu { display: block; }
+
+    /* FAIXA DE CATEGORIAS – CINZA */
+    .faixa-categorias { background: #f0f0f0; border-top: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6; }
+    .faixa-categorias > ul {
+      max-width: 1200px; margin: 0 auto; display: flex; gap: 8px; list-style: none; padding: 10px 16px;
+      align-items: center;
+    }
+    .faixa-categorias > ul > li { position: relative; }
+    .faixa-categorias a { text-decoration: none; color: #333; font-weight: 700; padding: 8px 12px; display: block; border-radius: 6px; }
+    .faixa-categorias a:hover { background: #e7e7e7; }
+
+    /* SUBMENU DE SERVIÇOS – APENAS NO HOVER */
+    .faixa-categorias .submenu {
+      display: none; position: absolute; left: 0; top: 100%;
+      background: #f0f0f0; border: 1px solid #e6e6e6; border-radius: 8px;
+      padding: 8px; min-width: 220px; z-index: 900;
+    }
+    .faixa-categorias .submenu li a { font-weight: 500; border-radius: 6px; }
+    .faixa-categorias .dropdown:hover .submenu { display: block; }
+
+    /* SWIPER */
+    .banner-swiper { max-width: 1200px; margin: 16px auto; border-radius: 12px; overflow: hidden; }
+    .banner-swiper img { width: 100%; display: block; }
+
+    /* SEÇÕES */
+    section { max-width: 1200px; margin: 24px auto; padding: 0 16px; }
+    h2 { margin-bottom: 12px; }
+
+    .beneficios-container { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+    .card-beneficio { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 16px; text-align: center; cursor: pointer; }
+    .card-beneficio:hover { box-shadow: 0 8px 20px rgba(0,0,0,.06); }
+    .icone-beneficio { height: 40px; margin-bottom: 8px; }
+
+    .produtos-destaque { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .produto { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 12px; text-align: center; }
+    .produto img { width: 100%; height: 160px; object-fit: contain; }
+    .preco-promocao, .preco { font-weight: 800; display: inline-block; margin-top: 8px; }
+
+    .marcas-container { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; align-items: center; }
+    .marcas-container img { width: 100%; height: 70px; object-fit: contain; filter: grayscale(.1); background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 10px; }
+
+    /* MODAIS GENÉRICOS */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 1200; }
+    .modal-conteudo {
+      background: #fff; border-radius: 12px; width: 95%; max-width: 420px; margin: 8vh auto; padding: 20px; position: relative;
+      box-shadow: 0 30px 60px rgba(0,0,0,.2);
+    }
+    .modal-conteudo h3 { margin-bottom: 10px; }
+    .modal-conteudo form { display: grid; gap: 10px; }
+    .modal-conteudo input { padding: 10px 12px; border: 1px solid #e2e2e2; border-radius: 8px; }
+    .modal-conteudo button[type="submit"], .modal-conteudo .btn {
+      padding: 10px 12px; border: none; background: #5e2ca5; color: #fff; border-radius: 8px; cursor: pointer; font-weight: 700;
+    }
+    .fechar { position: absolute; right: 12px; top: 8px; font-size: 22px; cursor: pointer; }
+
+    /* RODAPÉ */
+    .rodape-completo { background: #fff; border-top: 1px solid #eee; margin-top: 40px; }
+    .rodape-conteudo { max-width: 1200px; margin: 0 auto; padding: 24px 16px; display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .rodape-conteudo h4 { margin-bottom: 8px; }
+    .rodape-conteudo ul { list-style: none; }
+    .rodape-conteudo li { margin: 6px 0; }
+    .rodape-conteudo a { color: #333; text-decoration: none; }
+  </style>
 </head>
 <body>
 
-<header>
-  <h1>Pet Shop</h1>
-  <button id="btn-login">Entrar/Cadastrar</button>
+<!-- CABEÇALHO -->
+<header class="cabecalho">
+  <div class="cabecalho-conteudo">
+    <!-- Logo -->
+    <div class="logo-container">
+      <img src="logo.svg" alt="Logo Pet Dudis" class="logo">
+    </div>
+
+    <!-- Campos CEP e Busca -->
+    <div class="cep-busca">
+      <div class="cep-input-wrapper">
+        <span>📍</span>
+        <input type="text" placeholder="Informar CEP" class="cep-input">
+      </div>
+      <div class="busca-input-wrapper">
+        <span>🔍</span>
+        <input type="text" placeholder="O que seu pet precisa?" class="busca-input">
+        <button class="btn-busca">🔍</button>
+      </div>
+    </div>
+
+    <!-- Ações à direita -->
+    <div class="acoes-usuario" id="acoes-usuario">
+      <a href="#"><img src="icone-carrinho.png" alt="Carrinho" width="20"> Carrinho</a>
+
+      <!-- Botão padrão (mostrado quando deslogado) -->
+      <a href="javascript:void(0)" id="btn-login">
+        <i class="fas fa-user"></i> Entrar | Cadastrar
+      </a>
+
+      <!-- Dropdown do usuário (mostrado quando logado) -->
+      <div class="user-dropdown" id="user-dropdown" style="display:none;">
+        <div class="avatar-btn" id="avatar-btn">
+          <img src="icone-user.png" alt="Perfil" class="avatar-img" id="avatar-img">
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="user-menu" id="user-menu">
+          <ul>
+            <li><a href="#">Pedidos / Agendamentos</a></li>
+            <li><a href="#">Consultas</a></li>
+            <li><a href="#">Histórico</a></li>
+            <li><a href="#">Configurações</a></li>
+            <li><a href="javascript:void(0)" id="btn-sair">Sair</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </header>
 
+<!-- MODAL LOGIN -->
+<div class="modal" id="modal-login">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-login')">&times;</span>
+    <h3>Login do Cliente</h3>
+    <form id="form-login">
+      <input type="email" id="login-email" placeholder="Email" required>
+      <input type="password" id="login-senha" placeholder="Senha" required>
+      <button type="submit">Entrar</button>
+      <p>Não tem conta? <a href="#" id="link-cadastrar">Cadastrar</a></p>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL CADASTRO -->
+<div class="modal" id="modal-cadastro">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-cadastro')">&times;</span>
+    <h3>Cadastro de Cliente</h3>
+    <form id="form-cadastro">
+      <input type="text" id="cadastro-nome" placeholder="Nome" required>
+      <input type="email" id="cadastro-email" placeholder="Email" required>
+      <input type="password" id="cadastro-senha" placeholder="Senha" required>
+      <button type="submit">Cadastrar</button>
+      <p>Já tem conta? <a href="#" id="link-login">Entrar</a></p>
+    </form>
+  </div>
+</div>
+
+<!-- CATEGORIAS -->
 <nav class="faixa-categorias">
   <ul>
-    <li><a href="#">Cachorro</a></li>
-    <li><a href="#">Gato</a></li>
-    <li><a href="#">Outros Pets</a></li>
+    <li><a href="cachorro.html">Cachorro</a></li>
+    <li><a href="gato.html">Gato</a></li>
+    <li><a href="outros.html">Outros Pets</a></li>
     <li class="dropdown">
-      <a href="#">Serviços ▼</a>
+      <a href="servicos.html">Serviços <i class="fas fa-caret-down"></i></a>
       <ul class="submenu">
-        <li><a href="#">Banho e Tosa</a></li>
-        <li><a href="#">Creche</a></li>
-        <li><a href="#">Hospedagem</a></li>
-        <li><a href="#">Consulta Veterinária</a></li>
-        <li><a href="#">Dog Walker</a></li>
-        <li><a href="#">Pet Sitter</a></li>
+        <li><a href="banho.html">Banho e Tosa</a></li>
+        <li><a href="creche.html">Creche</a></li>
+        <li><a href="hospedagem.html#hospedagem">Hospedagem</a></li>
+        <li><a href="consultaveterinario.html#consulta">Consulta Veterinária</a></li>
+        <li><a href="dogwalker.html#dogwalker">Dog Walker</a></li>
+        <li><a href="petsitter.html#petsitter">Pet Sitter</a></li>
+        <li><a href="adestramento.html#adestramento">Adestramento</a></li>
       </ul>
     </li>
   </ul>
 </nav>
 
-<!-- Modal Login -->
-<div id="modal-login" class="modal">
+<!-- BANNERS -->
+<div class="swiper banner-swiper">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide"><img src="img/banner1.png" alt="Banner 1" /></div>
+    <div class="swiper-slide"><img src="img/banner2.png" alt="Banner 2" /></div>
+    <div class="swiper-slide"><img src="img/banner3.png" alt="Banner 3" /></div>
+  </div>
+  <div class="swiper-pagination"></div>
+</div>
+
+<!-- BENEFÍCIOS -->
+<section class="beneficios">
+  <h2>Benefícios pra você</h2>
+  <div class="beneficios-container">
+    <div class="card-beneficio" onclick="abrirModal('modal-entregas')">
+      <img src="img/entrega.svg" alt="Entregas" class="icone-beneficio" />
+      <p><strong>Nossas<br>entregas</strong></p>
+    </div>
+    <div class="card-beneficio" onclick="abrirModal('modal-parceiros')">
+      <img src="img/parceiros.svg" alt="Parcerias" class="icone-beneficio" />
+      <p><strong>Parcerias com<br>serviços locais</strong></p>
+    </div>
+    <div class="card-beneficio" onclick="abrirModal('modal-descontos')">
+      <img src="img/desconto.svg" alt="Descontos" class="icone-beneficio" />
+      <p><strong>Descontos<br>especiais</strong></p>
+    </div>
+    <div class="card-beneficio" onclick="abrirModal('modal-indique')">
+      <img src="img/indique.svg" alt="Indique" class="icone-beneficio" />
+      <p><strong>Indicou<br>ganhou</strong></p>
+    </div>
+    <div class="card-beneficio" onclick="abrirModal('modal-recompra')">
+      <img src="img/recompra.svg" alt="Recompra" class="icone-beneficio" />
+      <p><strong>Recompra<br>recorrente</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- MODAIS BENEFÍCIOS -->
+<div class="modal" id="modal-entregas">
   <div class="modal-conteudo">
-    <h2>Login</h2>
-    <input type="email" id="login-email" placeholder="E-mail">
-    <input type="password" id="login-senha" placeholder="Senha">
-    <button id="login-btn">Entrar</button>
-    <button onclick="fecharModal('modal-login')">Fechar</button>
+    <span class="fechar" onclick="fecharModal('modal-entregas')">&times;</span>
+    <h3>Entregas</h3>
+    <p>Entregamos em até 24h para regiões selecionadas. Consulte prazos e disponibilidade no seu CEP.</p>
   </div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<div class="modal" id="modal-parceiros">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-parceiros')">&times;</span>
+    <h3>Conectando você aos melhores serviços do bairro!</h3>
+    <p>Fortalecemos laços com parceiros locais para oferecer praticidade, confiança e benefícios exclusivos para você e seu pet.</p>
+  </div>
+</div>
+
+<div class="modal" id="modal-descontos">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-descontos')">&times;</span>
+    <h3>Descontos Especiais</h3>
+    <p>Comprando via <strong>Pix</strong> você ganha <strong>5% de desconto</strong>. Retirando em nossa loja ou com um parceiro próximo, ganha <strong>mais 5%</strong>. Descontos válidos para todos os clientes!</p>
+  </div>
+</div>
+
+<div class="modal" id="modal-indique">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-indique')">&times;</span>
+    <h3>Indique e Ganhe</h3>
+    <p>Indique amigos e ganhe bônus. Seu amigo recebe desconto na primeira compra e você ganha um brinde ou crédito.</p>
+  </div>
+</div>
+
+<div class="modal" id="modal-recompra">
+  <div class="modal-conteudo">
+    <span class="fechar" onclick="fecharModal('modal-recompra')">&times;</span>
+    <h3>Recompra Recorrente</h3>
+    <p>Assine produtos para entrega automática com desconto e comodidade. Cancele quando quiser.</p>
+  </div>
+</div>
+
+<!-- SERVIÇOS -->
+<section class="servicos-agendamento">
+  <div class="servico">
+    <h3>Banho & Tosa</h3>
+    <p>Ambiente seguro e profissionais experientes para o cuidado do seu pet.</p>
+    <a href="banho.html" class="btn-agendar">Comprar agora</a>
+  </div>
+  <div class="servico">
+    <h3>Creche Pet</h3>
+    <p>Ideal para quem trabalha o dia todo: diversão e cuidado garantidos.</p>
+    <a href="creche.html" class="btn-agendar">Agendar agora</a>
+  </div>
+  <div class="servico">
+    <h3>Hospedagem</h3>
+    <p>Finais de semana ou viagens? Seu pet fica em um lugar aconchegante.</p>
+    <a href="hospedagem.html#hospedagem" class="btn-agendar">Agendar agora</a>
+  </div>
+  <div class="servico">
+    <h3>Consultas Veterinárias</h3>
+    <p>Profissionais confiáveis para acompanhar a saúde do seu pet.</p>
+    <a href="consultaveterinario.html#consulta" class="btn-agendar">Agendar agora</a>
+  </div>
+</section>
+
+<!-- PROMOÇÕES -->
+<section class="promocoes">
+  <h2>Promoções da Semana</h2>
+  <div class="produtos-destaque">
+    <div class="produto">
+      <img src="https://via.placeholder.com/150" alt="Snack Natural Dog" />
+      <h3>Snack Natural Dog 500g</h3>
+      <p>De R$ 39,90 por</p>
+      <span class="preco-promocao">R$ 29,90</span>
+    </div>
+    <div class="produto">
+      <img src="https://via.placeholder.com/150" alt="Shampoo Neutro" />
+      <h3>Shampoo Neutro 500ml</h3>
+      <p>Leve 2 e pague 1</p>
+      <span class="preco-promocao">R$ 18,90</span>
+    </div>
+    <div class="produto">
+      <img src="https://via.placeholder.com/150" alt="Coleira Antipulgas" />
+      <h3>Coleira Antipulgas</h3>
+      <p>Desconto especial no Pix + Retirada</p>
+      <span class="preco-promocao">R$ 64,90</span>
+    </div>
+  </div>
+</section>
+
+<!-- MAIS VENDIDOS -->
+<section class="mais-vendidos">
+  <h2>Itens mais vendidos</h2>
+  <div class="produtos-destaque" id="mais-vendidos-container"></div>
+</section>
+
+<!-- MARCAS -->
+<section class="marcas">
+  <h2>Trabalhamos com as melhores marcas</h2>
+  <div class="marcas-container" id="marcas-container"></div>
+</section>
+
+<!-- RODAPÉ -->
+<footer class="rodape-completo">
+  <div class="rodape-conteudo">
+    <div class="coluna">
+      <h4>Sobre Nós</h4>
+      <ul>
+        <li><a href="#">Sobre Nós</a></li>
+        <li><a href="#">Política de Privacidade</a></li>
+        <li><a href="#">Política de Compra</a></li>
+        <li><a href="#">Política de Entrega</a></li>
+        <li><a href="#">Trocas e Devoluções</a></li>
+      </ul>
+    </div>
+    <div class="coluna">
+      <h4>Atendimento ao Cliente</h4>
+      <ul>
+        <li><a href="#">Contato</a></li>
+        <li><a href="#">Devoluções</a></li>
+        <li><a href="#">Mapa do Site</a></li>
+        <li><a href="#">Marcas</a></li>
+      </ul>
+    </div>
+    <div class="coluna">
+      <h4>Minha conta</h4>
+      <ul>
+        <li><a href="#">Minha conta</a></li>
+        <li><a href="#">Histórico de pedidos</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
 <script>
-  // ===== CONFIG FIREBASE =====
+  // ====== FIREBASE CONFIG ======
   const firebaseConfig = {
-    apiKey: "SUA_API_KEY",
-    authDomain: "SEU_AUTH_DOMAIN",
-    projectId: "SEU_PROJECT_ID",
+    apiKey: "AIzaSyDVr6OOQRt2rB0kByInjqjdyoQCpnMAt7I",
+    authDomain: "site-f6495.firebaseapp.com",
+    projectId: "site-f6495",
+    storageBucket: "site-f6495.firebasestorage.app",
+    messagingSenderId: "230161402024",
+    appId: "1:230161402024:web:462a911919ebf8a0809a9d",
+    measurementId: "G-51G8XF6JH0"
   };
   firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  const db = firebase.firestore();
   const auth = firebase.auth();
 
-  // ===== MODAL =====
-  const modalLogin = document.getElementById('modal-login');
-  document.getElementById('btn-login').addEventListener('click', () => {
-    modalLogin.style.display = 'block';
+  // ====== SWIPER ======
+  new Swiper('.banner-swiper', {
+    loop: true,
+    slidesPerView: 1,
+    spaceBetween: 20,
+    pagination: { el: '.swiper-pagination', clickable: true },
+    autoplay: { delay: 4000, disableOnInteraction: false }
   });
-  function fecharModal(id) {
-    document.getElementById(id).style.display = 'none';
-  }
 
-  // ===== LOGIN =====
-  document.getElementById('login-btn').addEventListener('click', () => {
-    const email = document.getElementById('login-email').value;
+  // ====== MODAIS ABRIR/FECHAR ======
+  function abrirModal(id){ document.getElementById(id).style.display = 'block'; }
+  function fecharModal(id){ document.getElementById(id).style.display = 'none'; }
+  window.addEventListener('click', (e) => {
+    document.querySelectorAll('.modal').forEach(m => { if (e.target === m) m.style.display = 'none'; });
+  });
+
+  // ====== LOGIN/CADASTRO: ABERTURA DE MODAIS ======
+  const btnLogin = document.getElementById('btn-login');
+  const modalLogin = document.getElementById('modal-login');
+  const modalCadastro = document.getElementById('modal-cadastro');
+
+  btnLogin.addEventListener('click', () => abrirModal('modal-login'));
+  document.getElementById('link-cadastrar').addEventListener('click', (e) => {
+    e.preventDefault(); fecharModal('modal-login'); abrirModal('modal-cadastro');
+  });
+  document.getElementById('link-login').addEventListener('click', (e) => {
+    e.preventDefault(); fecharModal('modal-cadastro'); abrirModal('modal-login');
+  });
+
+  // ====== CADASTRO (todos entram como cliente) ======
+  document.getElementById('form-cadastro').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const nome  = document.getElementById('cadastro-nome').value.trim();
+    const email = document.getElementById('cadastro-email').value.trim();
+    const senha = document.getElementById('cadastro-senha').value;
+
+    try {
+      const { user } = await auth.createUserWithEmailAndPassword(email, senha);
+      // salva perfil padrão de cliente
+      await db.collection('usuarios').doc(user.uid).set({
+        nome, email, perfil: 'cliente', criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+      alert('Cadastro concluído! Você já pode entrar.');
+      e.target.reset();
+      fecharModal('modal-cadastro');
+      abrirModal('modal-login');
+    } catch (err) {
+      console.error(err); alert(err.message);
+    }
+  });
+
+  // ====== LOGIN (sem redirecionamento) ======
+  document.getElementById('form-login').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value.trim();
     const senha = document.getElementById('login-senha').value;
 
-    auth.signInWithEmailAndPassword(email, senha)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        fecharModal('modal-login');
+    try {
+      const { user } = await auth.signInWithEmailAndPassword(email, senha);
+      // garante documento e perfil caso não exista
+      const ref = db.collection('usuarios').doc(user.uid);
+      const snap = await ref.get();
+      if (!snap.exists) {
+        await ref.set({ email: user.email, perfil: 'cliente', criadoEm: firebase.firestore.FieldValue.serverTimestamp() });
+      } else if (!snap.data().perfil) {
+        await ref.set({ perfil: 'cliente' }, { merge: true });
+      }
+      fecharModal('modal-login'); // permanece na mesma página
+    } catch (err) {
+      console.error(err); alert(err.message);
+    }
+  });
 
-        // Atualiza botão para foto de perfil ou ícone
-        const btnLogin = document.getElementById('btn-login');
-        const foto = user.photoURL || 'icone-user.png';
-        btnLogin.innerHTML = `<img src="${foto}" alt="Perfil" width="30">`; 
-        btnLogin.onclick = null;
-      })
-      .catch((error) => {
-        alert(error.message);
+  // ====== UI REATIVA AO ESTADO DE AUTENTICAÇÃO ======
+  const userDropdown = document.getElementById('user-dropdown');
+  const avatarBtn    = document.getElementById('avatar-btn');
+  const avatarImg    = document.getElementById('avatar-img');
+  const userMenu     = document.getElementById('user-menu');
+
+  // abre/fecha dropdown
+  avatarBtn.addEventListener('click', () => {
+    userDropdown.classList.toggle('open');
+  });
+  // fecha dropdown ao clicar fora
+  document.addEventListener('click', (e) => {
+    if (!userDropdown.contains(e.target) && !e.target.closest('#avatar-btn')) {
+      userDropdown.classList.remove('open');
+    }
+  });
+
+  // ouve mudanças de login e atualiza o header
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      // atualiza avatar
+      const foto = user.photoURL || 'icone-user.png';
+      avatarImg.src = foto;
+
+      // mostra dropdown, esconde “Entrar | Cadastrar”
+      userDropdown.style.display = 'block';
+      btnLogin.style.display = 'none';
+    } else {
+      // deslogado: volta botão
+      userDropdown.style.display = 'none';
+      btnLogin.style.display = 'inline-block';
+    }
+  });
+
+  // SAIR
+  document.getElementById('btn-sair').addEventListener('click', async () => {
+    try {
+      await auth.signOut();
+      userDropdown.classList.remove('open');
+    } catch (err) {
+      console.error(err); alert('Erro ao sair: ' + err.message);
+    }
+  });
+
+  // ====== MAIS VENDIDOS ======
+  async function carregarMaisVendidos() {
+    const container = document.getElementById('mais-vendidos-container');
+    container.innerHTML = 'Carregando...';
+    try {
+      const qs = await db.collection('maisVendidos').get();
+      container.innerHTML = '';
+      if (qs.empty) {
+        container.innerHTML = '<p>Nenhum item cadastrado.</p>';
+        return;
+      }
+      qs.forEach(doc => {
+        const p = doc.data();
+        container.innerHTML += `
+          <div class="produto">
+            <img src="${p.imagem || 'https://via.placeholder.com/300x200'}" alt="${p.nome || ''}" />
+            <h3>${p.nome || ''}</h3>
+            <p>${p.descricao || ''}</p>
+            <span class="preco">${p.preco || ''}</span>
+          </div>`;
       });
+    } catch (err) {
+      console.error(err);
+      container.innerHTML = '<p>Erro ao carregar produtos.</p>';
+    }
+  }
+
+  // ====== MARCAS ======
+  async function carregarMarcas() {
+    const container = document.getElementById('marcas-container');
+    container.innerHTML = 'Carregando...';
+    try {
+      const qs = await db.collection('marcas').get();
+      container.innerHTML = '';
+      if (qs.empty) {
+        container.innerHTML = '<p>Nenhuma marca cadastrada.</p>';
+        return;
+      }
+      qs.forEach(doc => {
+        const m = doc.data();
+        container.innerHTML += `<img src="${m.logo || ''}" alt="${m.nome || ''}" />`;
+      });
+    } catch (err) {
+      console.error(err);
+      container.innerHTML = '<p>Erro ao carregar marcas.</p>';
+    }
+  }
+
+  // carrega listas ao abrir a página
+  window.addEventListener('DOMContentLoaded', () => {
+    carregarMaisVendidos();
+    carregarMarcas();
   });
 </script>
-
 </body>
 </html>
