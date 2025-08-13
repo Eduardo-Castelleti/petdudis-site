@@ -217,21 +217,69 @@
 <!-- MAIS VENDIDOS -->
 <section class="mais-vendidos">
   <h2>Itens mais vendidos</h2>
-  <div class="produtos-destaque" id="listaMaisVendidos"></div>
+  <div class="produtos-destaque" id="mais-vendidos-container">
+    <!-- Produtos serão inseridos dinamicamente via JS -->
+  </div>
 </section>
-  
-  <!-- MARCAS -->
-  <section class="marcas">
-    <h2>Trabalhamos com as melhores marcas</h2>
-    <div class="marcas-container">
-      <img src="marcas/specialdog.png" alt="Special Dog" />
-      <img src="marcas/premierpet.png" alt="Premier Pet" />
-      <img src="marcas/nexgard.png" alt="Nexgard" />
-      <img src="marcas/royalcanin.png" alt="Royal Canin" />
-      <img src="marcas/buddytoys.png" alt="Buddy Toys" />
-    </div>
-  </section>
 
+<!-- MARCAS -->
+<section class="marcas">
+  <h2>Trabalhamos com as melhores marcas</h2>
+  <div class="marcas-container" id="marcas-container">
+    <!-- Marcas serão inseridas dinamicamente via JS -->
+  </div>
+</section>
+
+<script>
+  // FUNÇÃO PARA BUSCAR MAIS VENDIDOS
+  function carregarMaisVendidos() {
+    const container = document.getElementById('mais-vendidos-container');
+    container.innerHTML = 'Carregando...';
+
+    db.collection('maisVendidos').get().then((querySnapshot) => {
+      container.innerHTML = ''; // limpa o carregando
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const produtoHTML = `
+          <div class="produto">
+            <img src="${data.imagem}" alt="${data.nome}" />
+            <h3>${data.nome}</h3>
+            <p>${data.descricao}</p>
+            <span class="preco">${data.preco}</span>
+          </div>
+        `;
+        container.innerHTML += produtoHTML;
+      });
+    }).catch((error) => {
+      container.innerHTML = `<p>Erro ao carregar produtos.</p>`;
+      console.error("Erro ao buscar mais vendidos: ", error);
+    });
+  }
+
+  // FUNÇÃO PARA BUSCAR MARCAS
+  function carregarMarcas() {
+    const container = document.getElementById('marcas-container');
+    container.innerHTML = 'Carregando...';
+
+    db.collection('marcas').get().then((querySnapshot) => {
+      container.innerHTML = '';
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const marcaHTML = `<img src="${data.logo}" alt="${data.nome}" />`;
+        container.innerHTML += marcaHTML;
+      });
+    }).catch((error) => {
+      container.innerHTML = `<p>Erro ao carregar marcas.</p>`;
+      console.error("Erro ao buscar marcas: ", error);
+    });
+  }
+
+  // Carregar ao iniciar
+  window.addEventListener('DOMContentLoaded', () => {
+    carregarMaisVendidos();
+    carregarMarcas();
+  });
+</script>
   
   <!-- RODAPÉ -->
   <footer class="rodape-completo">
@@ -295,25 +343,70 @@
     </div>
   </footer>
 
-<!-- JS Banners e modais -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script>
-  const swiper = new Swiper('.banner-swiper', {
-    loop: true,
-    slidesPerView: 1,
-    spaceBetween: 20,
-    pagination: { el: '.swiper-pagination', clickable: true },
-    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev },
-    autoplay: { delay: 4000, disableOnInteraction: false }
-  });
-
-  function abrirModal(id) { document.getElementById(id).style.display = 'block'; }
-  function fecharModal(id) { document.getElementById(id).style.display = 'none'; }
-  window.onclick = function(event) {
-    document.querySelectorAll('.modal').forEach(modal => {
-      if (event.target === modal) modal.style.display = 'none';
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    const swiper = new Swiper('.banner-swiper', {
+      loop: true,
+      slidesPerView: 1,
+      spaceBetween: 20,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+      },
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false
+      }
     });
+
+    function abrirModal(id) {
+      document.getElementById(id).style.display = 'block';
+    }
+
+    function fecharModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+      document.querySelectorAll('.modal').forEach(function(modal) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    };
+  </script>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
+<script>
+  // Configuração Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyDVr6OOQRt2rB0kByInjqjdyoQCpnMAt7I",
+    authDomain: "site-f6495.firebaseapp.com",
+    projectId: "site-f6495",
+    storageBucket: "site-f6495.firebasestorage.app",
+    messagingSenderId: "230161402024",
+    appId: "1:230161402024:web:462a911919ebf8a0809a9d",
+    measurementId: "G-51G8XF6JH0"
   };
+
+  // Inicialização
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+  const db = firebase.firestore();
+  const auth = firebase.auth();
 </script>
 
-
+<script src="main.js"></script>
+</body>
+</html>
