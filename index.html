@@ -83,7 +83,6 @@
         cursor: pointer;
         margin-bottom: 20px;
     }
-
 </style>
 </head>
 <body>
@@ -91,8 +90,8 @@
 <header>
     <div class="logo">Minha Petshop</div>
     <div class="menu-topo">
-        <span class="nome-cliente" id="botaoMenu">Olá, João</span>
-        <span class="icone-carrinho">🛒</span>
+        <span class="nome-cliente" id="botaoMenu">Entrar</span>
+        <span class="icone-carrinho" id="carrinho">🛒</span>
     </div>
 </header>
 
@@ -101,10 +100,10 @@
     <span class="fechar-menu" id="fecharMenu">&times;</span>
     <h3>Área do Cliente</h3>
     <a href="#">Meus Pedidos</a>
-    <a href="#">Meus Pets</a>
     <a href="#">Agendamentos</a>
-    <a href="#">Fidelidade</a>
-    <a href="#">Sair</a>
+    <a href="#">Consultas</a>
+    <a href="#">Histórico</a>
+    <a href="#" id="btnLogout">Sair</a>
 </div>
 
 <main style="padding:20px;">
@@ -112,27 +111,71 @@
     <p>Conteúdo principal aqui...</p>
 </main>
 
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
 <script>
-    // Abrir o menu lateral
-    document.getElementById("botaoMenu").addEventListener("click", function() {
-        document.getElementById("menuLateral").classList.add("ativo");
+    // Configuração do Firebase (substitua pelos seus dados)
+    const firebaseConfig = {
+        apiKey: "SUA_API_KEY",
+        authDomain: "SEU_PROJECT_ID.firebaseapp.com",
+        projectId: "SEU_PROJECT_ID",
+        storageBucket: "SEU_PROJECT_ID.appspot.com",
+        messagingSenderId: "SENDER_ID",
+        appId: "APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    const botaoMenu = document.getElementById("botaoMenu");
+    const menuLateral = document.getElementById("menuLateral");
+    const fecharMenu = document.getElementById("fecharMenu");
+    const btnLogout = document.getElementById("btnLogout");
+
+    // Estado de login
+    firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+            botaoMenu.textContent = "Olá, " + (user.displayName || user.email.split('@')[0]);
+            botaoMenu.onclick = () => {
+                menuLateral.classList.add("ativo");
+            };
+        } else {
+            botaoMenu.textContent = "Entrar";
+            botaoMenu.onclick = () => {
+                const email = prompt("Digite seu e-mail:");
+                const senha = prompt("Digite sua senha:");
+                if (email && senha) {
+                    firebase.auth().signInWithEmailAndPassword(email, senha)
+                        .catch(err => alert("Erro: " + err.message));
+                }
+            };
+        }
     });
 
-    // Fechar o menu lateral
-    document.getElementById("fecharMenu").addEventListener("click", function() {
-        document.getElementById("menuLateral").classList.remove("ativo");
+    // Fechar menu lateral
+    fecharMenu.addEventListener("click", () => {
+        menuLateral.classList.remove("ativo");
     });
 
     // Fechar clicando fora do menu
-    window.addEventListener("click", function(event) {
-        let menu = document.getElementById("menuLateral");
-        if (event.target !== menu && !menu.contains(event.target) && event.target.id !== "botaoMenu") {
-            menu.classList.remove("ativo");
+    window.addEventListener("click", event => {
+        if (event.target !== menuLateral && !menuLateral.contains(event.target) && event.target !== botaoMenu) {
+            menuLateral.classList.remove("ativo");
         }
+    });
+
+    // Logout
+    btnLogout.addEventListener("click", e => {
+        e.preventDefault();
+        firebase.auth().signOut();
+        menuLateral.classList.remove("ativo");
+    });
+
+    // Carrinho
+    document.getElementById("carrinho").addEventListener("click", () => {
+        alert("Abrir carrinho (implementar)");
     });
 </script>
 
 </body>
 </html>
-
-
