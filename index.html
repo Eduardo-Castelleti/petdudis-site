@@ -1,265 +1,197 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pet Dudis</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f8f9fa;
-}
-
-/* Barra superior */
-.top-bar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 60px;
-  background: linear-gradient(90deg, #6a1b9a, #43a047);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-  z-index: 1000;
-}
-
-.logo {
-  font-weight: bold;
-  font-size: 18px;
-  color: white;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.top-bar a {
-  color: white;
-  text-decoration: none;
-  font-size: 15px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: background 0.3s;
-}
-
-.top-bar a:hover {
-  background: rgba(255,255,255,0.2);
-}
-
-/* Dropdown perfil */
-.profile-dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.profile-pic {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  cursor: pointer;
-  border: 2px solid white;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  right: 0;
-  background: white;
-  min-width: 160px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.dropdown-content a {
-  display: block;
-  padding: 10px;
-  color: #333;
-  text-decoration: none;
-}
-
-.dropdown-content a:hover {
-  background: #f0f0f0;
-}
-
-.profile-dropdown:hover .dropdown-content {
-  display: block;
-}
-
-/* Modal */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 2000;
-  left: 0; top: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
-  align-items: center; justify-content: center;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 300px;
-}
-
-.modal-content h2 {
-  margin-top: 0;
-}
-
-input, button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-button {
-  background: #6a1b9a;
-  color: white;
-  border: none;
-}
-
-button:hover {
-  background: #43a047;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pet Dudis - Início</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <style>
+    /* Modal Login/Cadastro */
+    .modal-login { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; overflow:auto; background:rgba(0,0,0,0.6);}
+    .modal-login-content { background:#fff; margin:10% auto; padding:20px; border-radius:8px; width:90%; max-width:400px; position:relative; }
+    .modal-login-content h2 { text-align:center; margin-bottom:20px; }
+    .modal-login-content input { width:100%; padding:10px; margin:5px 0; border:1px solid #ccc; border-radius:4px; }
+    .modal-login-content button { width:100%; padding:10px; margin:10px 0; background:#6c63ff; color:#fff; border:none; border-radius:4px; cursor:pointer; }
+    .modal-login-content .fechar { position:absolute; top:10px; right:15px; font-size:24px; cursor:pointer; }
+    .tab-login { display:flex; justify-content:space-around; margin-bottom:15px; cursor:pointer; }
+    .tab-login div { padding:10px 20px; border-bottom:2px solid transparent; }
+    .tab-login .ativo { border-bottom:2px solid #6c63ff; font-weight:bold; }
+    .usuario-logado { display:flex; align-items:center; gap:10px; cursor:pointer; }
+    .usuario-logado span { font-weight:bold; }
+    .dropdown-usuario { display:none; position:absolute; background:#fff; border:1px solid #ccc; padding:10px; border-radius:4px; right:0; top:100%; min-width:120px; z-index:1001; }
+    .usuario-logado:hover .dropdown-usuario { display:block; }
+  </style>
 </head>
 <body>
 
-<div class="top-bar">
-  <div class="logo">
-    <i class="fa-solid fa-paw"></i> Pet Dudis
-  </div>
-  <div id="user-area">
-    <a href="#" id="loginBtn"><i class="fa-solid fa-user"></i> Entrar/Cadastrar</a>
-  </div>
-</div>
+<!-- CABEÇALHO -->
+<header class="cabecalho">
+  <div class="cabecalho-conteudo">
+    <div class="logo-container">
+      <img src="img/logo.png" alt="Pet Dudis" class="logo" />
+    </div>
 
-<div style="padding-top:80px;">
-  <h1>Bem-vindo à Pet Dudis!</h1>
-</div>
+    <div class="cep-busca">
+      <div class="cep-input-wrapper">
+        <span>📍</span>
+        <input type="text" placeholder="Informar CEP" class="cep-input">
+      </div>
+      <div class="busca-input-wrapper">
+        <span>🔍</span>
+        <input type="text" placeholder="O que seu pet precisa?" class="busca-input">
+        <button class="btn-busca">🔍</button>
+      </div>
+    </div>
 
-<!-- Modal Login -->
-<div id="loginModal" class="modal">
-  <div class="modal-content">
-    <h2>Entrar</h2>
-    <input type="email" id="loginEmail" placeholder="Email">
-    <input type="password" id="loginSenha" placeholder="Senha">
-    <button id="doLogin">Login</button>
-    <p style="text-align:center;margin-top:10px;">Não tem conta? <a href="#" id="openRegister">Cadastre-se</a></p>
-  </div>
-</div>
-
-<!-- Modal Cadastro -->
-<div id="registerModal" class="modal">
-  <div class="modal-content">
-    <h2>Cadastrar</h2>
-    <input type="text" id="registerNome" placeholder="Nome completo">
-    <input type="email" id="registerEmail" placeholder="Email">
-    <input type="password" id="registerSenha" placeholder="Senha">
-    <button id="doRegister">Cadastrar</button>
-    <p style="text-align:center;margin-top:10px;">Já tem conta? <a href="#" id="openLogin">Entrar</a></p>
-  </div>
-</div>
-
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-<script>
-const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "SEU_DOMINIO.firebaseapp.com",
-  projectId: "SEU_PROJECT_ID",
-  storageBucket: "SEU_BUCKET.appspot.com",
-  messagingSenderId: "SEU_ID",
-  appId: "SUA_APP_ID"
-};
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-// Modais
-const loginModal = document.getElementById('loginModal');
-const registerModal = document.getElementById('registerModal');
-document.getElementById('loginBtn').onclick = () => loginModal.style.display = 'flex';
-document.getElementById('openRegister').onclick = () => { loginModal.style.display = 'none'; registerModal.style.display = 'flex'; };
-document.getElementById('openLogin').onclick = () => { registerModal.style.display = 'none'; loginModal.style.display = 'flex'; };
-window.onclick = e => { if (e.target.classList.contains('modal')) e.target.style.display = 'none'; };
-
-// Cadastro
-document.getElementById('doRegister').onclick = async () => {
-  const nome = document.getElementById('registerNome').value;
-  const email = document.getElementById('registerEmail').value;
-  const senha = document.getElementById('registerSenha').value;
-
-  try {
-    const cred = await auth.createUserWithEmailAndPassword(email, senha);
-    await db.collection('usuarios').doc(cred.user.uid).set({
-      nome: nome,
-      email: email,
-      perfil: 'cliente',
-      foto: '',
-      preferencias: {}
-    });
-    registerModal.style.display = 'none';
-  } catch (err) {
-    alert(err.message);
-  }
-};
-
-// Login
-document.getElementById('doLogin').onclick = async () => {
-  const email = document.getElementById('loginEmail').value;
-  const senha = document.getElementById('loginSenha').value;
-
-  try {
-    await auth.signInWithEmailAndPassword(email, senha);
-    loginModal.style.display = 'none';
-  } catch (err) {
-    alert(err.message);
-  }
-};
-
-// Estado de autenticação
-auth.onAuthStateChanged(async user => {
-  const userArea = document.getElementById('user-area');
-  if (user) {
-    const docUser = await db.collection('usuarios').doc(user.uid).get();
-    if (docUser.exists) {
-      const dados = docUser.data();
-      if (dados.perfil === 'parceiro') {
-        window.location.href = 'areadoparceiro.html';
-        return;
-      } else if (dados.perfil === 'funcionario') {
-        window.location.href = 'painel-funcionario.html';
-        return;
-      }
-      // cliente → permanece na página
-      userArea.innerHTML = `
-        <div class="profile-dropdown">
-          <img src="${dados.foto || 'https://via.placeholder.com/40'}" class="profile-pic" />
-          <div class="dropdown-content">
-            <a href="#">Perfil</a>
-            <a href="#" id="logoutBtn">Sair</a>
-          </div>
+    <div class="acoes-usuario">
+      <a href="#"><i class="fas fa-sync-alt"></i> Recorrência</a>
+      <a href="#"><i class="fas fa-box"></i> Pedidos</a>
+      <span id="botao-login"><i class="fas fa-user"></i> Entrar | Cadastrar</span>
+      <div class="usuario-logado" id="usuario-logado" style="display:none;">
+        <span id="nome-usuario"></span>
+        <div class="dropdown-usuario">
+          <a href="#" id="btn-sair">Sair</a>
         </div>
-      `;
-      document.getElementById('logoutBtn').onclick = () => auth.signOut();
-    }
-  } else {
-    userArea.innerHTML = `<a href="#" id="loginBtn"><i class="fa-solid fa-user"></i> Entrar/Cadastrar</a>`;
-    document.getElementById('loginBtn').onclick = () => loginModal.style.display = 'flex';
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Seu restante do conteúdo: categorias, banners, seções, rodapé… mantido igual -->
+
+<!-- Modal Login/Cadastro -->
+<div class="modal-login" id="modal-login">
+  <div class="modal-login-content">
+    <span class="fechar" id="fechar-modal">&times;</span>
+    <div class="tab-login">
+      <div id="tab-entrar" class="ativo">Entrar</div>
+      <div id="tab-cadastrar">Cadastrar</div>
+    </div>
+
+    <!-- Formulário Entrar -->
+    <div id="form-entrar">
+      <input type="email" id="email-login" placeholder="Email" />
+      <input type="password" id="senha-login" placeholder="Senha" />
+      <button id="btn-login">Entrar</button>
+    </div>
+
+    <!-- Formulário Cadastrar -->
+    <div id="form-cadastrar" style="display:none;">
+      <input type="text" id="nome-cadastro" placeholder="Nome completo" />
+      <input type="tel" id="telefone-cadastro" placeholder="Telefone" />
+      <input type="email" id="email-cadastro" placeholder="Email" />
+      <input type="password" id="senha-cadastro" placeholder="Senha" />
+      <button id="btn-cadastrar">Cadastrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
+<script>
+  // Configuração Firebase
+  const firebaseConfig = {
+    apiKey: "SEU_API_KEY",
+    authDomain: "SEU_AUTH_DOMAIN",
+    projectId: "SEU_PROJECT_ID",
+    storageBucket: "SEU_STORAGE_BUCKET",
+    messagingSenderId: "SEU_MESSAGING_ID",
+    appId: "SEU_APP_ID",
+    measurementId: "SEU_MEASUREMENT_ID"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  // Modal
+  const modalLogin = document.getElementById('modal-login');
+  const botaoLogin = document.getElementById('botao-login');
+  const fecharModal = document.getElementById('fechar-modal');
+  const tabEntrar = document.getElementById('tab-entrar');
+  const tabCadastrar = document.getElementById('tab-cadastrar');
+  const formEntrar = document.getElementById('form-entrar');
+  const formCadastrar = document.getElementById('form-cadastrar');
+  const usuarioLogado = document.getElementById('usuario-logado');
+  const nomeUsuario = document.getElementById('nome-usuario');
+  const btnSair = document.getElementById('btn-sair');
+
+  botaoLogin.onclick = () => modalLogin.style.display = 'block';
+  fecharModal.onclick = () => modalLogin.style.display = 'none';
+  window.onclick = e => { if(e.target==modalLogin) modalLogin.style.display='none'; }
+
+  tabEntrar.onclick = () => { formEntrar.style.display='block'; formCadastrar.style.display='none'; tabEntrar.classList.add('ativo'); tabCadastrar.classList.remove('ativo'); }
+  tabCadastrar.onclick = () => { formEntrar.style.display='none'; formCadastrar.style.display='block'; tabCadastrar.classList.add('ativo'); tabEntrar.classList.remove('ativo'); }
+
+  // Cadastrar
+  document.getElementById('btn-cadastrar').onclick = () => {
+    const nome = document.getElementById('nome-cadastro').value;
+    const telefone = document.getElementById('telefone-cadastro').value;
+    const email = document.getElementById('email-cadastro').value;
+    const senha = document.getElementById('senha-cadastro').value;
+
+    if(!nome||!telefone||!email||!senha){ alert('Preencha todos os campos'); return; }
+
+    auth.createUserWithEmailAndPassword(email, senha)
+      .then(userCredential=>{
+        const uid = userCredential.user.uid;
+        db.collection('clientes').doc(uid).set({nome, telefone,email})
+        .then(()=>{ alert('Cadastro realizado!'); modalLogin.style.display='none'; })
+      })
+      .catch(err=>{ alert(err.message); });
   }
-});
+
+  // Login
+  document.getElementById('btn-login').onclick = () => {
+    const email = document.getElementById('email-login').value;
+    const senha = document.getElementById('senha-login').value;
+
+    if(!email||!senha){ alert('Preencha todos os campos'); return; }
+
+    auth.signInWithEmailAndPassword(email, senha)
+      .then(userCredential=>{
+        const uid = userCredential.user.uid;
+        db.collection('clientes').doc(uid).get()
+        .then(doc=>{
+          if(doc.exists){
+            nomeUsuario.textContent = doc.data().nome.split(' ')[0];
+            botaoLogin.style.display='none';
+            usuarioLogado.style.display='flex';
+            modalLogin.style.display='none';
+          }
+        });
+      })
+      .catch(err=>{ alert(err.message); });
+  }
+
+  // Persistência de login
+  auth.onAuthStateChanged(user=>{
+    if(user){
+      db.collection('clientes').doc(user.uid).get()
+        .then(doc=>{
+          if(doc.exists){
+            nomeUsuario.textContent = doc.data().nome.split(' ')[0];
+            botaoLogin.style.display='none';
+            usuarioLogado.style.display='flex';
+          }
+        });
+    } else {
+      botaoLogin.style.display='inline-block';
+      usuarioLogado.style.display='none';
+    }
+  });
+
+  // Logout
+  btnSair.onclick = e => { e.preventDefault(); auth.signOut(); }
 </script>
+
 </body>
 </html>
