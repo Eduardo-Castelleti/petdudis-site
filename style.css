@@ -22,22 +22,30 @@ body {
 
 /* ===== CABEÇALHO ===== */
 .cabecalho {
-  background-color: #2ecc71; /* verde vibrante */
+  background-color: #2ecc71; /* cor do cabeçalho */
   padding: 20px 30px;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .cabecalho-conteudo {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between; /* logo à esquerda, ações à direita */
+  width: 100%;
+  max-width: 1200px;
   flex-wrap: wrap;
 }
 
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
 .logo {
-  height: 100px; /* aumenta o logo */
+  height: 100px; /* tamanho grande do logo */
   object-fit: contain;
 }
 
@@ -45,7 +53,7 @@ body {
   display: flex;
   gap: 10px;
   flex: 1;
-  justify-content: center;
+  margin: 0 20px; /* cria espaço entre logo e ícones */
 }
 
 .cep-input-wrapper, .busca-input-wrapper {
@@ -71,9 +79,16 @@ body {
   cursor: pointer;
 }
 
+.acoes-usuario {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
 .acoes-usuario a {
   color: #fff;
-  margin-left: 15px;
+  text-decoration: none;
+  font-weight: 500;
 }
 
 /* ===== MENU CATEGORIAS ===== */
@@ -350,10 +365,16 @@ body {
 
   .cep-busca {
     flex-direction: column;
-    gap: 5px;
     width: 100%;
     margin: 10px 0;
   }
+
+  .acoes-usuario {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 10px;
+  }
+}
 
   .faixa-categorias ul {
     flex-direction: column;
@@ -365,4 +386,5 @@ body {
     align-items: center;
   }
 }
+
 
