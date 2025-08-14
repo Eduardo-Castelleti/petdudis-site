@@ -92,40 +92,37 @@ body {
 }
 
 /* ===== MENU CATEGORIAS ===== */
-.faixa-categorias {
-  background-color: #ececec; /* cor: cinza suave */
-  padding: 10px 0;
+.faixa-categorias ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex; /* menu horizontal */
 }
 
-.faixa-categorias ul {
-  display: flex;
-  list-style: none;
-  justify-content: center;
-  gap: 20px;
+.faixa-categorias li {
+  position: relative; /* necessário para o submenu */
 }
 
 .faixa-categorias a {
-  color: #333; /* texto escuro para contraste */
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
 }
 
-.dropdown {
-  position: relative;
-}
-
-.submenu {
-  display: none;
+.dropdown .submenu {
+  display: none; /* esconde por padrão */
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: var(--verde);
-  list-style: none;
+  background-color: #555; /* cor neutra */
   padding: 10px 0;
   min-width: 180px;
   z-index: 100;
 }
 
 .dropdown:hover .submenu {
-  display: block;
+  display: block; /* mostra ao passar o mouse */
 }
 
 .submenu li {
@@ -133,7 +130,7 @@ body {
 }
 
 .submenu li a {
-  color: #fff;
+  color: #fff; /* texto do submenu */
   font-weight: normal;
 }
 
@@ -384,6 +381,7 @@ body {
     align-items: center;
   }
 }
+
 
 
 
