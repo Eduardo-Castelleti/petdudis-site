@@ -16,11 +16,45 @@
     color: #333;
   }
 
+  /* Barra superior fixa */
+  .top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 1000;
+  }
+  .top-bar img.logo {
+    height: 40px;
+    cursor: pointer;
+  }
+  .top-bar button.back-button {
+    background: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+  }
+  .top-bar button.back-button:hover {
+    background: #3d8c40;
+  }
+
   /* Layout geral */
   .container {
     display: flex;
     height: 100vh;
     overflow: hidden;
+    margin-top: 60px; /* espaço para a barra fixa */
   }
 
   /* Menu lateral */
@@ -278,6 +312,12 @@
 </head>
 <body>
 
+<!-- Barra superior fixa -->
+<div class="top-bar">
+  <img src="logo.png" alt="Logo Pet Dudis" class="logo" onclick="goHome()" />
+  <button class="back-button" onclick="goBack()">← Voltar</button>
+</div>
+
 <div class="container">
   <aside class="sidebar">
     <div class="profile">
@@ -456,7 +496,16 @@
     alert('Agendamento realizado com sucesso!');
     this.reset();
   });
+
+  // Funções da barra superior
+  function goBack() {
+    window.history.back();
+  }
+  function goHome() {
+    window.location.href = "index.html"; // Ajuste para sua página inicial
+  }
 </script>
 
 </body>
 </html>
+
