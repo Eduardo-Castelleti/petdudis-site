@@ -3,12 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pet Dudis - Início</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>AumigoPet - Início</title>
+  
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  
+  <!-- Swiper -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <style>
+    /* ================== RESET ================== */
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Poppins', sans-serif; }
+    body { background-color:#f9f9f9; color:#333; line-height:1.6; }
+
+    /* ================== CABEÇALHO ================== */
+    .cabecalho { background-color:#6b46c1; color:#fff; padding:10px 20px; box-shadow:0 2px 6px rgba(0,0,0,0.15); position:sticky; top:0; z-index:1000; }
+    .cabecalho-conteudo { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
+    .logo { height:50px; }
+
+    .cep-busca { display:flex; gap:10px; margin:10px 0; }
+    .cep-input-wrapper, .busca-input-wrapper { display:flex; align-items:center; background-color:#fff; border-radius:8px; padding:5px 10px; }
+    .cep-input, .busca-input { border:none; outline:none; padding:5px; }
+    .btn-busca { background-color:#ffba00; border:none; padding:6px 12px; border-radius:5px; cursor:pointer; }
+
+    .acoes-usuario a { margin-left:15px; color:#fff; text-decoration:none; font-weight:500; transition: color 0.2s; }
+    .acoes-usuario a:hover { color:#ffba00; }
+
+    /* ================== CATEGORIAS ================== */
+    .faixa-categorias { background-color:#fff; padding:10px 20px; box-shadow:0 2px 4px rgba(0,0,0,0.1); }
+    .faixa-categorias ul { display:flex; list-style:none; gap:20px; flex-wrap:wrap; }
+    .faixa-categorias a { text-decoration:none; color:#6b46c1; font-weight:500; transition: color 0.2s; }
+    .faixa-categorias a:hover { color:#ffba00; }
+
+    .dropdown { position:relative; }
+    .submenu { display:none; position:absolute; top:28px; left:0; background:#fff; border-radius:5px; box-shadow:0 2px 6px rgba(0,0,0,0.15); list-style:none; padding:10px 0; min-width:180px; }
+    .submenu li { padding:5px 15px; }
+    .submenu li a { color:#6b46c1; }
+    .dropdown:hover .submenu { display:block; }
+
+    /* ================== BANNERS ================== */
+    .swiper { margin:20px 0; }
+    .swiper-slide img { width:100%; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+
+    /* ================== BENEFÍCIOS ================== */
+    .beneficios { text-align:center; padding:40px 20px; background:#f3e8ff; }
+    .beneficios h2 { margin-bottom:20px; color:#6b46c1; }
+    .beneficios-container { display:flex; justify-content:center; flex-wrap:wrap; gap:20px; }
+    .card-beneficio { background:#fff; padding:20px; border-radius:12px; width:150px; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s; }
+    .card-beneficio:hover { transform:translateY(-5px); box-shadow:0 6px 15px rgba(0,0,0,0.15); }
+    .icone-beneficio { width:50px; margin-bottom:10px; }
+
+    /* ================== SERVIÇOS ================== */
+    .servicos-agendamento { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; padding:40px 20px; }
+    .servico { background:#fff; border-radius:12px; padding:20px; width:220px; text-align:center; transition:transform 0.2s, box-shadow 0.2s; }
+    .servico:hover { transform:translateY(-5px); box-shadow:0 6px 15px rgba(0,0,0,0.15); }
+    .btn-agendar { display:inline-block; margin-top:10px; background-color:#6b46c1; color:#fff; padding:8px 15px; border-radius:8px; text-decoration:none; transition:background 0.2s; }
+    .btn-agendar:hover { background-color:#ffba00; color:#333; }
+
+    /* ================== PRODUTOS ================== */
+    .produtos-destaque { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; padding:20px; }
+    .produto { background:#fff; border-radius:12px; padding:15px; width:200px; text-align:center; transition:transform 0.2s, box-shadow 0.2s; }
+    .produto:hover { transform:translateY(-5px); box-shadow:0 6px 15px rgba(0,0,0,0.15); }
+    .preco-promocao { color:#ff4c4c; font-weight:bold; font-size:1.1em; }
+
+    /* ================== MARCAS ================== */
+    .marcas-container { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; padding:20px; }
+    .marcas-container img { height:60px; object-fit:contain; transition:transform 0.2s; }
+    .marcas-container img:hover { transform:scale(1.1); }
+
+    /* ================== MODAIS ================== */
+    .modal { display:none; position:fixed; z-index:2000; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.5); }
+    .modal-conteudo { background:#fff; margin:10% auto; padding:20px; border-radius:12px; max-width:500px; position:relative; }
+    .modal-conteudo h3 { margin-bottom:15px; color:#6b46c1; }
+    .modal-conteudo p { margin-bottom:10px; }
+    .fechar { position:absolute; top:10px; right:15px; font-size:24px; cursor:pointer; color:#333; }
+
+    /* ================== RODAPÉ ================== */
+    .rodape-completo { background:#6b46c1; color:#fff; padding:40px 20px 20px; }
+    .rodape-conteudo { display:flex; flex-wrap:wrap; gap:40px; justify-content:space-between; }
+    .rodape-conteudo h4 { margin-bottom:15px; }
+    .rodape-conteudo ul { list-style:none; }
+    .rodape-conteudo ul li a { color:#fff; text-decoration:none; display:block; margin-bottom:8px; }
+    .rodape-inferior { display:flex; justify-content:space-between; margin-top:30px; flex-wrap:wrap; }
+    .rodape-inferior img { margin-right:10px; height:32px; }
+
+    /* ================== RESPONSIVIDADE ================== */
+    @media(max-width:768px){
+      .cabecalho-conteudo, .cep-busca, .faixa-categorias ul, .beneficios-container, .servicos-agendamento, .produtos-destaque { flex-direction:column; align-items:center; }
+      .acoes-usuario a { margin-left:0; margin-top:5px; }
+    }
+  </style>
 </head>
 <body>
+
 
 <!-- CABEÇALHO -->
 <header class="cabecalho">
@@ -289,70 +376,26 @@
     </div>
   </footer>
 
-  <!-- Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script>
-    const swiper = new Swiper('.banner-swiper', {
-      loop: true,
-      slidesPerView: 1,
-      spaceBetween: 20,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev'
-      },
-      autoplay: {
-        delay: 4000,
-        disableOnInteraction: false
-      }
-    });
-
-    function abrirModal(id) {
-      document.getElementById(id).style.display = 'block';
-    }
-
-    function fecharModal(id) {
-      document.getElementById(id).style.display = 'none';
-    }
-
-    window.onclick = function(event) {
-      document.querySelectorAll('.modal').forEach(function(modal) {
-        if (event.target === modal) {
-          modal.style.display = 'none';
-        }
-      });
-    };
-  </script>
-
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
-
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-  // Configuração Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyDVr6OOQRt2rB0kByInjqjdyoQCpnMAt7I",
-    authDomain: "site-f6495.firebaseapp.com",
-    projectId: "site-f6495",
-    storageBucket: "site-f6495.firebasestorage.app",
-    messagingSenderId: "230161402024",
-    appId: "1:230161402024:web:462a911919ebf8a0809a9d",
-    measurementId: "G-51G8XF6JH0"
+  const swiper = new Swiper('.banner-swiper', {
+    loop: true,
+    slidesPerView: 1,
+    spaceBetween: 20,
+    pagination: { el: '.swiper-pagination', clickable: true },
+    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+    autoplay: { delay: 4000, disableOnInteraction: false }
+  });
+
+  function abrirModal(id) { document.getElementById(id).style.display='block'; }
+  function fecharModal(id) { document.getElementById(id).style.display='none'; }
+  window.onclick = function(event){
+    document.querySelectorAll('.modal').forEach(function(modal){
+      if(event.target === modal){ modal.style.display='none'; }
+    });
   };
-
-  // Inicialização
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
-
-  const db = firebase.firestore();
-  const auth = firebase.auth();
 </script>
 
-<script src="main.js"></script>
 </body>
 </html>
