@@ -22,9 +22,11 @@ body {
 
 /* ===== CABEÇALHO ===== */
 .cabecalho {
-  background-color: var(--roxo);
-  color: #fff;
-  padding: 10px 20px;
+  background-color: #2ecc71; /* verde vibrante */
+  padding: 20px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cabecalho-conteudo {
@@ -34,8 +36,9 @@ body {
   flex-wrap: wrap;
 }
 
-.logo-container .logo {
-  height: 50px;
+.logo {
+  height: 100px; /* aumenta o logo */
+  object-fit: contain;
 }
 
 .cep-busca {
@@ -60,18 +63,17 @@ body {
 }
 
 .btn-busca {
-  background-color: var(--verde);
-  border: none;
+  background: #f39c12; /* laranja vibrante */
   color: #fff;
-  padding: 5px 10px;
-  cursor: pointer;
+  border: none;
+  padding: 6px 12px;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .acoes-usuario a {
   color: #fff;
   margin-left: 15px;
-  text-decoration: none;
 }
 
 /* ===== MENU CATEGORIAS ===== */
@@ -363,3 +365,4 @@ body {
     align-items: center;
   }
 }
+
