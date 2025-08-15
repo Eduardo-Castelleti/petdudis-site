@@ -151,7 +151,8 @@
 
           <label for="cpf">CPF</label>
           <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14"
-                 inputmode="numeric" pattern="\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}" />
+                 inputmode="numeric" pattern="[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}"
+                 title="Formato: 000.000.000-00" />
 
           <label for="email">E-mail</label>
           <input type="email" id="email" placeholder="seuemail@exemplo.com" />
@@ -349,7 +350,7 @@
     link.addEventListener("click", e => {
       e.preventDefault();
       sections.forEach(s => s.style.display = "none");
-      $(`#${link.dataset.section}`).style.display = "block";
+      document.getElementById(link.dataset.section).style.display = "block";
       links.forEach(l => l.classList.remove("active"));
       link.classList.add("active");
     });
@@ -367,6 +368,33 @@
   };
   let perfil = storage.get("perfilCliente", perfilPadrao);
 
+  // Tenta consumir dados vindos do fluxo de CADASTRO (se houver)
+  function formatCPF(raw) {
+    return (raw || "")
+      .replace(/\D/g, "")
+      .slice(0, 11)
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+  }
+  function mergeCadastroParaPerfil() {
+    const cadastro = storage.get("cadastroCliente", null);
+    if (!cadastro) return;
+    const pick = (obj, keys) => {
+      for (const k of keys) { if (obj && obj[k]) return obj[k]; }
+      return "";
+    };
+    let mudou = false;
+    if (!perfil.nomeCompleto) { const v = pick(cadastro, ["nomeCompleto","nome"); if (v) { perfil.nomeCompleto = v; mudou = true; } }
+    if (!perfil.apelido)      { const v = pick(cadastro, ["apelido","comoQuerSerChamado","nomeExibicao"); if (v) { perfil.apelido = v; mudou = true; } }
+    if (!perfil.cpf)          { const v = pick(cadastro, ["cpf"); if (v) { perfil.cpf = formatCPF(v); mudou = true; } }
+    if (!perfil.email)        { const v = pick(cadastro, ["email","e-mail","login"); if (v) { perfil.email = v; mudou = true; } }
+    if (!perfil.telefone)     { const v = pick(cadastro, ["telefone","celular"); if (v) { perfil.telefone = v; mudou = true; } }
+    if (!perfil.endereco)     { const v = pick(cadastro, ["endereco","endereço"); if (v) { perfil.endereco = v; mudou = true; } }
+    if (!perfil.foto)         { const v = pick(cadastro, ["foto","avatar"); if (v) { perfil.foto = v; mudou = true; } }
+    if (mudou) storage.set("perfilCliente", perfil);
+  }
+
   function aplicarPerfilNaUI() {
     // Preencher campos
     $("#nomeCompleto").value = perfil.nomeCompleto || "";
@@ -379,29 +407,23 @@
     if (perfil.foto) $("#avatarCliente").src = perfil.foto;
     $("#apelidoTopo").textContent = perfil.apelido || "Cliente";
 
-    // Bloqueio de CPF e E-mail depois de definidos
+    // Bloqueio/obrigatoriedade de CPF e Email
     const cpfDefinido = !!perfil.cpf;
     const emailDefinido = !!perfil.email;
     $("#cpf").readOnly = cpfDefinido;
     $("#email").readOnly = emailDefinido;
+    $("#cpf").required = !cpfDefinido;   // obrigatório se ainda não definido
+    $("#email").required = !emailDefinido; // obrigatório se ainda não definido
 
     // Placeholders deixam claro a regra
     $("#cpf").placeholder = cpfDefinido ? "CPF (bloqueado após cadastro)" : "000.000.000-00";
     $("#email").placeholder = emailDefinido ? "E-mail (bloqueado após cadastro)" : "seuemail@exemplo.com";
   }
 
-  // Máscara simples de CPF
-  function maskCPF(v) {
-    return v
-      .replace(/\D/g, "")
-      .slice(0, 11)
-      .replace(/(\d{3})(\d)/, "$1.$2")
-      .replace(/(\d{3})(\d)/, "$1.$2")
-      .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-  }
+  // Máscara simples de CPF (apenas quando não estiver bloqueado)
   $("#cpf").addEventListener("input", (e) => {
     if ($("#cpf").readOnly) return;
-    e.target.value = maskCPF(e.target.value);
+    e.target.value = formatCPF(e.target.value);
   });
 
   // Foto de perfil preview + salvar em memória
@@ -421,41 +443,39 @@
     return (nome || "").trim().split(/\s+/).length >= 2;
   }
 
-  $("#form-perfil").addEventListener("submit", (e) => {
+  const formPerfil = document.getElementById("form-perfil");
+  formPerfil.addEventListener("submit", (e) => {
+    // Dispara mensagens nativas (inclui pattern do CPF e e-mail inválido)
+    if (!formPerfil.checkValidity()) {
+      e.preventDefault();
+      formPerfil.reportValidity();
+      return;
+    }
     e.preventDefault();
 
-    const nomeCompleto = $("#nomeCompleto").value.trim();
-    const apelido = $("#apelido").value.trim();
-    const telefone = $("#telefone").value.trim();
-    const endereco = $("#endereco").value.trim();
-
-    if (!nomePareceCompleto(nomeCompleto)) {
-      alert("Por favor, informe seu NOME COMPLETO (nome e sobrenome).");
+    const nomeEl = $("#nomeCompleto");
+    if (!nomePareceCompleto(nomeEl.value)) {
+      nomeEl.setCustomValidity("Informe seu nome completo (nome e sobrenome).");
+      formPerfil.reportValidity();
+      nomeEl.setCustomValidity("");
       return;
     }
 
     // CPF / Email só podem ser definidos se ainda não estiverem salvos
     if (!perfil.cpf) {
-      const cpf = $("#cpf").value.trim();
-      if (!/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)) {
-        alert("CPF inválido. Use o formato 000.000.000-00.");
-        return;
-      }
-      perfil.cpf = cpf;
+      const cpfVal = $("#cpf").value.trim();
+      // Já validado pelo pattern, mantém formato
+      perfil.cpf = cpfVal;
     }
     if (!perfil.email) {
-      const email = $("#email").value.trim();
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        alert("E-mail inválido.");
-        return;
-      }
-      perfil.email = email;
+      const emailVal = $("#email").value.trim();
+      perfil.email = emailVal;
     }
 
-    perfil.nomeCompleto = nomeCompleto;
-    perfil.apelido = apelido || "Cliente";
-    perfil.telefone = telefone;
-    perfil.endereco = endereco;
+    perfil.nomeCompleto = $("#nomeCompleto").value.trim();
+    perfil.apelido = $("#apelido").value.trim() || "Cliente";
+    perfil.telefone = $("#telefone").value.trim();
+    perfil.endereco = $("#endereco").value.trim();
 
     storage.set("perfilCliente", perfil);
     aplicarPerfilNaUI();
@@ -500,7 +520,6 @@
 
   $("#abrirModalPet").addEventListener("click", () => abrirModal("modalPet"));
   $("#abrirModalAgendamento").addEventListener("click", () => {
-    // Define data mínima = hoje
     const hoje = new Date().toISOString().split("T")[0];
     $("#ag-data").setAttribute("min", hoje);
     abrirModal("modalAgendamento");
@@ -520,7 +539,6 @@
     const nasc = $("#pet-nasc").value; // yyyy-mm-dd
     const obs = $("#pet-obs").value.trim();
 
-    // Foto — converte para DataURL
     let fotoDataUrl = "";
     const file = $("#pet-foto").files?.[0];
     if (file) {
@@ -542,7 +560,7 @@
     $("#form-pet").reset();
   });
 
-  /* ======= AGENDAMENTOS (apenas simulação de criação) ======= */
+  /* ======= AGENDAMENTOS (simulação de criação) ======= */
   $("#form-agendamento").addEventListener("submit", (e) => {
     e.preventDefault();
     const pet = $("#ag-pet").value;
@@ -578,7 +596,6 @@
   $("#sairBtn").addEventListener("click", (e) => {
     e.preventDefault();
     alert("Sessão encerrada (simulação).");
-    // Aqui você pode limpar tokens/cookies e redirecionar:
     // window.location.href = "login.html";
   });
 
@@ -588,6 +605,7 @@
   window.goBack = goBack; window.goHome = goHome;
 
   /* ======= INICIALIZAÇÃO ======= */
+  mergeCadastroParaPerfil();
   aplicarPerfilNaUI();
   renderPets();
   preencherPetsNoAgendamento();
