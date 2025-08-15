@@ -76,7 +76,7 @@ button.add { background-color:#2980b9; color:#fff; margin-bottom:10px; }
   <div class="cards">
     <div class="card"><h3>Faturamento Total</h3><p>R$ 45.230</p></div>
     <div class="card"><h3>Lucro Líquido</h3><p>R$ 12.400</p></div>
-    <div class="card"><h3>Clientes Ativos</h3><p>130</p></div>
+    <div class="card"><h3>Clientes Ativos</h3><p id="clientesAtivos">--</p></div>
     <div class="card"><h3>Produtos Mais Vendidos</h3><p>Ração 10kg</p></div>
   </div>
   <div class="chart-container">
@@ -93,13 +93,13 @@ button.add { background-color:#2980b9; color:#fff; margin-bottom:10px; }
 <div id="clientes" class="section" style="display:none;">
   <h1>Clientes</h1>
   <div class="cards">
-    <div class="card"><h3>Clientes Ativos</h3><p id="clientesAtivos">--</p></div>
+    <div class="card"><h3>Clientes Ativos</h3><p id="clientesAtivosCard">--</p></div>
     <div class="card"><h3>Ticket Médio</h3><p id="ticketMedio">--</p></div>
     <div class="card"><h3>Clientes Novos</h3><p id="clientesNovos">--</p></div>
   </div>
   <div style="margin-bottom:20px;">
     <input type="text" id="buscaCliente" placeholder="Pesquisar cliente..." style="padding:8px;width:60%;">
-    <button onclick="buscarCliente()" style="padding:8px 12px;margin-left:5px;">Buscar</button>
+    <button onclick="buscarClientesFirebase(document.getElementById('buscaCliente').value)" style="padding:8px 12px;margin-left:5px;">Buscar</button>
     <button onclick="abrirAdicionarCliente()" class="add">Adicionar Cliente</button>
   </div>
   <table id="tabelaClientes" style="display:none;">
@@ -110,228 +110,34 @@ button.add { background-color:#2980b9; color:#fff; margin-bottom:10px; }
   </table>
 </div>
 
-<!-- ABA PARCEIROS -->
-<div id="parceiros" class="section" style="display:none;">
-  <h1>Parceiros</h1>
-  <button class="add">Adicionar Parceiro</button>
-  <table>
-    <thead>
-      <tr><th>Nome</th><th>Tipo</th><th>Contato</th><th>Vendas</th><th>Ações</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Banho & Tosa XYZ</td><td>Banho/Tosa</td><td>51 99888-7777</td><td>120</td>
-        <td><button class="edit">Editar</button> <button class="delete">Excluir</button></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- ABA FUNCIONÁRIOS -->
-<div id="funcionarios" class="section" style="display:none;">
-  <h1>Funcionários</h1>
-  <button class="add">Adicionar Funcionário</button>
-  <table>
-    <thead>
-      <tr><th>Nome</th><th>Cargo</th><th>Acesso</th><th>Ações</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Maria</td><td>Atendimento</td><td>Parcial</td>
-        <td><button class="edit">Editar</button> <button class="delete">Excluir</button></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- ABA PRODUTOS -->
-<div id="produtos" class="section" style="display:none;">
-  <h1>Produtos</h1>
-  <button class="add">Adicionar Produto</button>
-  <table>
-    <thead>
-      <tr><th>Nome</th><th>Categoria</th><th>Estoque</th><th>Preço</th><th>Ações</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Ração Special Dog 10kg</td><td>Ração</td><td>50</td><td>R$ 250,00</td>
-        <td><button class="edit">Editar</button> <button class="delete">Excluir</button></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- ABA RELATÓRIOS -->
-<div id="relatorios" class="section" style="display:none;">
-  <h1>Relatórios</h1>
-  <p>Filtros, exportações e gráficos detalhados podem ser adicionados aqui.</p>
-</div>
-
-<!-- ABA CONFIGURAÇÕES -->
-<div id="config" class="section" style="display:none;">
-  <h1>Configurações</h1>
-  <p>Gerenciar permissões, comissões, alertas e backups do sistema.</p>
-</div>
-
-<!-- MODAIS CLIENTES -->
-<div id="modalConsultar" class="modal">
-  <div class="modal-content">
-    <h3>Resumo do Cliente</h3>
-    <div id="resumoCliente"></div>
-    <button onclick="fecharModal('modalConsultar')" style="position:absolute; top:10px; right:10px;">&times;</button>
-  </div>
-</div>
-
+<!-- MODAL ADICIONAR CLIENTE -->
 <div id="modalAdicionar" class="modal">
   <div class="modal-content">
     <h3 id="tituloModal">Adicionar Cliente</h3>
     <form id="formCliente">
-  <label>Nome:</label><br>
-  <input type="text" id="nomeCliente" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
-  
-  <label>Telefone:</label><br>
-  <input type="text" id="telefoneCliente" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
-  
-  <label>Email:</label><br>
-  <input type="email" id="emailCliente" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
-
-  <label>Senha:</label><br>
-  <input type="password" id="senhaCliente" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
-
-  <button type="submit" class="add">Salvar</button>
-  <button type="button" onclick="fecharModal('modalAdicionar')" style="margin-left:5px;">Cancelar</button>
-</form>
+      <label>Nome:</label><br>
+      <input type="text" id="nomeCliente" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
+      <label>Telefone:</label><br>
+      <input type="text" id="telefoneCliente" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
+      <label>Email:</label><br>
+      <input type="email" id="emailCliente" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
+      <label>Senha:</label><br>
+      <input type="password" id="senhaCliente" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
+      <button type="submit" class="add">Salvar</button>
+      <button type="button" onclick="fecharModal('modalAdicionar')" style="margin-left:5px;">Cancelar</button>
+    </form>
     <button onclick="fecharModal('modalAdicionar')" style="position:absolute; top:10px; right:10px;">&times;</button>
   </div>
 </div>
 
 </div> <!-- FIM MAIN CONTENT -->
 
-<script>
-// SELEÇÃO DE SEÇÃO
-function showSection(sectionId){
-  document.querySelectorAll('.section').forEach(sec => sec.style.display='none');
-  document.getElementById(sectionId).style.display = 'block';
-}
-
-// FAKE DATA CLIENTES
-let clientes = [
-  {nome:"Eduardo", telefone:"(51)99999-9999", email:"eduardo@email.com", pets:["Rex","Mimi"]},
-  {nome:"Maria", telefone:"(51)98888-7777", email:"maria@email.com", pets:["Luna"]}
-];
-
-// BUSCA CLIENTE
-function buscarCliente(){
-  let filtro = document.getElementById('buscaCliente').value.toLowerCase();
-  let resultados = clientes.filter(c => c.nome.toLowerCase().includes(filtro) || c.email.toLowerCase().includes(filtro) || c.telefone.includes(filtro));
-  let tbody = document.getElementById('clientesTable'); tbody.innerHTML = '';
-  resultados.forEach(c => {
-    let tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${c.nome}</td>
-      <td>${c.telefone}</td>
-      <td>${c.email}</td>
-      <td>${c.pets.join(', ')}</td>
-      <td>
-        <button class="edit" onclick="consultarCliente('${c.nome}')">Consultar</button>
-        <button class="edit" onclick="editarCliente('${c.nome}')">Editar</button>
-        <button class="delete" onclick="excluirCliente('${c.nome}')">Excluir</button>
-      </td>
-    `;
-    tbody.appendChild(tr);
-  });
-  document.getElementById('tabelaClientes').style.display = resultados.length ? 'table' : 'none';
-}
-
-// MODAIS CLIENTES
-function consultarCliente(nome){
-  let cliente = clientes.find(c => c.nome === nome);
-  document.getElementById('resumoCliente').innerHTML = `
-    <p><strong>Nome:</strong> ${cliente.nome}</p>
-    <p><strong>Telefone:</strong> ${cliente.telefone}</p>
-    <p><strong>Email:</strong> ${cliente.email}</p>
-    <p><strong>Pets:</strong> ${cliente.pets.join(', ')}</p>
-  `;
-  document.getElementById('modalConsultar').style.display = 'flex';
-}
-
-function abrirAdicionarCliente(){
-  document.getElementById('tituloModal').innerText = 'Adicionar Cliente';
-  document.getElementById('formCliente').onsubmit = adicionarCliente;
-  document.getElementById('nomeCliente').value = '';
-  document.getElementById('telefoneCliente').value = '';
-  document.getElementById('emailCliente').value = '';
-  document.getElementById('modalAdicionar').style.display = 'flex';
-}
-
-function editarCliente(nome){
-  let cliente = clientes.find(c => c.nome === nome);
-  document.getElementById('tituloModal').innerText = 'Editar Cliente';
-  document.getElementById('nomeCliente').value = cliente.nome;
-  document.getElementById('telefoneCliente').value = cliente.telefone;
-  document.getElementById('emailCliente').value = cliente.email;
-  document.getElementById('formCliente').onsubmit = function(e){
-    e.preventDefault();
-    cliente.nome = document.getElementById('nomeCliente').value;
-    cliente.telefone = document.getElementById('telefoneCliente').value;
-    cliente.email = document.getElementById('emailCliente').value;
-    buscarCliente();
-    fecharModal('modalAdicionar');
-  };
-  document.getElementById('modalAdicionar').style.display = 'flex';
-}
-
-function excluirCliente(nome){
-  if(confirm(`Deseja realmente excluir ${nome}?`)){
-    clientes = clientes.filter(c => c.nome !== nome);
-    buscarCliente();
-  }
-}
-
-function adicionarCliente(e){
-  e.preventDefault();
-  let novo = {
-    nome: document.getElementById('nomeCliente').value,
-    telefone: document.getElementById('telefoneCliente').value,
-    email: document.getElementById('emailCliente').value,
-    pets:[]
-  };
-  clientes.push(novo);
-  buscarCliente();
-  fecharModal('modalAdicionar');
-}
-
-function fecharModal(modal){ document.getElementById(modal).style.display='none'; }
-
-// CARDS CLIENTES
-document.getElementById('clientesAtivos').innerText = clientes.length;
-document.getElementById('ticketMedio').innerText = 'R$ 230,00';
-document.getElementById('clientesNovos').innerText = '15';
-
-// CHARTS DASHBOARD
-const ctxCategoria = document.getElementById('vendasCategoriaChart').getContext('2d');
-const vendasCategoriaChart = new Chart(ctxCategoria, {
-    type: 'bar',
-    data: { labels:['Ração','Petiscos','Acessórios','Serviços'], datasets:[{label:'Vendas', data:[120,80,60,40], backgroundColor:['#2980b9','#27ae60','#f39c12','#c0392b']}]},
-    options: { responsive:true, plugins:{legend:{display:false}}}
-});
-const ctxFaturamento = document.getElementById('faturamentoChart').getContext('2d');
-const faturamentoChart = new Chart(ctxFaturamento, {
-    type: 'line',
-    data: { labels:['Jan','Fev','Mar','Abr','Mai','Jun'], datasets:[{label:'Faturamento', data:[5000,8000,12000,15000,20000,23000], borderColor:'#2980b9', fill:false}]},
-    options: { responsive:true }
-});
-</script>
-
-<!-- INSERIR ANTES DO FECHAMENTO DO </body> -->
-
-<!-- Firebase SDK -->
+<!-- SCRIPTS -->
 <script type="module">
-  // Importar funções necessárias do Firebase
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-app.js";
-  import { getDatabase, ref, push, get, child } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-app.js";
+import { getDatabase, ref, push, get, child } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-database.js";
 
-  // Configuração do Firebase// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// CONFIG FIREBASE
 const firebaseConfig = {
   apiKey: "SUA_API_KEY",
   authDomain: "SEU_AUTH_DOMAIN",
@@ -341,82 +147,99 @@ const firebaseConfig = {
   messagingSenderId: "SEU_MESSAGING_SENDER_ID",
   appId: "SEU_APP_ID"
 };
-  
-  // Inicializar Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
 
-  // Função para adicionar cliente no Firebase
-  function adicionarClienteFirebase(e){
-    e.preventDefault();
-    const nome = document.getElementById('nomeCliente').value;
-    const telefone = document.getElementById('telefoneCliente').value;
-    const email = document.getElementById('emailCliente').value;
+// INICIALIZAR FIREBASE
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-    if(!nome || !telefone || !email) return alert("Preencha todos os campos!");
+// FUNÇÃO MOSTRAR SEÇÃO
+window.showSection = function(sectionId){
+  document.querySelectorAll('.section').forEach(sec => sec.style.display='none');
+  document.getElementById(sectionId).style.display = 'block';
+  if(sectionId === 'clientes'){ buscarClientesFirebase(); }
+}
 
-    const novoCliente = { nome, telefone, email, pets: [] };
+// ABRIR MODAL
+window.abrirAdicionarCliente = function(){
+  document.getElementById('formCliente').reset();
+  document.getElementById('modalAdicionar').style.display = 'flex';
+}
 
-    // Salvar no Firebase
-    push(ref(db, 'clientes'), novoCliente)
-      .then(() => {
-        alert("Cliente adicionado com sucesso!");
-        fecharModal('modalAdicionar');
-        buscarClientesFirebase();
-      })
-      .catch(err => alert("Erro ao adicionar cliente: " + err));
-  }
+// FECHAR MODAL
+window.fecharModal = function(id){
+  document.getElementById(id).style.display='none';
+}
 
-  // Função para buscar clientes do Firebase
-  async function buscarClientesFirebase(filtro=''){
-    const dbRef = ref(db);
-    const snapshot = await get(child(dbRef, 'clientes'));
-    let tbody = document.getElementById('clientesTable');
-    tbody.innerHTML = '';
+// ADICIONAR CLIENTE NO FIREBASE
+document.getElementById('formCliente').onsubmit = function(e){
+  e.preventDefault();
+  const nome = document.getElementById('nomeCliente').value;
+  const telefone = document.getElementById('telefoneCliente').value;
+  const email = document.getElementById('emailCliente').value;
+  const senha = document.getElementById('senhaCliente').value;
 
-    if(snapshot.exists()){
-      let clientesData = Object.values(snapshot.val());
-      if(filtro){
-        filtro = filtro.toLowerCase();
-        clientesData = clientesData.filter(c => 
-          c.nome.toLowerCase().includes(filtro) || 
-          c.email.toLowerCase().includes(filtro) || 
-          c.telefone.includes(filtro)
-        );
-      }
+  const novoCliente = { nome, telefone, email, senha, pets: [] };
 
-      clientesData.forEach(c => {
-        let tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${c.nome}</td>
-          <td>${c.telefone}</td>
-          <td>${c.email}</td>
-          <td>${c.pets.join(', ')}</td>
-          <td>
-            <button class="edit" onclick="consultarClienteFirebase('${c.nome}')">Consultar</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
+  push(ref(db, 'clientes'), novoCliente)
+    .then(() => {
+      alert("Cliente adicionado!");
+      fecharModal('modalAdicionar');
+      buscarClientesFirebase();
+    })
+    .catch(err => alert("Erro: " + err));
+}
 
-      document.getElementById('tabelaClientes').style.display = clientesData.length ? 'table' : 'none';
-    } else {
-      document.getElementById('tabelaClientes').style.display = 'none';
+// BUSCAR CLIENTES
+window.buscarClientesFirebase = async function(filtro=''){
+  const dbRef = ref(db);
+  const snapshot = await get(child(dbRef, 'clientes'));
+  const tbody = document.getElementById('clientesTable');
+  tbody.innerHTML = '';
+
+  if(snapshot.exists()){
+    let clientesData = Object.values(snapshot.val());
+    if(filtro){
+      filtro = filtro.toLowerCase();
+      clientesData = clientesData.filter(c =>
+        c.nome.toLowerCase().includes(filtro) ||
+        c.email.toLowerCase().includes(filtro) ||
+        c.telefone.includes(filtro)
+      );
     }
+
+    clientesData.forEach(c => {
+      let tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${c.nome}</td>
+        <td>${c.telefone}</td>
+        <td>${c.email}</td>
+        <td>${c.pets ? c.pets.join(', ') : ''}</td>
+        <td><button class="edit" onclick="alert('Consulta: ${c.nome}')">Consultar</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById('tabelaClientes').style.display = clientesData.length ? 'table' : 'none';
+    document.getElementById('clientesAtivosCard').innerText = clientesData.length;
+  } else {
+    document.getElementById('tabelaClientes').style.display = 'none';
   }
+}
 
-  // Função para consultar cliente (simplificada)
-  function consultarClienteFirebase(nome){
-    alert("Consulta de cliente: " + nome);
-  }
+// CHARTS
+const ctxCategoria = document.getElementById('vendasCategoriaChart').getContext('2d');
+new Chart(ctxCategoria, {
+  type: 'bar',
+  data: { labels:['Ração','Petiscos','Acessórios','Serviços'], datasets:[{label:'Vendas', data:[120,80,60,40], backgroundColor:['#2980b9','#27ae60','#f39c12','#c0392b']}]},
+  options: { responsive:true, plugins:{legend:{display:false}}}
+});
 
-  // Vincular formulário ao Firebase
-  document.getElementById('formCliente').onsubmit = adicionarClienteFirebase;
-
-  // Carregar clientes ao abrir aba
-  document.getElementById('clientes').addEventListener('click', () => {
-    buscarClientesFirebase();
-  });
+const ctxFaturamento = document.getElementById('faturamentoChart').getContext('2d');
+new Chart(ctxFaturamento, {
+  type: 'line',
+  data: { labels:['Jan','Fev','Mar','Abr','Mai','Jun'], datasets:[{label:'Faturamento', data:[5000,8000,12000,15000,20000,23000], borderColor:'#2980b9', fill:false}]},
+  options: { responsive:true }
+});
 </script>
 
 </body>
