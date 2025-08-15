@@ -317,5 +317,101 @@ const faturamentoChart = new Chart(ctxFaturamento, {
 });
 </script>
 
+<!-- INSERIR ANTES DO FECHAMENTO DO </body> -->
+
+<!-- Firebase SDK -->
+<script type="module">
+  // Importar funções necessárias do Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-app.js";
+  import { getDatabase, ref, push, get, child } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-database.js";
+
+  // Configuração do Firebase
+  const firebaseConfig = {
+    apiKey: "SUA_API_KEY",
+    authDomain: "SEU_AUTH_DOMAIN",
+    databaseURL: "SUA_DATABASE_URL",
+    projectId: "SEU_PROJECT_ID",
+    storageBucket: "SEU_STORAGE_BUCKET",
+    messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+    appId: "SEU_APP_ID"
+  };
+
+  // Inicializar Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // Função para adicionar cliente no Firebase
+  function adicionarClienteFirebase(e){
+    e.preventDefault();
+    const nome = document.getElementById('nomeCliente').value;
+    const telefone = document.getElementById('telefoneCliente').value;
+    const email = document.getElementById('emailCliente').value;
+
+    if(!nome || !telefone || !email) return alert("Preencha todos os campos!");
+
+    const novoCliente = { nome, telefone, email, pets: [] };
+
+    // Salvar no Firebase
+    push(ref(db, 'clientes'), novoCliente)
+      .then(() => {
+        alert("Cliente adicionado com sucesso!");
+        fecharModal('modalAdicionar');
+        buscarClientesFirebase();
+      })
+      .catch(err => alert("Erro ao adicionar cliente: " + err));
+  }
+
+  // Função para buscar clientes do Firebase
+  async function buscarClientesFirebase(filtro=''){
+    const dbRef = ref(db);
+    const snapshot = await get(child(dbRef, 'clientes'));
+    let tbody = document.getElementById('clientesTable');
+    tbody.innerHTML = '';
+
+    if(snapshot.exists()){
+      let clientesData = Object.values(snapshot.val());
+      if(filtro){
+        filtro = filtro.toLowerCase();
+        clientesData = clientesData.filter(c => 
+          c.nome.toLowerCase().includes(filtro) || 
+          c.email.toLowerCase().includes(filtro) || 
+          c.telefone.includes(filtro)
+        );
+      }
+
+      clientesData.forEach(c => {
+        let tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${c.nome}</td>
+          <td>${c.telefone}</td>
+          <td>${c.email}</td>
+          <td>${c.pets.join(', ')}</td>
+          <td>
+            <button class="edit" onclick="consultarClienteFirebase('${c.nome}')">Consultar</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('tabelaClientes').style.display = clientesData.length ? 'table' : 'none';
+    } else {
+      document.getElementById('tabelaClientes').style.display = 'none';
+    }
+  }
+
+  // Função para consultar cliente (simplificada)
+  function consultarClienteFirebase(nome){
+    alert("Consulta de cliente: " + nome);
+  }
+
+  // Vincular formulário ao Firebase
+  document.getElementById('formCliente').onsubmit = adicionarClienteFirebase;
+
+  // Carregar clientes ao abrir aba
+  document.getElementById('clientes').addEventListener('click', () => {
+    buscarClientesFirebase();
+  });
+</script>
+
 </body>
 </html>
