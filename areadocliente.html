@@ -5,314 +5,89 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Área do Cliente - Petshop</title>
 <style>
-  /* Reset básico */
-  * {
-    margin: 0; padding: 0; box-sizing: border-box;
-  }
-  body, html {
-    height: 100%;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background: #f9f9f9;
-    color: #333;
-  }
+/* Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body, html { font-family: "Segoe UI", sans-serif; background: #f9f9f9; color: #333; height: 100%; }
 
-  /* Barra superior fixa */
-  .top-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    z-index: 1000;
-  }
-  .top-bar img.logo {
-    height: 40px;
-    cursor: pointer;
-  }
-  .top-bar button.back-button {
-    background: #4CAF50;
-    color: #fff;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background 0.3s;
-  }
-  .top-bar button.back-button:hover {
-    background: #3d8c40;
-  }
+/* Barra superior */
+.top-bar {
+  position: fixed; top: 0; left: 0; width: 100%; height: 60px; background: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 1000;
+}
+.top-bar img.logo { height: 40px; cursor: pointer; }
+.top-bar button.back-button {
+  background: #4CAF50; color: #fff; border: none; padding: 8px 12px;
+  border-radius: 6px; cursor: pointer; font-weight: 600;
+}
+.top-bar button.back-button:hover { background: #3d8c40; }
 
-  /* Layout geral */
-  .container {
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-    margin-top: 60px; /* espaço para a barra fixa */
-  }
+/* Layout */
+.container { display: flex; margin-top: 60px; height: 100vh; overflow: hidden; }
+.sidebar {
+  width: 260px; background: #5e2ca5; color: #fff; display: flex; flex-direction: column; padding: 20px;
+}
+.sidebar .profile { text-align: center; margin-bottom: 40px; }
+.sidebar .profile img {
+  width: 100px; height: 100px; border-radius: 50%; object-fit: cover;
+  border: 3px solid #4CAF50; margin-bottom: 12px;
+}
+.sidebar nav a {
+  display: block; padding: 12px 15px; margin-bottom: 8px; color: #cfc9e8;
+  font-weight: 600; border-radius: 8px; text-decoration: none;
+}
+.sidebar nav a:hover, .sidebar nav a.active { background: #4CAF50; color: white; }
 
-  /* Menu lateral */
-  .sidebar {
-    width: 260px;
-    background: #5e2ca5; /* Roxo */
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-  }
-  .sidebar .profile {
-    text-align: center;
-    margin-bottom: 40px;
-  }
-  .sidebar .profile img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #4CAF50; /* Verde */
-    margin-bottom: 12px;
-  }
-  .sidebar .profile h2 {
-    font-size: 1.3rem;
-    font-weight: 700;
-  }
-  .sidebar .profile p.telefone {
-    color: #cfc9e8;
-    font-weight: 600;
-    font-size: 0.95rem;
-    margin-top: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .sidebar .profile p.telefone svg {
-    vertical-align: middle;
-    margin-right: 6px;
-    fill: #cfc9e8;
-  }
-  .sidebar nav {
-    flex-grow: 1;
-  }
-  .sidebar nav a {
-    display: block;
-    padding: 12px 15px;
-    margin-bottom: 8px;
-    color: #cfc9e8;
-    font-weight: 600;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background-color 0.3s;
-  }
-  .sidebar nav a:hover,
-  .sidebar nav a.active {
-    background: #4CAF50;
-    color: white;
-  }
+/* Conteúdo */
+.main-content {
+  flex-grow: 1; background: white; border-radius: 0 12px 12px 0;
+  padding: 30px 40px; overflow-y: auto;
+}
+h1 { color: #5e2ca5; margin-bottom: 25px; }
 
-  /* Conteúdo principal */
-  .main-content {
-    flex-grow: 1;
-    background: white;
-    border-radius: 0 12px 12px 0;
-    padding: 30px 40px;
-    overflow-y: auto;
-  }
+/* Tabelas */
+table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+th { background: #5e2ca5; color: white; }
+.badge { display: inline-block; padding: 4px 8px; border-radius: 8px; font-size: 12px; color: white; }
+.status-agendado { background: #4CAF50; }
+.status-entregue { background: #357ABD; }
+.status-preparo { background: orange; }
 
-  /* Título */
-  .main-content h1 {
-    color: #5e2ca5;
-    margin-bottom: 25px;
-  }
+/* Linha benefícios */
+.linha-beneficios {
+  margin-bottom: 20px; background: #f8fff8; padding: 12px 16px; border-radius: 8px;
+  font-size: 14px; border: 1px solid #d4eed4; color: #3a6f34;
+}
+.linha-beneficios a { color: #4CAF50; font-weight: 700; }
 
-  /* Abas */
-  .tabs {
-    display: flex;
-    border-bottom: 3px solid #eee;
-    margin-bottom: 20px;
-  }
-  .tab {
-    padding: 14px 25px;
-    cursor: pointer;
-    background: #f5f5f5;
-    margin-right: 10px;
-    border-radius: 12px 12px 0 0;
-    font-weight: 600;
-    color: #5e2ca5;
-    transition: background-color 0.3s;
-  }
-  .tab:hover {
-    background: #ddd;
-  }
-  .tab.active {
-    background: #4CAF50;
-    color: white;
-    font-weight: 700;
-  }
+/* Botão agendar */
+.header-agendamentos { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.btn-agendar { background: #5e2ca5; color: white; padding: 8px 14px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+.btn-agendar:hover { background: #4a237a; }
 
-  /* Conteúdo das abas */
-  .tab-content {
-    display: none;
-  }
-  .tab-content.active {
-    display: block;
-  }
-
-  /* Tabela padrão */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 12px;
-  }
-  table th, table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-  }
-  table th {
-    background: #5e2ca5;
-    color: white;
-  }
-  .badge {
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 8px;
-    font-size: 12px;
-    color: white;
-  }
-  .status-preparo { background: orange; }
-  .status-enviado { background: #357ABD; }
-  .status-entregue { background: #4CAF50; }
-  .status-agendado { background: #4CAF50; }
-  .status-concluido { background: #2196F3; }
-  .status-cancelado { background: #f44336; }
-
-  /* Botões de ação */
-  button {
-    background: #4CAF50;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    margin-right: 6px;
-    transition: background-color 0.3s;
-  }
-  button:hover {
-    background: #3d8c40;
-  }
-  button.cancel {
-    background: #c0392b;
-  }
-  button.cancel:hover {
-    background: #922b21;
-  }
-
-  /* Linha de benefícios */
-  .linha-beneficios {
-    margin-bottom: 20px;
-    background: #f8fff8;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    border: 1px solid #d4eed4;
-    color: #3a6f34;
-  }
-  .linha-beneficios a {
-    color: #4CAF50;
-    text-decoration: none;
-    font-weight: 700;
-  }
-  .linha-beneficios a:hover {
-    text-decoration: underline;
-  }
-
-  /* Formulário agendamento */
-  form label {
-    display: block;
-    margin-top: 15px;
-    font-weight: 600;
-    color: #5e2ca5;
-  }
-  form input, form select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 6px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-    box-sizing: border-box;
-  }
-  form button.submit-btn {
-    margin-top: 20px;
-    width: 100%;
-    background-color: #5e2ca5;
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  form button.submit-btn:hover {
-    background-color: #4a237a;
-  }
-
-  /* Scroll interno para conteúdo principal */
-  .main-content {
-    overflow-y: auto;
-  }
-
-  /* Responsividade */
-  @media (max-width: 768px) {
-    .container {
-      flex-direction: column;
-    }
-    .sidebar {
-      width: 100%;
-      height: auto;
-      padding: 15px 10px;
-      flex-direction: row;
-      overflow-x: auto;
-    }
-    .sidebar .profile {
-      display: none;
-    }
-    .sidebar nav {
-      display: flex;
-      flex-wrap: nowrap;
-    }
-    .sidebar nav a {
-      flex: 1 0 auto;
-      margin: 0 8px 0 0;
-      padding: 10px 15px;
-      font-size: 0.9rem;
-    }
-    .main-content {
-      border-radius: 0;
-      padding: 20px 15px;
-      height: calc(100vh - 60px);
-    }
-    .tabs {
-      flex-wrap: wrap;
-    }
-    .tab {
-      margin-bottom: 8px;
-      margin-right: 8px;
-    }
-  }
+/* Modal */
+.modal {
+  display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5); justify-content: center; align-items: center;
+}
+.modal-content {
+  background: white; padding: 20px; border-radius: 8px; width: 400px; max-width: 90%;
+}
+.modal-content h2 { margin-bottom: 15px; color: #5e2ca5; }
+form label { display: block; margin-top: 10px; font-weight: 600; }
+form input, form select {
+  width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-top: 5px;
+}
+form button.submit-btn {
+  margin-top: 20px; width: 100%; background-color: #5e2ca5; color: white;
+  padding: 12px; border: none; border-radius: 8px; font-weight: 700;
+}
+form button.submit-btn:hover { background-color: #4a237a; }
 </style>
 </head>
 <body>
 
-<!-- Barra superior fixa -->
 <div class="top-bar">
   <img src="img/logo.png" alt="Logo Pet Dudis" class="logo" onclick="goHome()" />
   <button class="back-button" onclick="goBack()">← Voltar</button>
@@ -323,188 +98,91 @@
     <div class="profile">
       <img src="https://i.pravatar.cc/100?img=12" alt="Foto do Cliente" />
       <h2>Eduardo Castelleti</h2>
-      <p class="telefone">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right:6px;">
-          <path d="M3.654 1.328a.678.678 0 0 1 .741-.066l2.764 1.655a.678.678 0 0 1 .267.783l-1.1 2.6a.678.678 0 0 1-.668.41l-1.16-.058a11.555 11.555 0 0 0 5.48 5.48l-.058-1.16a.678.678 0 0 1 .41-.668l2.6-1.1a.678.678 0 0 1 .783.267l1.655 2.764a.678.678 0 0 1-.066.741l-2.49 2.49a1.745 1.745 0 0 1-1.96.404c-2.222-1.11-4.485-3.373-5.596-5.596a1.745 1.745 0 0 1 .404-1.96l2.49-2.49z"/>
-        </svg>
-        (51) 99999-9999
-      </p>
     </div>
     <nav>
-      <a href="#">Perfil</a>
-      <a href="#" class="active">Pedidos</a>
-      <a href="#" class="active">Agendamentos</a>
-      <a href="#">Meus Pets</a>
-      <a href="#">Vantagens</a>
+      <a href="#" data-section="perfil">Perfil</a>
+      <a href="#" data-section="pedidos">Pedidos</a>
+      <a href="#" data-section="agendamentos">Agendamentos</a>
+      <a href="#" data-section="pets">Meus Pets</a>
+      <a href="#" data-section="vantagens">Vantagens</a>
       <a href="#">Sair</a>
     </nav>
   </aside>
 
   <main class="main-content">
-    <h1>Pedidos & Agendamentos</h1>
+    <section id="perfil" class="conteudo">
+      <h1>Meu Perfil</h1>
+      <form>
+        <label>Foto</label><input type="file">
+        <label>Nome</label><input type="text">
+        <label>Telefone</label><input type="tel">
+        <label>Data de Nascimento</label><input type="date">
+        <label>Email</label><input type="email">
+        <label>Endereço</label><input type="text">
+        <label>CPF</label><input type="text">
+        <button class="submit-btn" type="submit">Salvar</button>
+      </form>
+    </section>
 
-    <div class="tabs">
-      <div class="tab active" data-tab="pedidos">Pedidos</div>
-      <div class="tab" data-tab="agendamentos">Agendamentos</div>
-    </div>
-
-    <section id="pedidos" class="tab-content active">
-      <div class="linha-beneficios">
-        🎁 <strong>Fidelidade:</strong> 120 pontos | <a href="#">Resgatar Benefícios</a>  
-        &nbsp;&nbsp;|&nbsp;&nbsp; 💸 <strong>Cupons:</strong> CUPOM10, DESCONTO5
-      </div>
+    <section id="pedidos" class="conteudo" style="display:none;">
+      <h1>Pedidos</h1>
+      <div class="linha-beneficios">🎁 Fidelidade: 120 pontos | <a href="#">Resgatar Benefícios</a></div>
       <table>
-        <thead>
-          <tr>
-            <th>Pedido</th>
-            <th>Data</th>
-            <th>Status</th>
-            <th>Valor</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>#1023</td>
-            <td>10/08/2025</td>
-            <td><span class="badge status-preparo">Em preparo</span></td>
-            <td>R$ 150,00</td>
-            <td>
-              <button>Ver Detalhes</button>
-            </td>
-          </tr>
-          <tr>
-            <td>#1019</td>
-            <td>05/08/2025</td>
-            <td><span class="badge status-entregue">Entregue</span></td>
-            <td>R$ 89,90</td>
-            <td>
-              <button>Repetir Pedido</button>
-            </td>
-          </tr>
-        </tbody>
+        <thead><tr><th>Pedido</th><th>Data</th><th>Status</th><th>Valor</th></tr></thead>
+        <tbody><tr><td>#1023</td><td>10/08/2025</td><td><span class="badge status-preparo">Em preparo</span></td><td>R$150,00</td></tr></tbody>
       </table>
     </section>
 
-    <section id="agendamentos" class="tab-content">
-      <div class="linha-beneficios">
-        🎁 <strong>Fidelidade:</strong> 120 pontos | <a href="#">Resgatar Benefícios</a>  
-        &nbsp;&nbsp;|&nbsp;&nbsp; 💸 <strong>Cupons:</strong> CUPOM10, DESCONTO5
+    <section id="agendamentos" class="conteudo" style="display:none;">
+      <div class="header-agendamentos">
+        <h1>Meus Agendamentos</h1>
+        <button class="btn-agendar" id="abrirModal">Agendar Novo Serviço</button>
       </div>
-
-      <h2>Meus Agendamentos</h2>
       <table>
-        <thead>
-          <tr>
-            <th>Serviço</th>
-            <th>Pet</th>
-            <th>Parceiro</th>
-            <th>Data</th>
-            <th>Hora</th>
-            <th>Status</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Banho</td>
-            <td>Rex</td>
-            <td>Pet Dudis Centro</td>
-            <td>15/08/2025</td>
-            <td>10:00</td>
-            <td><span class="badge status-agendado">Confirmado</span></td>
-            <td>
-              <button>Alterar</button>
-              <button class="cancel">Cancelar</button>
-            </td>
-          </tr>
-          <tr>
-            <td>Creche</td>
-            <td>Luna</td>
-            <td>Pet Dudis Bairro</td>
-            <td>18/08/2025</td>
-            <td>14:00</td>
-            <td><span class="badge status-agendado">Confirmado</span></td>
-            <td>
-              <button>Alterar</button>
-              <button class="cancel">Cancelar</button>
-            </td>
-          </tr>
-        </tbody>
+        <thead><tr><th>Serviço</th><th>Pet</th><th>Parceiro</th><th>Data</th><th>Hora</th><th>Status</th></tr></thead>
+        <tbody><tr><td>Banho</td><td>Rex</td><td>Pet Dudis</td><td>15/08/2025</td><td>10:00</td><td><span class="badge status-agendado">Confirmado</span></td></tr></tbody>
       </table>
-
-      <h2>Agendar Novo Serviço</h2>
-      <form id="form-agendamento">
-        <label for="pet">Selecione o Pet</label>
-        <select id="pet" name="pet" required>
-          <option value="" disabled selected>Escolha o pet</option>
-          <option value="rex">Rex</option>
-          <option value="luna">Luna</option>
-        </select>
-
-        <label for="servico">Serviço</label>
-        <select id="servico" name="servico" required>
-          <option value="" disabled selected>Escolha o serviço</option>
-          <option value="banho">Banho</option>
-          <option value="tosa">Tosa</option>
-          <option value="creche">Creche</option>
-        </select>
-
-        <label for="parceiro">Parceiro</label>
-        <select id="parceiro" name="parceiro" required>
-          <option value="" disabled selected>Escolha o parceiro</option>
-          <option value="centro">Pet Dudis Centro</option>
-          <option value="bairro">Pet Dudis Bairro</option>
-          <option value="hotel">Hospedagem da Vizinha</option>
-        </select>
-
-        <label for="data">Data</label>
-        <input type="date" id="data" name="data" required />
-
-        <label for="hora">Hora</label>
-        <input type="time" id="hora" name="hora" required />
-
-        <button type="submit" class="submit-btn">Agendar</button>
-      </form>
     </section>
   </main>
 </div>
 
+<!-- Modal Agendamento -->
+<div class="modal" id="modalAgendamento">
+  <div class="modal-content">
+    <h2>Agendar Novo Serviço</h2>
+    <form id="form-agendamento">
+      <label>Pet</label>
+      <select required><option>Escolha o pet</option></select>
+      <label>Serviço</label>
+      <select required><option>Banho</option></select>
+      <label>Data</label><input type="date" required>
+      <label>Hora</label><input type="time" required>
+      <button class="submit-btn" type="submit">Agendar</button>
+    </form>
+  </div>
+</div>
+
 <script>
-  // Troca de abas
-  const abas = document.querySelectorAll('.tab');
-  const conteudos = document.querySelectorAll('.tab-content');
-
-  abas.forEach(aba => {
-    aba.addEventListener('click', (event) => {
-      abas.forEach(a => a.classList.remove('active'));
-      aba.classList.add('active');
-
-      const id = aba.getAttribute('data-tab');
-      conteudos.forEach(c => c.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    });
-  });
-
-  // Data mínima para hoje no input data
-  const inputData = document.getElementById('data');
-  const hoje = new Date().toISOString().split('T')[0];
-  inputData.setAttribute('min', hoje);
-
-  // Formulário agendamento - simulação de envio
-  document.getElementById('form-agendamento').addEventListener('submit', function(e) {
+const links = document.querySelectorAll(".sidebar nav a[data-section]");
+const sections = document.querySelectorAll(".conteudo");
+links.forEach(link=>{
+  link.addEventListener("click", e=>{
     e.preventDefault();
-    alert('Agendamento realizado com sucesso!');
-    this.reset();
+    sections.forEach(s=>s.style.display="none");
+    document.getElementById(link.dataset.section).style.display="block";
+    links.forEach(l=>l.classList.remove("active"));
+    link.classList.add("active");
   });
+});
 
-  // Funções da barra superior
-  function goBack() {
-    window.history.back();
-  }
-  function goHome() {
-    window.location.href = "index.html"; // Ajuste para sua página inicial
-  }
+// Modal
+const modal = document.getElementById("modalAgendamento");
+document.getElementById("abrirModal").onclick = ()=> modal.style.display="flex";
+window.onclick = e => { if(e.target==modal) modal.style.display="none"; }
+
+// Barra
+function goBack(){ window.history.back(); }
+function goHome(){ location.href="index.html"; }
 </script>
 
 </body>
