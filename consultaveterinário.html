@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pet Dudis - Consulta Veterinária</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <style>
+    /* ===== RESET ===== */
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Arial',sans-serif; }
+    body { background:#f9f9f9; color:#333; line-height:1.5; }
+
+    header.cabecalho { background:#fff; padding:10px 20px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
+    .logo-container img { height:50px; }
+    .cep-busca { display:flex; gap:10px; }
+    .cep-input-wrapper, .busca-input-wrapper { display:flex; align-items:center; border:1px solid #ccc; padding:5px 10px; border-radius:5px; background:#f5f5f5; }
+    .cep-input, .busca-input { border:none; outline:none; padding:5px; width:120px; }
+    .acoes-usuario a { margin-left:15px; text-decoration:none; color:#333; }
+
+    nav.faixa-categorias { background:#e0e0e0; padding:10px 20px; }
+    nav.faixa-categorias ul { list-style:none; display:flex; gap:15px; }
+    nav.faixa-categorias a { text-decoration:none; color:#333; }
+
+    .swiper { width:100%; height:250px; margin:20px 0; }
+    .swiper-slide img { width:100%; height:100%; object-fit:cover; border-radius:10px; }
+
+    section.agendamento-consulta { padding:20px; background:#fff; margin:20px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+    .titulo-agendamento { font-size:1.8em; margin-bottom:15px; color:#5e2ca5; }
+    .bloco-formulario h3 { margin-bottom:10px; }
+    .botoes-pet button { padding:8px 15px; margin-right:10px; border:none; border-radius:5px; cursor:pointer; }
+    .botoes-pet button.ativo { background:#5e2ca5; color:#fff; }
+    .formulario-agendamento { margin-top:15px; display:flex; flex-wrap:wrap; gap:10px; }
+    .campo-input, .btn-buscar { padding:8px 12px; border-radius:5px; border:1px solid #ccc; }
+    .btn-buscar { background:#eee2e2; color:#ccc; cursor:not-allowed; border:none; }
+
+    .resultado-container { display:flex; flex-wrap:wrap; gap:20px; padding:20px; }
+    .card-prestador { background:#fff; padding:15px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1); width:300px; }
+    .card-prestador h4 { margin-bottom:5px; }
+    .card-prestador p { margin-bottom:5px; }
+    .btn-agendar { padding:8px 12px; background:#5e2ca5; color:#fff; border:none; border-radius:5px; cursor:pointer; }
+
+    footer.rodape-completo { background:#333; color:#fff; padding:20px; }
+    footer a { color:#fff; text-decoration:none; }
+
+  </style>
+</head>
+<body>
+
+<!-- CABEÇALHO -->
+<header class="cabecalho">
+  <div class="logo-container">
+    <img src="logo.svg" alt="Logo Pet Dudis" class="logo">
+  </div>
+  <div class="cep-busca">
+    <div class="cep-input-wrapper">
+      <span>📍</span>
+      <input type="text" placeholder="Informar CEP" class="cep-input">
+    </div>
+    <div class="busca-input-wrapper">
+      <span>🔍</span>
+      <input type="text" placeholder="O que seu pet precisa?" class="busca-input">
+      <button class="btn-busca">🔍</button>
+    </div>
+  </div>
+  <div class="acoes-usuario">
+    <a href="#"><i class="fas fa-sync-alt"></i> Recorrência</a>
+    <a href="#"><i class="fas fa-box"></i> Pedidos</a>
+    <a href="#"><i class="fas fa-user"></i> Entrar | Cadastrar</a>
+  </div>
+</header>
+
+<!-- MENU -->
+<nav class="faixa-categorias">
+  <ul>
+    <li><a href="cachorro.html">Cachorro</a></li>
+    <li><a href="gato.html">Gato</a></li>
+    <li><a href="outros.html">Outros Pets</a></li>
+    <li class="dropdown">
+      <a href="#">Serviços <i class="fas fa-caret-down"></i></a>
+      <ul class="submenu">
+        <li><a href="banho.html">Banho e Tosa</a></li>
+        <li><a href="creche.html">Creche</a></li>
+        <li><a href="consultaveterinario.html">Consulta Veterinária</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<!-- BANNER -->
+<div class="swiper banner-swiper">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide"><img src="banner1.png" alt="Banner 1"></div>
+    <div class="swiper-slide"><img src="banner2.png" alt="Banner 2"></div>
+    <div class="swiper-slide"><img src="banner3.png" alt="Banner 3"></div>
+  </div>
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-pagination"></div>
+</div>
+
+<!-- AGENDAMENTO CONSULTA VETERINÁRIA -->
+<section class="agendamento-consulta">
+  <h2 class="titulo-agendamento">Agende a consulta do seu pet! <span class="coracao">❤️</span></h2>
+  <div class="bloco-formulario">
+    <h3>Veterinários disponíveis</h3>
+    <p>Selecione o pet e tipo de consulta para encontrarmos o profissional ideal.</p>
+
+    <div class="botoes-pet">
+      <button class="btn-pet ativo" id="btn-cachorro"><i class="fas fa-dog"></i> Cachorro</button>
+      <button class="btn-pet" id="btn-gato"><i class="fas fa-cat"></i> Gato</button>
+    </div>
+
+    <div class="formulario-agendamento">
+      <select class="campo-input" id="petCadastrado">
+        <option value="">Selecione o pet</option>
+        <option value="pet1">Buddy</option>
+        <option value="pet2">Luna</option>
+      </select>
+      <select class="campo-input" id="tipoConsulta">
+        <option value="">Tipo de consulta</option>
+        <option value="rotina">Rotina</option>
+        <option value="vacinacao">Vacinação</option>
+        <option value="emergencia">Emergência</option>
+        <option value="acompanhamento">Acompanhamento</option>
+      </select>
+      <input type="text" class="campo-input" placeholder="CEP" id="cep" />
+      <textarea class="campo-input" placeholder="Observações sobre o pet"></textarea>
+      <button class="btn-buscar" id="buscarPrestadores" disabled>Buscar veterinários</button>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS -->
+<div class="resultado-container" id="resultado" style="display: none;">
+  <div class="card-prestador">
+    <h4>Vet.Us Centro Clínico</h4>
+    <p>Av. Cavalhada, 1957 - Porto Alegre</p>
+    <p>5.0 ⭐ (12 avaliações)</p>
+    <p class="preco">Consulta: R$ 120,00</p>
+    <button class="btn-agendar" onclick="window.location.href='agendamentoConsulta.html'">Agendar consulta</button>
+  </div>
+
+  <div class="card-prestador">
+    <h4>Clínica Bichos de Estimação</h4>
+    <p>Rua José de Alencar, 617 - Porto Alegre</p>
+    <p>4.9 ⭐ (9 avaliações)</p>
+    <p class="preco">Consulta: R$ 110,00</p>
+    <button class="btn-agendar" onclick="window.location.href='agendamentoConsulta.html'">Agendar consulta</button>
+  </div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  const swiper = new Swiper('.banner-swiper', {
+    loop:true,
+    autoplay:{delay:4000, disableOnInteraction:false},
+    pagination:{el:'.swiper-pagination', clickable:true},
+    navigation:{nextEl:'.swiper-button-next', prevEl:'.swiper-button-prev'}
+  });
+
+  const btnCachorro = document.getElementById('btn-cachorro');
+  const btnGato = document.getElementById('btn-gato');
+  const petCadastrado = document.getElementById('petCadastrado');
+  const tipoConsulta = document.getElementById('tipoConsulta');
+  const cep = document.getElementById('cep');
+  const btnBuscar = document.getElementById('buscarPrestadores');
+  const resultado = document.getElementById('resultado');
+
+  btnCachorro.addEventListener('click',()=>{btnCachorro.classList.add('ativo'); btnGato.classList.remove('ativo');});
+  btnGato.addEventListener('click',()=>{btnGato.classList.add('ativo'); btnCachorro.classList.remove('ativo');});
+
+  function validarCampos(){
+    if(petCadastrado.value && tipoConsulta.value && cep.value.length>=8){
+      btnBuscar.disabled=false;
+      btnBuscar.style.background='#5e2ca5';
+      btnBuscar.style.color='#fff';
+      btnBuscar.style.cursor='pointer';
+    } else {
+      btnBuscar.disabled=true;
+      btnBuscar.style.background='#eee2e2';
+      btnBuscar.style.color='#ccc';
+      btnBuscar.style.cursor='not-allowed';
+    }
+  }
+
+  petCadastrado.addEventListener('change', validarCampos);
+  tipoConsulta.addEventListener('change', validarCampos);
+  cep.addEventListener('input', validarCampos);
+
+  btnBuscar.addEventListener('click',()=>{
+    resultado.style.display='flex';
+    resultado.scrollIntoView({behavior:'smooth'});
+  });
+</script>
+
+</body>
+</html>
