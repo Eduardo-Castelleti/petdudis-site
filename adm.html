@@ -186,15 +186,21 @@ button.add { background-color:#2980b9; color:#fff; margin-bottom:10px; }
   <div class="modal-content">
     <h3 id="tituloModal">Adicionar Cliente</h3>
     <form id="formCliente">
-      <label>Nome:</label><br>
-      <input type="text" id="nomeCliente" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
-      <label>Telefone:</label><br>
-      <input type="text" id="telefoneCliente" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
-      <label>Email:</label><br>
-      <input type="email" id="emailCliente" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
-      <button type="submit" class="add">Salvar</button>
-      <button type="button" onclick="fecharModal('modalAdicionar')" style="margin-left:5px;">Cancelar</button>
-    </form>
+  <label>Nome:</label><br>
+  <input type="text" id="nomeCliente" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
+  
+  <label>Telefone:</label><br>
+  <input type="text" id="telefoneCliente" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
+  
+  <label>Email:</label><br>
+  <input type="email" id="emailCliente" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
+
+  <label>Senha:</label><br>
+  <input type="password" id="senhaCliente" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
+
+  <button type="submit" class="add">Salvar</button>
+  <button type="button" onclick="fecharModal('modalAdicionar')" style="margin-left:5px;">Cancelar</button>
+</form>
     <button onclick="fecharModal('modalAdicionar')" style="position:absolute; top:10px; right:10px;">&times;</button>
   </div>
 </div>
