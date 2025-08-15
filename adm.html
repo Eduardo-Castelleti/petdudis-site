@@ -4,54 +4,47 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin - Petshop</title>
+
+<!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
-/* ===== RESET ===== */
 * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, sans-serif; }
 body { background-color:#f4f6f9; color:#333; }
 a { text-decoration:none; color:inherit; }
-
-/* ===== MENU LATERAL ===== */
 .sidebar { position:fixed; left:0; top:0; bottom:0; width:250px; background-color:#2c3e50; color:#ecf0f1; padding-top:20px; }
 .sidebar h2 { text-align:center; margin-bottom:20px; font-size:1.5em; }
 .sidebar ul { list-style:none; }
 .sidebar ul li { padding:15px 20px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; }
 .sidebar ul li:hover { background-color:#34495e; }
 .sidebar ul li i { margin-right:10px; }
-
-/* ===== CONTEÚDO ===== */
 .main-content { margin-left:250px; padding:20px; }
-
-/* ===== DASHBOARD CARDS ===== */
 .cards { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:30px; }
 .card { background:#fff; flex:1; min-width:200px; padding:20px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
 .card h3 { margin-bottom:10px; font-size:1.1em; color:#555; }
 .card p { font-size:1.5em; font-weight:bold; color:#2c3e50; }
-
-/* ===== TABELAS ===== */
 table { width:100%; border-collapse:collapse; background:#fff; margin-bottom:30px; border-radius:8px; overflow:hidden; }
 table th, table td { padding:12px 15px; text-align:left; border-bottom:1px solid #ddd; }
 table th { background-color:#2980b9; color:#fff; }
 table tr:hover { background-color:#f1f1f1; }
-
-/* ===== BOTÕES ===== */
 button { padding:8px 12px; border:none; border-radius:5px; cursor:pointer; }
 button.edit { background-color:#27ae60; color:#fff; }
 button.delete { background-color:#c0392b; color:#fff; }
 button.add { background-color:#2980b9; color:#fff; margin-bottom:10px; }
-
-/* ===== MODAIS ===== */
 .modal { display:none; position:fixed; top:0; left:0;width:100%;height:100%;background:rgba(0,0,0,0.5); justify-content:center; align-items:center; }
 .modal-content { background:#fff; padding:20px; border-radius:8px; width:400px; position:relative; }
-
-/* ===== RESPONSIVO ===== */
 @media(max-width:768px){ .sidebar{ width:200px; } .main-content{ margin-left:200px; } .cards{ flex-direction:column; } }
 </style>
 </head>
 <body>
 
-<!-- MENU LATERAL -->
 <div class="sidebar">
   <h2>Admin Petshop</h2>
   <ul>
@@ -59,302 +52,223 @@ button.add { background-color:#2980b9; color:#fff; margin-bottom:10px; }
     <li onclick="showSection('clientes')"><i class="fas fa-user"></i> Clientes</li>
     <li onclick="showSection('parceiros')"><i class="fas fa-handshake"></i> Parceiros</li>
     <li onclick="showSection('funcionarios')"><i class="fas fa-users"></i> Funcionários</li>
-    <li onclick="showSection('produtos')"><i class="fas fa-box"></i> Produtos</li>
-    <li onclick="showSection('relatorios')"><i class="fas fa-chart-line"></i> Relatórios</li>
-    <li onclick="showSection('config')"><i class="fas fa-cog"></i> Configurações</li>
   </ul>
 </div>
 
 <div class="main-content">
 
-<!-- DASHBOARD -->
 <div id="dashboard" class="section">
   <h1>Dashboard Geral</h1>
   <div class="cards">
-    <div class="card"><h3>Faturamento Total</h3><p>R$ 45.230</p></div>
-    <div class="card"><h3>Lucro Líquido</h3><p>R$ 12.400</p></div>
-    <div class="card"><h3>Clientes Ativos</h3><p>130</p></div>
-    <div class="card"><h3>Produtos Mais Vendidos</h3><p>Ração 10kg</p></div>
-  </div>
-  <div class="chart-container">
-    <h3>Vendas por Categoria</h3>
-    <canvas id="vendasCategoriaChart"></canvas>
-  </div>
-  <div class="chart-container">
-    <h3>Faturamento Mensal</h3>
-    <canvas id="faturamentoChart"></canvas>
+    <div class="card"><h3>Faturamento Total</h3><p id="faturamentoTotal">R$ 0,00</p></div>
+    <div class="card"><h3>Lucro Líquido</h3><p id="lucroLiquido">R$ 0,00</p></div>
+    <div class="card"><h3>Clientes Ativos</h3><p id="clientesAtivos">0</p></div>
   </div>
 </div>
 
-<!-- ABA CLIENTES -->
+<!-- Clientes -->
 <div id="clientes" class="section" style="display:none;">
   <h1>Clientes</h1>
-  <div class="cards">
-    <div class="card"><h3>Clientes Ativos</h3><p id="clientesAtivos">--</p></div>
-    <div class="card"><h3>Ticket Médio</h3><p id="ticketMedio">--</p></div>
-    <div class="card"><h3>Clientes Novos</h3><p id="clientesNovos">--</p></div>
-  </div>
   <div style="margin-bottom:20px;">
     <input type="text" id="buscaCliente" placeholder="Pesquisar cliente..." style="padding:8px;width:60%;">
-    <button onclick="buscarCliente()" style="padding:8px 12px;margin-left:5px;">Buscar</button>
+    <button onclick="buscarClienteFirebase()" style="padding:8px 12px;margin-left:5px;">Buscar</button>
     <button onclick="abrirAdicionarCliente()" class="add">Adicionar Cliente</button>
   </div>
   <table id="tabelaClientes" style="display:none;">
-    <thead>
-      <tr><th>Nome</th><th>Telefone</th><th>Email</th><th>Pets</th><th>Ações</th></tr>
-    </thead>
+    <thead><tr><th>Nome</th><th>Telefone</th><th>Email</th><th>Pets</th><th>Ações</th></tr></thead>
     <tbody id="clientesTable"></tbody>
   </table>
 </div>
 
-<!-- ABA PARCEIROS -->
+<!-- Parceiros -->
 <div id="parceiros" class="section" style="display:none;">
   <h1>Parceiros</h1>
-  <div class="cards">
-    <div class="card"><h3>Parceiros Ativos</h3><p id="parceirosAtivos">--</p></div>
-    <div class="card"><h3>Total de Vendas</h3><p id="vendasParceiros">--</p></div>
-    <div class="card"><h3>Parceiros Novos</h3><p id="parceirosNovos">--</p></div>
-  </div>
   <div style="margin-bottom:20px;">
     <input type="text" id="buscaParceiro" placeholder="Pesquisar parceiro..." style="padding:8px;width:60%;">
-    <button onclick="buscarParceiro()" style="padding:8px 12px;margin-left:5px;">Buscar</button>
+    <button onclick="buscarParceiroFirebase()" style="padding:8px 12px;margin-left:5px;">Buscar</button>
     <button onclick="abrirAdicionarParceiro()" class="add">Adicionar Parceiro</button>
   </div>
   <table id="tabelaParceiros" style="display:none;">
-    <thead>
-      <tr><th>Nome</th><th>Tipo</th><th>Contato</th><th>Vendas</th><th>Ações</th></tr>
-    </thead>
+    <thead><tr><th>Nome</th><th>Tipo</th><th>Contato</th><th>Vendas</th><th>Ações</th></tr></thead>
     <tbody id="parceirosTable"></tbody>
   </table>
 </div>
 
-<!-- ABA FUNCIONÁRIOS -->
+<!-- Funcionários -->
 <div id="funcionarios" class="section" style="display:none;">
   <h1>Funcionários</h1>
-  <div class="cards">
-    <div class="card"><h3>Funcionários Ativos</h3><p id="funcionariosAtivos">--</p></div>
-    <div class="card"><h3>Funcionários por Cargo</h3><p id="funcionariosCargo">--</p></div>
-    <div class="card"><h3>Novos Funcionários</h3><p id="novosFuncionarios">--</p></div>
-  </div>
   <div style="margin-bottom:20px;">
     <input type="text" id="buscaFuncionario" placeholder="Pesquisar funcionário..." style="padding:8px;width:60%;">
-    <button onclick="buscarFuncionario()" style="padding:8px 12px;margin-left:5px;">Buscar</button>
+    <button onclick="buscarFuncionarioFirebase()" style="padding:8px 12px;margin-left:5px;">Buscar</button>
     <button onclick="abrirAdicionarFuncionario()" class="add">Adicionar Funcionário</button>
   </div>
   <table id="tabelaFuncionarios" style="display:none;">
-    <thead>
-      <tr><th>Nome</th><th>Cargo</th><th>Acesso</th><th>Ações</th></tr>
-    </thead>
+    <thead><tr><th>Nome</th><th>Cargo</th><th>Acesso</th><th>Ações</th></tr></thead>
     <tbody id="funcionariosTable"></tbody>
   </table>
 </div>
 
-<!-- ABA PRODUTOS -->
-<div id="produtos" class="section" style="display:none;">
-  <h1>Produtos</h1>
-  <button class="add">Adicionar Produto</button>
-  <table>
-    <thead>
-      <tr><th>Nome</th><th>Categoria</th><th>Estoque</th><th>Preço</th><th>Ações</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Ração Special Dog 10kg</td><td>Ração</td><td>50</td><td>R$ 250,00</td>
-        <td><button class="edit">Editar</button> <button class="delete">Excluir</button></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- ABA RELATÓRIOS -->
-<div id="relatorios" class="section" style="display:none;">
-  <h1>Relatórios</h1>
-  <p>Filtros, exportações e gráficos detalhados podem ser adicionados aqui.</p>
-</div>
-
-<!-- ABA CONFIGURAÇÕES -->
-<div id="config" class="section" style="display:none;">
-  <h1>Configurações</h1>
-  <p>Gerenciar permissões, comissões, alertas e backups do sistema.</p>
-</div>
-
-<!-- MODAIS CLIENTES -->
-<div id="modalConsultar" class="modal">
-  <div class="modal-content">
-    <h3>Resumo</h3>
-    <div id="resumoModal"></div>
-    <button onclick="fecharModal('modalConsultar')" style="position:absolute; top:10px; right:10px;">&times;</button>
-  </div>
-</div>
-
+<!-- Modais -->
 <div id="modalAdicionar" class="modal">
   <div class="modal-content">
-    <h3 id="tituloModal">Adicionar</h3>
+    <h3 id="tituloModal"></h3>
     <form id="formModal">
       <label>Nome:</label><br>
       <input type="text" id="nomeModal" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
-      <label>Contato:</label><br>
-      <input type="text" id="contatoModal" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
-      <label>Extra:</label><br>
+      <label>Contato / Cargo / Tipo:</label><br>
+      <input type="text" id="contatoModal" style="width:100%;padding:8px;margin-bottom:10px;"><br>
+      <label>Email / Extra:</label><br>
       <input type="text" id="extraModal" style="width:100%;padding:8px;margin-bottom:10px;"><br>
       <button type="submit" class="add">Salvar</button>
       <button type="button" onclick="fecharModal('modalAdicionar')" style="margin-left:5px;">Cancelar</button>
     </form>
-    <button onclick="fecharModal('modalAdicionar')" style="position:absolute; top:10px; right:10px;">&times;</button>
   </div>
 </div>
 
-</div> <!-- FIM MAIN CONTENT -->
+</div>
 
 <script>
-// SELEÇÃO DE SEÇÃO
+// ===== FIREBASE =====
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDVr6OOQRt2rB0kByInjqjdyoQCpnMAt7I",
+  authDomain: "site-f6495.firebaseapp.com",
+  projectId: "site-f6495",
+  storageBucket: "site-f6495.firebasestorage.app",
+  messagingSenderId: "230161402024",
+  appId: "1:230161402024:web:462a911919ebf8a0809a9d",
+  measurementId: "G-51G8XF6JH0"
+};
+  firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// ===== FUNÇÕES GERAIS =====
 function showSection(sectionId){
   document.querySelectorAll('.section').forEach(sec => sec.style.display='none');
-  document.getElementById(sectionId).style.display = 'block';
+  document.getElementById(sectionId).style.display='block';
 }
+function fecharModal(modal){ document.getElementById(modal).style.display='none'; }
 
-// =================== CLIENTES ===================
-let clientes = [
-  {nome:"Eduardo", telefone:"(51)99999-9999", email:"eduardo@email.com", pets:["Rex","Mimi"]},
-  {nome:"Maria", telefone:"(51)98888-7777", email:"maria@email.com", pets:["Luna"]}
-];
-function buscarCliente(){
-  let filtro = document.getElementById('buscaCliente').value.toLowerCase();
-  let resultados = clientes.filter(c => c.nome.toLowerCase().includes(filtro) || c.email.toLowerCase().includes(filtro) || c.telefone.includes(filtro));
-  let tbody = document.getElementById('clientesTable'); tbody.innerHTML='';
-  resultados.forEach(c=>{
-    let tr = document.createElement('tr');
-    tr.innerHTML=`<td>${c.nome}</td><td>${c.telefone}</td><td>${c.email}</td><td>${c.pets.join(', ')}</td>
-    <td><button class="edit" onclick="consultarCliente('${c.nome}')">Consultar</button>
-    <button class="edit" onclick="editarCliente('${c.nome}')">Editar</button>
-    <button class="delete" onclick="excluirCliente('${c.nome}')">Excluir</button></td>`;
-    tbody.appendChild(tr);
-  });
-  document.getElementById('tabelaClientes').style.display=resultados.length?'table':'none';
-}
-function consultarCliente(nome){ mostrarResumoCliente(clientes.find(c=>c.nome===nome)); }
-function mostrarResumoCliente(obj){
-  document.getElementById('resumoModal').innerHTML=Object.keys(obj).map(k=>`<p><strong>${k}:</strong> ${Array.isArray(obj[k])?obj[k].join(', '):obj[k]}</p>`).join('');
-  document.getElementById('modalConsultar').style.display='flex';
-}
-function abrirAdicionarCliente(){
-  abrirModalGenerico('Adicionar Cliente','clientes');
-}
-function editarCliente(nome){
-  abrirModalGenerico('Editar Cliente','clientes',clientes.find(c=>c.nome===nome));
-}
-function excluirCliente(nome){ if(confirm(`Deseja realmente excluir ${nome}?`)){ clientes=clientes.filter(c=>c.nome!==nome); buscarCliente(); }}
-
-// =================== PARCEIROS ===================
-let parceiros = [
-  {nome:"Banho & Tosa XYZ", tipo:"Banho/Tosa", contato:"51 99888-7777", vendas:120},
-  {nome:"Creche ABC", tipo:"Creche", contato:"51 97777-6666", vendas:80}
-];
-function buscarParceiro(){
-  let filtro = document.getElementById('buscaParceiro').value.toLowerCase();
-  let resultados = parceiros.filter(p => p.nome.toLowerCase().includes(filtro) || p.contato.includes(filtro));
-  let tbody=document.getElementById('parceirosTable'); tbody.innerHTML='';
-  resultados.forEach(p=>{
-    let tr=document.createElement('tr');
-    tr.innerHTML=`<td>${p.nome}</td><td>${p.tipo}</td><td>${p.contato}</td><td>${p.vendas}</td>
-    <td><button class="edit" onclick="consultarParceiro('${p.nome}')">Consultar</button>
-    <button class="edit" onclick="editarParceiro('${p.nome}')">Editar</button>
-    <button class="delete" onclick="excluirParceiro('${p.nome}')">Excluir</button></td>`;
-    tbody.appendChild(tr);
-  });
-  document.getElementById('tabelaParceiros').style.display=resultados.length?'table':'none';
-}
-function consultarParceiro(nome){ mostrarResumoCliente(parceiros.find(p=>p.nome===nome)); }
-function abrirAdicionarParceiro(){ abrirModalGenerico('Adicionar Parceiro','parceiros'); }
-function editarParceiro(nome){ abrirModalGenerico('Editar Parceiro','parceiros',parceiros.find(p=>p.nome===nome)); }
-function excluirParceiro(nome){ if(confirm(`Deseja realmente excluir ${nome}?`)){ parceiros=parceiros.filter(p=>p.nome!==nome); buscarParceiro(); }}
-
-// =================== FUNCIONÁRIOS ===================
-let funcionarios = [
-  {nome:"Maria", cargo:"Atendimento", acesso:"Parcial"},
-  {nome:"João", cargo:"Banho/Tosa", acesso:"Total"}
-];
-function buscarFuncionario(){
-  let filtro = document.getElementById('buscaFuncionario').value.toLowerCase();
-  let resultados=funcionarios.filter(f=>f.nome.toLowerCase().includes(filtro)||f.cargo.toLowerCase().includes(filtro));
-  let tbody=document.getElementById('funcionariosTable'); tbody.innerHTML='';
-  resultados.forEach(f=>{
-    let tr=document.createElement('tr');
-    tr.innerHTML=`<td>${f.nome}</td><td>${f.cargo}</td><td>${f.acesso}</td>
-    <td><button class="edit" onclick="consultarFuncionario('${f.nome}')">Consultar</button>
-    <button class="edit" onclick="editarFuncionario('${f.nome}')">Editar</button>
-    <button class="delete" onclick="excluirFuncionario('${f.nome}')">Excluir</button></td>`;
-    tbody.appendChild(tr);
-  });
-  document.getElementById('tabelaFuncionarios').style.display=resultados.length?'table':'none';
-}
-function consultarFuncionario(nome){ mostrarResumoCliente(funcionarios.find(f=>f.nome===nome)); }
-function abrirAdicionarFuncionario(){ abrirModalGenerico('Adicionar Funcionário','funcionarios'); }
-function editarFuncionario(nome){ abrirModalGenerico('Editar Funcionário','funcionarios',funcionarios.find(f=>f.nome===nome)); }
-function excluirFuncionario(nome){ if(confirm(`Deseja realmente excluir ${nome}?`)){ funcionarios=funcionarios.filter(f=>f.nome!==nome); buscarFuncionario(); }}
-
-// =================== MODAL GENÉRICO ===================
-function abrirModalGenerico(titulo, tipo,obj=null){
+// ===== MODAL GENÉRICO =====
+let tipoAtual = '';
+function abrirModalGenerico(titulo,tipo,obj=null){
+  tipoAtual = tipo;
   document.getElementById('tituloModal').innerText=titulo;
-  document.getElementById('nomeModal').value=obj?obj.nome:'';
-  document.getElementById('contatoModal').value=obj?(obj.contato||obj.cargo||''):'';
-  document.getElementById('extraModal').value=obj?(obj.tipo||obj.acesso||''):'';
-  document.getElementById('formModal').onsubmit=function(e){
+  document.getElementById('nomeModal').value = obj ? obj.nome : '';
+  document.getElementById('contatoModal').value = obj ? (obj.contato||obj.cargo||obj.tipo) : '';
+  document.getElementById('extraModal').value = obj ? (obj.email||obj.extra||'') : '';
+  document.getElementById('formModal').onsubmit = function(e){
     e.preventDefault();
-    if(tipo==='clientes'){
-      if(obj){
-        obj.nome=document.getElementById('nomeModal').value;
-        obj.telefone=document.getElementById('contatoModal').value;
-        obj.email=document.getElementById('extraModal').value;
-      } else {
-        clientes.push({nome:document.getElementById('nomeModal').value,telefone:document.getElementById('contatoModal').value,email:document.getElementById('extraModal').value,pets:[]});
-      }
-      buscarCliente();
-    } else if(tipo==='parceiros'){
-      if(obj){
-        obj.nome=document.getElementById('nomeModal').value;
-        obj.contato=document.getElementById('contatoModal').value;
-        obj.tipo=document.getElementById('extraModal').value;
-      } else {
-        parceiros.push({nome:document.getElementById('nomeModal').value,contato:document.getElementById('contatoModal').value,tipo:document.getElementById('extraModal').value,vendas:0});
-      }
-      buscarParceiro();
-    } else if(tipo==='funcionarios'){
-      if(obj){
-        obj.nome=document.getElementById('nomeModal').value;
-        obj.cargo=document.getElementById('contatoModal').value;
-        obj.acesso=document.getElementById('extraModal').value;
-      } else {
-        funcionarios.push({nome:document.getElementById('nomeModal').value,cargo:document.getElementById('contatoModal').value,acesso:document.getElementById('extraModal').value});
-      }
-      buscarFuncionario();
-    }
+    const data = {
+      nome: document.getElementById('nomeModal').value,
+      contato: document.getElementById('contatoModal').value,
+      extra: document.getElementById('extraModal').value
+    };
+    if(obj && obj.id){ data.id = obj.id; }
+    if(tipo==='clientes'){ salvarFirebase('clientes',data); }
+    else if(tipo==='parceiros'){ salvarFirebase('parceiros',data); }
+    else if(tipo==='funcionarios'){ salvarFirebase('funcionarios',data); }
     fecharModal('modalAdicionar');
   };
   document.getElementById('modalAdicionar').style.display='flex';
 }
 
-function fecharModal(modal){ document.getElementById(modal).style.display='none'; }
+// ===== FUNÇÕES FIREBASE =====
+function salvarFirebase(refName,data){
+  if(data.id){
+    db.ref(`${refName}/${data.id}`).set(data);
+  } else {
+    db.ref(refName).push(data);
+  }
+  if(refName==='clientes'){ buscarClienteFirebase(); }
+  else if(refName==='parceiros'){ buscarParceiroFirebase(); }
+  else if(refName==='funcionarios'){ buscarFuncionarioFirebase(); }
+}
 
-// CARDS INICIAIS
-document.getElementById('clientesAtivos').innerText=clientes.length;
-document.getElementById('ticketMedio').innerText='R$ 230,00';
-document.getElementById('clientesNovos').innerText='15';
+function excluirFirebase(refName,id){ 
+  if(confirm('Deseja realmente excluir?')){
+    db.ref(`${refName}/${id}`).remove();
+    if(refName==='clientes'){ buscarClienteFirebase(); }
+    else if(refName==='parceiros'){ buscarParceiroFirebase(); }
+    else if(refName==='funcionarios'){ buscarFuncionarioFirebase(); }
+  }
+}
 
-document.getElementById('parceirosAtivos').innerText=parceiros.length;
-document.getElementById('vendasParceiros').innerText=parceiros.reduce((a,b)=>a+b.vendas,0);
-document.getElementById('parceirosNovos').innerText='2';
+// ===== CLIENTES =====
+function abrirAdicionarCliente(){ abrirModalGenerico('Adicionar Cliente','clientes'); }
+function buscarClienteFirebase(){
+  const filtro = document.getElementById('buscaCliente').value.toLowerCase();
+  db.ref('clientes').once('value').then(snapshot=>{
+    const data = snapshot.val() || {};
+    const clientes = Object.keys(data).map(id=>({id,...data[id]}));
+    const resultados = clientes.filter(c=>c.nome.toLowerCase().includes(filtro) || (c.extra||'').toLowerCase().includes(filtro));
+    const tbody = document.getElementById('clientesTable'); tbody.innerHTML='';
+    resultados.forEach(c=>{
+      let tr=document.createElement('tr');
+      tr.innerHTML=`<td>${c.nome}</td><td>${c.contato}</td><td>${c.extra}</td><td>${(c.pets||[]).join(', ')}</td>
+      <td>
+        <button class="edit" onclick="abrirModalGenerico('Editar Cliente','clientes',{...c,id:'${c.id}'})">Editar</button>
+        <button class="delete" onclick="excluirFirebase('clientes','${c.id}')">Excluir</button>
+      </td>`;
+      tbody.appendChild(tr);
+    });
+    document.getElementById('tabelaClientes').style.display = resultados.length ? 'table' : 'none';
+    document.getElementById('clientesAtivos').innerText = clientes.length;
+  });
+}
 
-document.getElementById('funcionariosAtivos').innerText=funcionarios.length;
-document.getElementById('funcionariosCargo').innerText='2 cargos';
-document.getElementById('novosFuncionarios').innerText='1';
+// ===== PARCEIROS =====
+function abrirAdicionarParceiro(){ abrirModalGenerico('Adicionar Parceiro','parceiros'); }
+function buscarParceiroFirebase(){
+  const filtro = document.getElementById('buscaParceiro').value.toLowerCase();
+  db.ref('parceiros').once('value').then(snapshot=>{
+    const data = snapshot.val() || {};
+    const parceiros = Object.keys(data).map(id=>({id,...data[id]}));
+    const resultados = parceiros.filter(p=>p.nome.toLowerCase().includes(filtro) || (p.contato||'').includes(filtro));
+    const tbody = document.getElementById('parceirosTable'); tbody.innerHTML='';
+    resultados.forEach(p=>{
+      let tr=document.createElement('tr');
+      tr.innerHTML=`<td>${p.nome}</td><td>${p.extra}</td><td>${p.contato}</td><td>${p.vendas||0}</td>
+      <td>
+        <button class="edit" onclick="abrirModalGenerico('Editar Parceiro','parceiros',{...p,id:'${p.id}'})">Editar</button>
+        <button class="delete" onclick="excluirFirebase('parceiros','${p.id}')">Excluir</button>
+      </td>`;
+      tbody.appendChild(tr);
+    });
+    document.getElementById('tabelaParceiros').style.display = resultados.length ? 'table' : 'none';
+    document.getElementById('parceirosAtivosCard').innerText = parceiros.length;
+  });
+}
 
-// CHARTS DASHBOARD
-const ctxCategoria=document.getElementById('vendasCategoriaChart').getContext('2d');
-const vendasCategoriaChart=new Chart(ctxCategoria,{type:'bar',data:{labels:['Ração','Petiscos','Acessórios','Serviços'],datasets:[{label:'Vendas',data:[120,80,60,40],backgroundColor:['#2980b9','#27ae60','#f39c12','#c0392b']}]},options:{responsive:true,plugins:{legend:{display:false}}}});
-const ctxFaturamento=document.getElementById('faturamentoChart').getContext('2d');
-const faturamentoChart=new Chart(ctxFaturamento,{type:'line',data:{labels:['Jan','Fev','Mar','Abr','Mai','Jun'],datasets:[{label:'Faturamento',data:[5000,8000,12000,15000,20000,23000],borderColor:'#2980b9',fill:false}]},options:{responsive:true}});
+// ===== FUNCIONÁRIOS =====
+function abrirAdicionarFuncionario(){ abrirModalGenerico('Adicionar Funcionário','funcionarios'); }
+function buscarFuncionarioFirebase(){
+  const filtro = document.getElementById('buscaFuncionario').value.toLowerCase();
+  db.ref('funcionarios').once('value').then(snapshot=>{
+    const data = snapshot.val() || {};
+    const funcionarios = Object.keys(data).map(id=>({id,...data[id]}));
+    const resultados = funcionarios.filter(f=>f.nome.toLowerCase().includes(filtro) || (f.contato||'').toLowerCase().includes(filtro));
+    const tbody = document.getElementById('funcionariosTable'); tbody.innerHTML='';
+    resultados.forEach(f=>{
+      let tr=document.createElement('tr');
+      tr.innerHTML=`<td>${f.nome}</td><td>${f.contato}</td><td>${f.extra}</td>
+      <td>
+        <button class="edit" onclick="abrirModalGenerico('Editar Funcionário','funcionarios',{...f,id:'${f.id}'})">Editar</button>
+        <button class="delete" onclick="excluirFirebase('funcionarios','${f.id}')">Excluir</button>
+      </td>`;
+      tbody.appendChild(tr);
+    });
+    document.getElementById('tabelaFuncionarios').style.display = resultados.length ? 'table' : 'none';
+    document.getElementById('funcionariosAtivosCard').innerText = funcionarios.length;
+  });
+}
+
+// ===== INICIALIZAÇÃO =====
+showSection('dashboard');
+buscarClienteFirebase();
+buscarParceiroFirebase();
+buscarFuncionarioFirebase();
+
 </script>
-
 </body>
 </html>
