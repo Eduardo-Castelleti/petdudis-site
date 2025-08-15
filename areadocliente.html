@@ -133,18 +133,40 @@ form button.submit-btn:hover { background-color: #4a237a; }
       </table>
     </section>
 
-    <section id="agendamentos" class="conteudo" style="display:none;">
-      <div class="header-agendamentos">
-        <h1>Meus Agendamentos</h1>
-        <button class="btn-agendar" id="abrirModal">Agendar Novo Serviço</button>
-      </div>
-      <table>
-        <thead><tr><th>Serviço</th><th>Pet</th><th>Parceiro</th><th>Data</th><th>Hora</th><th>Status</th></tr></thead>
-        <tbody><tr><td>Banho</td><td>Rex</td><td>Pet Dudis</td><td>15/08/2025</td><td>10:00</td><td><span class="badge status-agendado">Confirmado</span></td></tr></tbody>
-      </table>
-    </section>
-  </main>
-</div>
+<!-- ... resto do código igual até o <section id="agendamentos"> -->
+
+<section id="agendamentos" class="conteudo" style="display:none;">
+  <div class="header-agendamentos">
+    <h1>Meus Agendamentos</h1>
+    <button class="btn-agendar" id="abrirModalAgendamento">Agendar Novo Serviço</button>
+  </div>
+  <table>
+    <thead><tr><th>Serviço</th><th>Pet</th><th>Parceiro</th><th>Data</th><th>Hora</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Banho</td><td>Rex</td><td>Pet Dudis</td>
+        <td>15/08/2025</td><td>10:00</td>
+        <td><span class="badge status-agendado">Confirmado</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="pets" class="conteudo" style="display:none;">
+  <div class="header-agendamentos">
+    <h1>Meus Pets</h1>
+    <button class="btn-agendar" id="abrirModalPet">Adicionar Pet</button>
+  </div>
+  <table>
+    <thead><tr><th>Foto</th><th>Nome</th><th>Espécie</th><th>Raça</th><th>Peso</th><th>Nascimento</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><img src="https://place-puppy.com/50x50" alt="Foto Pet" style="border-radius:50%;"></td>
+        <td>Rex</td><td>Cachorro</td><td>Labrador</td><td>25 kg</td><td>10/05/2020</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
 
 <!-- Modal Agendamento -->
 <div class="modal" id="modalAgendamento">
@@ -152,17 +174,76 @@ form button.submit-btn:hover { background-color: #4a237a; }
     <h2>Agendar Novo Serviço</h2>
     <form id="form-agendamento">
       <label>Pet</label>
-      <select required><option>Escolha o pet</option></select>
+      <select required>
+        <option value="">Escolha o pet</option>
+        <option>Rex</option>
+        <option>Luna</option>
+      </select>
+
       <label>Serviço</label>
-      <select required><option>Banho</option></select>
-      <label>Data</label><input type="date" required>
-      <label>Hora</label><input type="time" required>
+      <select required>
+        <option>Banho</option>
+        <option>Tosa</option>
+        <option>Consulta Veterinária</option>
+      </select>
+
+      <label>Parceiro</label>
+      <select required>
+        <option value="">Escolha o parceiro</option>
+        <option>Pet Dudis</option>
+        <option>Pet Feliz</option>
+        <option>Clínica Bichos</option>
+      </select>
+
+      <label>Data</label>
+      <input type="date" required>
+
+      <label>Hora</label>
+      <input type="time" required>
+
       <button class="submit-btn" type="submit">Agendar</button>
     </form>
   </div>
 </div>
 
+<!-- Modal Adicionar Pet -->
+<div class="modal" id="modalPet">
+  <div class="modal-content">
+    <h2>Adicionar Pet</h2>
+    <form id="form-pet">
+      <label>Foto</label>
+      <input type="file" accept="image/*">
+
+      <label>Nome do Pet</label>
+      <input type="text" required>
+
+      <label>Espécie</label>
+      <select required>
+        <option>Cachorro</option>
+        <option>Gato</option>
+        <option>Pássaro</option>
+        <option>Outro</option>
+      </select>
+
+      <label>Raça</label>
+      <input type="text">
+
+      <label>Peso (kg)</label>
+      <input type="number" step="0.1">
+
+      <label>Data de Nascimento</label>
+      <input type="date">
+
+      <label>Observações</label>
+      <textarea rows="3" style="width:100%;border-radius:6px;border:1px solid #ccc;"></textarea>
+
+      <button class="submit-btn" type="submit">Salvar Pet</button>
+    </form>
+  </div>
+</div>
+
 <script>
+// Links de navegação
 const links = document.querySelectorAll(".sidebar nav a[data-section]");
 const sections = document.querySelectorAll(".conteudo");
 links.forEach(link=>{
@@ -175,12 +256,20 @@ links.forEach(link=>{
   });
 });
 
-// Modal
-const modal = document.getElementById("modalAgendamento");
-document.getElementById("abrirModal").onclick = ()=> modal.style.display="flex";
-window.onclick = e => { if(e.target==modal) modal.style.display="none"; }
+// Modal Agendamento
+const modalAgendamento = document.getElementById("modalAgendamento");
+document.getElementById("abrirModalAgendamento").onclick = ()=> modalAgendamento.style.display="flex";
 
-// Barra
+// Modal Pet
+const modalPet = document.getElementById("modalPet");
+document.getElementById("abrirModalPet").onclick = ()=> modalPet.style.display="flex";
+
+// Fechar modal ao clicar fora
+window.onclick = e => {
+  if(e.target==modalAgendamento) modalAgendamento.style.display="none";
+  if(e.target==modalPet) modalPet.style.display="none";
+}
+
 function goBack(){ window.history.back(); }
 function goHome(){ location.href="index.html"; }
 </script>
