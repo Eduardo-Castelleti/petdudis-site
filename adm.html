@@ -12,39 +12,52 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <style>
+/* ===== RESET ===== */
 * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, sans-serif; }
 body { background-color:#f4f6f9; color:#333; }
 a { text-decoration:none; color:inherit; }
+
+/* ===== MENU LATERAL ===== */
 .sidebar { position:fixed; left:0; top:0; bottom:0; width:250px; background-color:#2c3e50; color:#ecf0f1; padding-top:20px; }
 .sidebar h2 { text-align:center; margin-bottom:20px; font-size:1.5em; }
 .sidebar ul { list-style:none; }
 .sidebar ul li { padding:15px 20px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; }
 .sidebar ul li:hover { background-color:#34495e; }
 .sidebar ul li i { margin-right:10px; }
+
+/* ===== CONTEÚDO ===== */
 .main-content { margin-left:250px; padding:20px; }
+
+/* ===== DASHBOARD CARDS ===== */
 .cards { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:30px; }
 .card { background:#fff; flex:1; min-width:200px; padding:20px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
 .card h3 { margin-bottom:10px; font-size:1.1em; color:#555; }
 .card p { font-size:1.5em; font-weight:bold; color:#2c3e50; }
+
+/* ===== TABELAS ===== */
 table { width:100%; border-collapse:collapse; background:#fff; margin-bottom:30px; border-radius:8px; overflow:hidden; }
 table th, table td { padding:12px 15px; text-align:left; border-bottom:1px solid #ddd; }
 table th { background-color:#2980b9; color:#fff; }
 table tr:hover { background-color:#f1f1f1; }
+
+/* ===== BOTÕES ===== */
 button { padding:8px 12px; border:none; border-radius:5px; cursor:pointer; }
 button.edit { background-color:#27ae60; color:#fff; }
 button.delete { background-color:#c0392b; color:#fff; }
 button.add { background-color:#2980b9; color:#fff; margin-bottom:10px; }
+
+/* ===== MODAIS ===== */
 .modal { display:none; position:fixed; top:0; left:0;width:100%;height:100%;background:rgba(0,0,0,0.5); justify-content:center; align-items:center; }
 .modal-content { background:#fff; padding:20px; border-radius:8px; width:400px; position:relative; }
+
+/* ===== RESPONSIVO ===== */
 @media(max-width:768px){ .sidebar{ width:200px; } .main-content{ margin-left:200px; } .cards{ flex-direction:column; } }
 </style>
 </head>
 <body>
 
+<!-- MENU LATERAL -->
 <div class="sidebar">
   <h2>Admin Petshop</h2>
   <ul>
@@ -57,6 +70,7 @@ button.add { background-color:#2980b9; color:#fff; margin-bottom:10px; }
 
 <div class="main-content">
 
+<!-- DASHBOARD -->
 <div id="dashboard" class="section">
   <h1>Dashboard Geral</h1>
   <div class="cards">
@@ -66,7 +80,7 @@ button.add { background-color:#2980b9; color:#fff; margin-bottom:10px; }
   </div>
 </div>
 
-<!-- Clientes -->
+<!-- CLIENTES -->
 <div id="clientes" class="section" style="display:none;">
   <h1>Clientes</h1>
   <div style="margin-bottom:20px;">
@@ -75,12 +89,14 @@ button.add { background-color:#2980b9; color:#fff; margin-bottom:10px; }
     <button onclick="abrirAdicionarCliente()" class="add">Adicionar Cliente</button>
   </div>
   <table id="tabelaClientes" style="display:none;">
-    <thead><tr><th>Nome</th><th>Telefone</th><th>Email</th><th>Pets</th><th>Ações</th></tr></thead>
+    <thead>
+      <tr><th>Nome</th><th>Telefone</th><th>Email</th><th>Pets</th><th>Ações</th></tr>
+    </thead>
     <tbody id="clientesTable"></tbody>
   </table>
 </div>
 
-<!-- Parceiros -->
+<!-- PARCEIROS -->
 <div id="parceiros" class="section" style="display:none;">
   <h1>Parceiros</h1>
   <div style="margin-bottom:20px;">
@@ -89,12 +105,14 @@ button.add { background-color:#2980b9; color:#fff; margin-bottom:10px; }
     <button onclick="abrirAdicionarParceiro()" class="add">Adicionar Parceiro</button>
   </div>
   <table id="tabelaParceiros" style="display:none;">
-    <thead><tr><th>Nome</th><th>Tipo</th><th>Contato</th><th>Vendas</th><th>Ações</th></tr></thead>
+    <thead>
+      <tr><th>Nome</th><th>Tipo</th><th>Contato</th><th>Vendas</th><th>Ações</th></tr>
+    </thead>
     <tbody id="parceirosTable"></tbody>
   </table>
 </div>
 
-<!-- Funcionários -->
+<!-- FUNCIONÁRIOS -->
 <div id="funcionarios" class="section" style="display:none;">
   <h1>Funcionários</h1>
   <div style="margin-bottom:20px;">
@@ -103,12 +121,14 @@ button.add { background-color:#2980b9; color:#fff; margin-bottom:10px; }
     <button onclick="abrirAdicionarFuncionario()" class="add">Adicionar Funcionário</button>
   </div>
   <table id="tabelaFuncionarios" style="display:none;">
-    <thead><tr><th>Nome</th><th>Cargo</th><th>Acesso</th><th>Ações</th></tr></thead>
+    <thead>
+      <tr><th>Nome</th><th>Cargo</th><th>Acesso</th><th>Ações</th></tr>
+    </thead>
     <tbody id="funcionariosTable"></tbody>
   </table>
 </div>
 
-<!-- Modais -->
+<!-- MODAL ADICIONAR -->
 <div id="modalAdicionar" class="modal">
   <div class="modal-content">
     <h3 id="tituloModal"></h3>
@@ -117,8 +137,8 @@ button.add { background-color:#2980b9; color:#fff; margin-bottom:10px; }
       <input type="text" id="nomeModal" required style="width:100%;padding:8px;margin-bottom:10px;"><br>
       <label>Contato / Cargo / Tipo:</label><br>
       <input type="text" id="contatoModal" style="width:100%;padding:8px;margin-bottom:10px;"><br>
-      <label>Email / E-mail:</label><br>
-      <input type="text" id="emailModal" style="width:100%;padding:8px;margin-bottom:10px;"><br>
+      <label>Email / Extra:</label><br>
+      <input type="text" id="extraModal" style="width:100%;padding:8px;margin-bottom:10px;"><br>
       <button type="submit" class="add">Salvar</button>
       <button type="button" onclick="fecharModal('modalAdicionar')" style="margin-left:5px;">Cancelar</button>
     </form>
@@ -128,43 +148,42 @@ button.add { background-color:#2980b9; color:#fff; margin-bottom:10px; }
 </div>
 
 <script>
-// ===== FIREBASE =====
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// ===== FIREBASE CONFIG =====
 const firebaseConfig = {
-  apiKey: "AIzaSyDVr6OOQRt2rB0kByInjqjdyoQCpnMAt7I",
-  authDomain: "site-f6495.firebaseapp.com",
-  projectId: "site-f6495",
-  storageBucket: "site-f6495.firebasestorage.app",
-  messagingSenderId: "230161402024",
-  appId: "1:230161402024:web:462a911919ebf8a0809a9d",
-  measurementId: "G-51G8XF6JH0"
+  apiKey: "SUA_API_KEY",
+  authDomain: "SEU_PROJETO.firebaseapp.com",
+  databaseURL: "https://SEU_PROJETO.firebaseio.com",
+  projectId: "SEU_PROJETO",
+  storageBucket: "SEU_PROJETO.appspot.com",
+  messagingSenderId: "SENDER_ID",
+  appId: "APP_ID"
 };
-  firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 // ===== FUNÇÕES GERAIS =====
 function showSection(sectionId){
-  document.querySelectorAll('.section').forEach(sec => sec.style.display='none');
+  document.querySelectorAll('.section').forEach(sec=>sec.style.display='none');
   document.getElementById(sectionId).style.display='block';
 }
 function fecharModal(modal){ document.getElementById(modal).style.display='none'; }
 
 // ===== MODAL GENÉRICO =====
-let tipoAtual = '';
+let tipoAtual='';
 function abrirModalGenerico(titulo,tipo,obj=null){
-  tipoAtual = tipo;
+  tipoAtual=tipo;
   document.getElementById('tituloModal').innerText=titulo;
   document.getElementById('nomeModal').value = obj ? obj.nome : '';
   document.getElementById('contatoModal').value = obj ? (obj.contato||obj.cargo||obj.tipo) : '';
-  document.getElementById('extraModal').value = obj ? (obj.email||obj.extra||'') : '';
-  document.getElementById('formModal').onsubmit = function(e){
+  document.getElementById('extraModal').value = obj ? (obj.extra||obj.email||'') : '';
+  document.getElementById('formModal').onsubmit=function(e){
     e.preventDefault();
-    const data = {
-      nome: document.getElementById('nomeModal').value,
-      contato: document.getElementById('contatoModal').value,
-      extra: document.getElementById('extraModal').value
+    const data={
+      nome:document.getElementById('nomeModal').value,
+      contato:document.getElementById('contatoModal').value,
+      extra:document.getElementById('extraModal').value
     };
-    if(obj && obj.id){ data.id = obj.id; }
+    if(obj && obj.id){ data.id=obj.id; }
     if(tipo==='clientes'){ salvarFirebase('clientes',data); }
     else if(tipo==='parceiros'){ salvarFirebase('parceiros',data); }
     else if(tipo==='funcionarios'){ salvarFirebase('funcionarios',data); }
@@ -173,21 +192,16 @@ function abrirModalGenerico(titulo,tipo,obj=null){
   document.getElementById('modalAdicionar').style.display='flex';
 }
 
-// ===== FUNÇÕES FIREBASE =====
+// ===== FIREBASE CRUD =====
 function salvarFirebase(refName,data){
-  if(data.id){
-    db.ref(`${refName}/${data.id}`).set(data);
-  } else {
-    db.ref(refName).push(data);
-  }
+  if(data.id){ db.ref(`${refName}/${data.id}`).set(data); }
+  else{ db.ref(refName).push(data); }
   if(refName==='clientes'){ buscarClienteFirebase(); }
   else if(refName==='parceiros'){ buscarParceiroFirebase(); }
   else if(refName==='funcionarios'){ buscarFuncionarioFirebase(); }
 }
-
-function excluirFirebase(refName,id){ 
-  if(confirm('Deseja realmente excluir?')){
-    db.ref(`${refName}/${id}`).remove();
+function excluirFirebase(refName,id){
+  if(confirm('Deseja realmente excluir?')){ db.ref(`${refName}/${id}`).remove();
     if(refName==='clientes'){ buscarClienteFirebase(); }
     else if(refName==='parceiros'){ buscarParceiroFirebase(); }
     else if(refName==='funcionarios'){ buscarFuncionarioFirebase(); }
@@ -197,12 +211,12 @@ function excluirFirebase(refName,id){
 // ===== CLIENTES =====
 function abrirAdicionarCliente(){ abrirModalGenerico('Adicionar Cliente','clientes'); }
 function buscarClienteFirebase(){
-  const filtro = document.getElementById('buscaCliente').value.toLowerCase();
+  const filtro=document.getElementById('buscaCliente').value.toLowerCase();
   db.ref('clientes').once('value').then(snapshot=>{
-    const data = snapshot.val() || {};
-    const clientes = Object.keys(data).map(id=>({id,...data[id]}));
-    const resultados = clientes.filter(c=>c.nome.toLowerCase().includes(filtro) || (c.extra||'').toLowerCase().includes(filtro));
-    const tbody = document.getElementById('clientesTable'); tbody.innerHTML='';
+    const data=snapshot.val()||{};
+    const clientes=Object.keys(data).map(id=>({id,...data[id]}));
+    const resultados=clientes.filter(c=>c.nome.toLowerCase().includes(filtro));
+    const tbody=document.getElementById('clientesTable'); tbody.innerHTML='';
     resultados.forEach(c=>{
       let tr=document.createElement('tr');
       tr.innerHTML=`<td>${c.nome}</td><td>${c.contato}</td><td>${c.extra}</td><td>${(c.pets||[]).join(', ')}</td>
@@ -212,20 +226,20 @@ function buscarClienteFirebase(){
       </td>`;
       tbody.appendChild(tr);
     });
-    document.getElementById('tabelaClientes').style.display = resultados.length ? 'table' : 'none';
-    document.getElementById('clientesAtivos').innerText = clientes.length;
+    document.getElementById('tabelaClientes').style.display=resultados.length?'table':'none';
+    document.getElementById('clientesAtivos').innerText=clientes.length;
   });
 }
 
 // ===== PARCEIROS =====
 function abrirAdicionarParceiro(){ abrirModalGenerico('Adicionar Parceiro','parceiros'); }
 function buscarParceiroFirebase(){
-  const filtro = document.getElementById('buscaParceiro').value.toLowerCase();
+  const filtro=document.getElementById('buscaParceiro').value.toLowerCase();
   db.ref('parceiros').once('value').then(snapshot=>{
-    const data = snapshot.val() || {};
-    const parceiros = Object.keys(data).map(id=>({id,...data[id]}));
-    const resultados = parceiros.filter(p=>p.nome.toLowerCase().includes(filtro) || (p.contato||'').includes(filtro));
-    const tbody = document.getElementById('parceirosTable'); tbody.innerHTML='';
+    const data=snapshot.val()||{};
+    const parceiros=Object.keys(data).map(id=>({id,...data[id]}));
+    const resultados=parceiros.filter(p=>p.nome.toLowerCase().includes(filtro));
+    const tbody=document.getElementById('parceirosTable'); tbody.innerHTML='';
     resultados.forEach(p=>{
       let tr=document.createElement('tr');
       tr.innerHTML=`<td>${p.nome}</td><td>${p.extra}</td><td>${p.contato}</td><td>${p.vendas||0}</td>
@@ -235,20 +249,19 @@ function buscarParceiroFirebase(){
       </td>`;
       tbody.appendChild(tr);
     });
-    document.getElementById('tabelaParceiros').style.display = resultados.length ? 'table' : 'none';
-    document.getElementById('parceirosAtivosCard').innerText = parceiros.length;
+    document.getElementById('tabelaParceiros').style.display=resultados.length?'table':'none';
   });
 }
 
 // ===== FUNCIONÁRIOS =====
 function abrirAdicionarFuncionario(){ abrirModalGenerico('Adicionar Funcionário','funcionarios'); }
 function buscarFuncionarioFirebase(){
-  const filtro = document.getElementById('buscaFuncionario').value.toLowerCase();
+  const filtro=document.getElementById('buscaFuncionario').value.toLowerCase();
   db.ref('funcionarios').once('value').then(snapshot=>{
-    const data = snapshot.val() || {};
-    const funcionarios = Object.keys(data).map(id=>({id,...data[id]}));
-    const resultados = funcionarios.filter(f=>f.nome.toLowerCase().includes(filtro) || (f.contato||'').toLowerCase().includes(filtro));
-    const tbody = document.getElementById('funcionariosTable'); tbody.innerHTML='';
+    const data=snapshot.val()||{};
+    const funcionarios=Object.keys(data).map(id=>({id,...data[id]}));
+    const resultados=funcionarios.filter(f=>f.nome.toLowerCase().includes(filtro));
+    const tbody=document.getElementById('funcionariosTable'); tbody.innerHTML='';
     resultados.forEach(f=>{
       let tr=document.createElement('tr');
       tr.innerHTML=`<td>${f.nome}</td><td>${f.contato}</td><td>${f.extra}</td>
@@ -258,8 +271,7 @@ function buscarFuncionarioFirebase(){
       </td>`;
       tbody.appendChild(tr);
     });
-    document.getElementById('tabelaFuncionarios').style.display = resultados.length ? 'table' : 'none';
-    document.getElementById('funcionariosAtivosCard').innerText = funcionarios.length;
+    document.getElementById('tabelaFuncionarios').style.display=resultados.length?'table':'none';
   });
 }
 
@@ -268,7 +280,7 @@ showSection('dashboard');
 buscarClienteFirebase();
 buscarParceiroFirebase();
 buscarFuncionarioFirebase();
-
 </script>
+
 </body>
 </html>
